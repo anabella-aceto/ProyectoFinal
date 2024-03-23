@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="enfundado")
+@Table(name="proveedores")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -21,7 +21,7 @@ public class Proveedor {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_material")
+	@Column(name="id_proveedor")
 	private int idProveedor;
 	
 	private String nombre;
