@@ -18,12 +18,18 @@ public class Sofa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_sofa")
 	private int idSofa;
+	
 	private String nombre;
+	
 	private String descripcion;
+	
 	private int plazas;
+	
 	private int patas;
+	
 	@Column(name="medida_cojin")
 	private double medidaCojin;
+	
 	private double precio;
 
 }

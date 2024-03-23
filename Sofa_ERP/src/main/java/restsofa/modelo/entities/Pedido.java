@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,14 +22,26 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_pedido")
 	private int idPedido;
+	
+	@ManyToOne
+	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
+	
 	private Sofa sofa;
+	
 	private int cantidad;
+	
 	private int plazas;
+	
 	@Column(name="dens_cojin")
 	private int densCojin;
+	
 	private Date fecha;
+	
 	private double precio;
+	
+	@ManyToOne
+	@JoinColumn(name="id_empleado")
 	private Empleado vendedor;
 
 }
