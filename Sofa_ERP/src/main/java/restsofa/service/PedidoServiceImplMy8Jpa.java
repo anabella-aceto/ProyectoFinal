@@ -10,37 +10,46 @@ import restsofa.repository.PedidoRepository;
 
 @Service
 
-public class PedidoServiceImplMy8Jpa implements PedidoService{
-	
+public class PedidoServiceImplMy8Jpa implements PedidoService {
+
 	@Autowired
 	private PedidoRepository pedrepo;
 
 	@Override
-//	public Pedido buscarPedido(int idPedido) {
-//		return pedrepo.findById(idPedido);
+	public Pedido buscarPedido(int idPedido) {
+		return pedrepo.findById(idPedido).orElse(null);
 	}
 
 	@Override
-//	public List<Pedido> buscarTodosPedidos() {
-//		return pedrepo.findAll();
+	public List<Pedido> buscarTodosPedidos() {
+		return pedrepo.findAll();
 	}
 
 	@Override
 	public Pedido altaPedido(Pedido pedido) {
-		// TODO Auto-generated method stub
-		return null;
+		return pedrepo.save(pedido);
 	}
 
 	@Override
 	public Pedido modifPedido(Pedido pedido) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return pedrepo.save(pedido);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public boolean borrarPedido(int idPedido) {
-		// TODO Auto-generated method stub
+		try {
+			if (buscarPedido(idPedido) != null) {
+				pedrepo.deleteById(idPedido);
+				return true;
+			} else
+				return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
-
 }
