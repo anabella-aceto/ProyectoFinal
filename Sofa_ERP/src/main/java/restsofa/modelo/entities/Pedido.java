@@ -10,25 +10,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@Data
 @Entity
 @Table(name="pedidos")
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Pedido {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_pedido")
 	private int idPedido;
 	
+
+	private Sofa sofa;
+	
 	@ManyToOne
 	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
-	
-	private Sofa sofa;
 	
 	private int cantidad;
 	

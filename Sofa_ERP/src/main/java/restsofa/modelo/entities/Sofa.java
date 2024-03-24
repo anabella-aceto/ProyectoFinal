@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="sofas")
+@Table(name = "sofas")
 public class Sofa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +21,8 @@ public class Sofa {
 	
 	private String nombre;
 	
+	@Column(name="descripción")
 	private String descripcion;
-	
-	private int plazas;
 	
 	private int patas;
 	
