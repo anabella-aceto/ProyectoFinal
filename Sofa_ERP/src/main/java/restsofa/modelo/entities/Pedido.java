@@ -42,7 +42,7 @@ public class Pedido {
 	private double precio;
 	
 	@ManyToOne
-	@JoinColumn(name="vendedor")
+	@JoinColumn(name="id_empleado")
 	private Empleado vendedor;
 
 }
