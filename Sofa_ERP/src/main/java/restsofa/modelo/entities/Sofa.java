@@ -21,7 +21,7 @@ public class Sofa {
 	
 	private String nombre;
 	
-	@Column(name="descripción")
+	
 	private String descripcion;
 	
 	private int patas;

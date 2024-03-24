@@ -26,7 +26,9 @@ public class Pedido {
 	@Column(name="id_pedido")
 	private int idPedido;
 	
-
+	
+	@ManyToOne
+	@JoinColumn(name="id_sofa")
 	private Sofa sofa;
 	
 	@ManyToOne
