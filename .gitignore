@@ -27,7 +27,7 @@ local.properties
 # Eclipse Core
 # Descomentamos los project para que los reconozca eclipse como proyectos
 # y poder importarlos facilmente al IDE
-# .project
+.project
 
 # Annotation Processing
 .apt_generated
