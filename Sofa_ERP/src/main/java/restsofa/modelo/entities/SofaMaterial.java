@@ -1,7 +1,5 @@
 package restsofa.modelo.entities;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,27 +14,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="empleados")
-public class Empleado {
+@Table(name="sofa_materiales")
+public class SofaMaterial {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_empleado")
-	private int id_empleado;
+	@Column(name="id_sm")
+	private int id_sofa_materiales;
 	
-	private String nombre;
-	private String apellidos;
-	
-	@ManyToOne
-	@JoinColumn(name="id_depto")
-	private Departamento departamento;
+	private int cantidad;
 	
 	@ManyToOne
-	@JoinColumn(name="id_perfil")
-	private Perfil perfil;
+	@JoinColumn(name="id_sofa")
+	private Sofa sofa;
 	
-	private Date fecha;
-	
-	private double salario;
+	@ManyToOne
+	@JoinColumn(name="id_material")
+	private Material material;
 	
 }

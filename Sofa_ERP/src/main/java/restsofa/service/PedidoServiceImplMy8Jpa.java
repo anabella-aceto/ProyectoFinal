@@ -14,17 +14,17 @@ public class PedidoServiceImplMy8Jpa implements PedidoService{
 	
 	@Autowired
 	private PedidoRepository pedrepo;
-
+/*
 	@Override
 //	public Pedido buscarPedido(int idPedido) {
 //		return pedrepo.findById(idPedido);
-	}
+//	}
 
 	@Override
 //	public List<Pedido> buscarTodosPedidos() {
 //		return pedrepo.findAll();
-	}
-
+//	}
+*/
 	@Override
 	public Pedido altaPedido(Pedido pedido) {
 		// TODO Auto-generated method stub
@@ -41,6 +41,18 @@ public class PedidoServiceImplMy8Jpa implements PedidoService{
 	public boolean borrarPedido(int idPedido) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Pedido buscarPedido(int idPedido) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Pedido> buscarTodosPedidos() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
