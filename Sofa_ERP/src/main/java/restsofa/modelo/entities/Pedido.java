@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name="pedidos")
+
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +42,7 @@ public class Pedido {
 	private double precio;
 	
 	@ManyToOne
-	@JoinColumn(name="id_empleado")
+	@JoinColumn(name="vendedor")
 	private Empleado vendedor;
 
 }
