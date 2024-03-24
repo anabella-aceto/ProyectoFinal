@@ -1,7 +1,29 @@
 package restsofa.modelo.entities;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.Date;
+=======
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@Data
+@Entity
+@Table(name="empleados")
+
+public class Empleado {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id_empleado")
+	private int idEmpleado;
+>>>>>>> 24ee6ae367287d25b16827184b5c2254d0b6f572
 
 =======
 >>>>>>> 24ee6ae367287d25b16827184b5c2254d0b6f572
