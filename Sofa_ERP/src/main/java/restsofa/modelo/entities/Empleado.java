@@ -34,7 +34,8 @@ public class Empleado {
 	@ManyToOne
 	@JoinColumn(name="id_perfil")
 	private Perfil perfil;
-	
+
+	@Column(name="fecha_ingreso")
 	private Date fecha;
 	
 	private double salario;

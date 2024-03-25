@@ -28,11 +28,11 @@ public class Pedido {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="id_sofa")
+	@JoinColumn(name="sofa")
 	private Sofa sofa;
 	
 	@ManyToOne
-	@JoinColumn(name="id_cliente")
+	@JoinColumn(name="cliente")
 	private Cliente cliente;
 	
 	private int cantidad;
@@ -47,7 +47,7 @@ public class Pedido {
 	private double precio;
 	
 	@ManyToOne
-	@JoinColumn(name="id_empleado")
+	@JoinColumn(name="vendedor")
 	private Empleado vendedor;
 
 }

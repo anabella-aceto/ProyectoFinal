@@ -24,7 +24,7 @@ INSERT INTO empleados (nombre, apellidos, id_depto, id_perfil, fecha_ingreso, sa
 ('Pedro', 'Sánchez', 2, 1, '2024-03-28', 3200.00);
 
 -- CLIENTES
-INSERT INTO clientes (nombre, apellidos, dirección, email, teléfono) VALUES
+INSERT INTO clientes (nombre, apellidos, direccion, email, telefono) VALUES
 ('Juan', 'Pérez', 'Calle 123', 'juan@example.com', '123-456-7890'),
 ('María', 'Gómez', 'Avenida 456', 'maria@example.com', '987-654-3210'),
 ('Carlos', 'López', 'Carrera 789', 'carlos@example.com', '456-789-0123'),
