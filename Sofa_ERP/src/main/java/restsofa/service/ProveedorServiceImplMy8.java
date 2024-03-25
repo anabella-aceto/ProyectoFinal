@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import restsofa.modelo.entities.Proveedor;
 import restsofa.repository.ProveedorRepository;
 
-public class PorveedorServiceImplMy8 implements ProveedorService{
+public class ProveedorServiceImplMy8 implements ProveedorService{
 	
 	@Autowired
 	private ProveedorRepository prepo; 
