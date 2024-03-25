@@ -18,7 +18,7 @@ public class Perfil {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_perfil")
-	private int id_perfil;
+	private int idPerfil;
 	
 	private String rol;
 }

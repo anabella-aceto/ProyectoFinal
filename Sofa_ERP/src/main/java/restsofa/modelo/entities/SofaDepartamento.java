@@ -22,7 +22,7 @@ public class SofaDepartamento {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_sd")
-	int id_sd;
+	int idSd;
 	
 	@ManyToOne
 	@JoinColumn(name="id_depto")

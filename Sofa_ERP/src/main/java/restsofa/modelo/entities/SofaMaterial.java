@@ -20,7 +20,7 @@ public class SofaMaterial {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_sm")
-	private int id_sofa_materiales;
+	private int idSofaMateriales;
 	
 	private int cantidad;
 	

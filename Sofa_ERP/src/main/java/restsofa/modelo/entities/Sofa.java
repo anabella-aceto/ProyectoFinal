@@ -27,7 +27,7 @@ public class Sofa {
 	private int patas;
 	
 	@Column(name="medida_cojin")
-	private double medidaCojin;
+	private String medidaCojin;
 	
 	private double precio;
 

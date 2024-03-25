@@ -36,7 +36,7 @@ CREATE TABLE `carpinteria` (
   KEY `id_estado` (`id_estado`),
   CONSTRAINT `carpinteria_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   CONSTRAINT `carpinteria_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado_pedido` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,11 +59,11 @@ CREATE TABLE `clientes` (
   `id_cliente` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `apellidos` varchar(150) DEFAULT NULL,
-  `dirección` varchar(300) DEFAULT NULL,
+  `direccion` varchar(300) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `teléfono` varchar(20) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `costura` (
   KEY `id_estado` (`id_estado`),
   CONSTRAINT `costura_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   CONSTRAINT `costura_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado_pedido` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +115,7 @@ CREATE TABLE `departamentos` (
   `id_depto` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_depto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +147,7 @@ CREATE TABLE `empleados` (
   KEY `id_perfil` (`id_perfil`),
   CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`),
   CONSTRAINT `empleados_ibfk_2` FOREIGN KEY (`id_perfil`) REFERENCES `perfiles` (`id_perfil`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `enfundado` (
   KEY `id_estado` (`id_estado`),
   CONSTRAINT `enfundado_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   CONSTRAINT `enfundado_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado_pedido` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +199,7 @@ CREATE TABLE `estado_pedido` (
   `id_estado` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,10 +224,11 @@ CREATE TABLE `materiales` (
   `descripcion` varchar(100) DEFAULT NULL,
   `cantidad` decimal(10,2) DEFAULT NULL,
   `id_proveedor` int DEFAULT NULL,
+  `ref_material_prov` int DEFAULT NULL,
   PRIMARY KEY (`id_material`),
   KEY `id_proveedor` (`id_proveedor`),
   CONSTRAINT `materiales_ibfk_1` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,7 +264,7 @@ CREATE TABLE `pedidos` (
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`sofa`) REFERENCES `sofas` (`id_sofa`),
   CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`cliente`) REFERENCES `clientes` (`id_cliente`),
   CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`vendedor`) REFERENCES `empleados` (`id_empleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,7 +287,7 @@ CREATE TABLE `perfiles` (
   `id_perfil` int NOT NULL AUTO_INCREMENT,
   `rol` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_perfil`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -311,7 +312,7 @@ CREATE TABLE `proveedores` (
   `telefono` int DEFAULT NULL,
   `descripcion` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id_proveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,7 +341,7 @@ CREATE TABLE `sofa_materiales` (
   KEY `id_material` (`id_material`),
   CONSTRAINT `sofa_materiales_ibfk_1` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`),
   CONSTRAINT `sofa_materiales_ibfk_2` FOREIGN KEY (`id_material`) REFERENCES `materiales` (`id_material`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,12 +363,12 @@ DROP TABLE IF EXISTS `sofas`;
 CREATE TABLE `sofas` (
   `id_sofa` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
-  `descripción` varchar(300) DEFAULT NULL,
+  `descripcion` varchar(300) DEFAULT NULL,
   `patas` int DEFAULT NULL,
-  `medida_cojin` decimal(10,2) DEFAULT NULL,
+  `medida_cojin` varchar(100) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id_sofa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,7 +396,7 @@ CREATE TABLE `sofas_depto` (
   KEY `id_depto` (`id_depto`),
   CONSTRAINT `sofas_depto_ibfk_1` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`),
   CONSTRAINT `sofas_depto_ibfk_2` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -424,7 +425,7 @@ CREATE TABLE `tapizado` (
   KEY `id_estado` (`id_estado`),
   CONSTRAINT `tapizado_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   CONSTRAINT `tapizado_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado_pedido` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

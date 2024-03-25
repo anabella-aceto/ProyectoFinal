@@ -30,6 +30,9 @@ public class Material {
 	
 	private String descripcion;
 	
+	@Column(name="ref_material_prov")
+	private String refMaterialProveedor;
+	
 	private int cantidad;
 	
 	@ManyToOne
