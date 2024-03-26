@@ -56,7 +56,7 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 	@Override
 	public boolean deleteOne(int idCarpinteria) {
 		
-		if(findById(idCarpinteria)!=null) {
+		if(buscarUno(idCarpinteria)!=null) {
 		crepo.deleteById(idCarpinteria);
 		return true;
 		}
@@ -66,15 +66,12 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 	
 
 	@Override
-	public Carpinteria updateOne(int idCarpinteria) {
+	public Carpinteria updateOne(Carpinteria carpinteria) {
 		
 		try {
-			if(findById(idCarpinteria)!=null) {
-				Carpinteria carpinteria = new Carpinteria();
-				crepo.save(carpinteria);
+			crepo.save(carpinteria);
 				return carpinteria;				
-			}
-			else return null;
+		
 				
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,7 +80,7 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 	}
 
 	@Override
-	public Carpinteria findById(int idCarpinteria) {
+	public Carpinteria buscarUno(int idCarpinteria) {
 		// TODO Auto-generated method stub
 		return crepo.findById(idCarpinteria).orElse(null);
 	}
