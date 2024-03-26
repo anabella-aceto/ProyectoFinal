@@ -26,6 +26,7 @@ public class ProveedorServiceImplMy8 implements ProveedorService{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<Proveedor> mostrarTodos() {
 		
 		return  proveedorRepository.findAll();
@@ -65,6 +66,13 @@ public class ProveedorServiceImplMy8 implements ProveedorService{
 		return 0;
 	}
 	
+=======
+	public Proveedor buscarUno(int idProveedor) {
+		
+		return prepo.findById(idProveedor).orElse(null);
+	}
+
+>>>>>>> 43a49da23f32ecab9e7cdcab686487398cfbda61
 }
 
 

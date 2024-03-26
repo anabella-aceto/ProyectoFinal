@@ -3,17 +3,23 @@ package restsofa.restcontroller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import restsofa.modelo.DTO.MaterialDTO;
 import restsofa.modelo.entities.Material;
+import restsofa.modelo.entities.Proveedor;
 import restsofa.service.MaterialService;
+import restsofa.service.ProveedorService;
 
 @RestController
 @RequestMapping("materiales")
@@ -22,6 +28,15 @@ public class MaterialRestController {
 	
 	@Autowired
 	private MaterialService materialService;
+	
+	@Autowired
+	private ProveedorService proveedorService;
+	
+	@Autowired
+	private MaterialDTO materialDto;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -81,9 +96,24 @@ public class MaterialRestController {
 	}
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//GetMapping("/cantidad")
-	//public ResponseEntity<?>
+	@PostMapping("/alta")
+	public ResponseEntity<?> altaMaterial(@RequestBody MaterialDTO materialDto){
+		
+		Material material = new Material();
+		modelMapper.map(materialDto, material);
+		material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
+		
+		if(materialService.insertOne(material)!=null)
+			return ResponseEntity.status(500).body("No se encuentra el material");
+        
+		else
+			return ResponseEntity.status(500).body("Error al ingresar el material");
+	}
 	
-	
-	
- }
+
+
+
+
+
+
+}
