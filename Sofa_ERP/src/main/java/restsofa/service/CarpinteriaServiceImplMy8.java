@@ -43,14 +43,49 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 
 	@Override
 	public List<Carpinteria> buscarPorIdPedido(int idPedido) {
-		// TODO Auto-generated method stub
+		
 		return crepo.buscarPorIdPedido(idPedido);
 	}
 
 	@Override
 	public List<Carpinteria> buscarPorIdPedidoyEstado(int idPedido, int idEstado) {
-		// TODO Auto-generated method stub
+		
+		return crepo.buscarPorIdPedidoyEstado(idPedido, idEstado);
+	}
+
+	@Override
+	public boolean deleteOne(int idCarpinteria) {
+		
+		if(findById(idCarpinteria)!=null) {
+		crepo.deleteById(idCarpinteria);
+		return true;
+		}
+		else 
+			return false;
+	}
+	
+
+	@Override
+	public Carpinteria updateOne(int idCarpinteria) {
+		
+		try {
+			if(findById(idCarpinteria)!=null) {
+				Carpinteria carpinteria = new Carpinteria();
+				crepo.save(carpinteria);
+				return carpinteria;				
+			}
+			else return null;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
+	}
+
+	@Override
+	public Carpinteria findById(int idCarpinteria) {
+		// TODO Auto-generated method stub
+		return crepo.findById(idCarpinteria).orElse(null);
 	}
 
 }

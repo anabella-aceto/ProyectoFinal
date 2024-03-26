@@ -1,5 +1,7 @@
 package restsofa.modelo.DTO;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -10,19 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class MaterialDTO {
-	
-	private String nombre;
-	
-	private String descripcion;
-	
-	
-	private String refMaterialProveedor;
-	
-	private int cantidad;
-	
-	
-	private int idProveedor; 
-	
+public class CarpinteriaDto {
 
+	private int idPedido;
+	
+	private int idEstadoPedido;
+	
+	private Date fecha;
 }
