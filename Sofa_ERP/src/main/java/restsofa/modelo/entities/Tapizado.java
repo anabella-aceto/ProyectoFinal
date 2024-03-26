@@ -1,5 +1,6 @@
 package restsofa.modelo.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.JoinColumn;
@@ -19,7 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Tapizado {
+public class Tapizado implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

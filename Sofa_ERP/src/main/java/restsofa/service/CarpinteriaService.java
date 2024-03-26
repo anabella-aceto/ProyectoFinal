@@ -6,9 +6,10 @@ import restsofa.modelo.entities.Carpinteria;
 
 public interface CarpinteriaService {
 
-	Carpinteria insertOne(int idPedido);
-	Carpinteria addEstado(int idEstado);
+	Carpinteria insertOne(Carpinteria carpinteria);
+	List<Carpinteria> buscarPorIdEstado(int idEstado);
 	List<Carpinteria> buscarPorIdPedido(int idPedido);
+	List<Carpinteria> buscarPorIdPedidoyEstado(int idPedido, int idEstado);
 	
 	
 }

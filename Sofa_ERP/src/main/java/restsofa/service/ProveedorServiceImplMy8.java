@@ -1,10 +1,12 @@
 package restsofa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import restsofa.modelo.entities.Proveedor;
 import restsofa.repository.ProveedorRepository;
 
+@Service
 public class ProveedorServiceImplMy8 implements ProveedorService{
 	
 	@Autowired
@@ -19,6 +21,12 @@ public class ProveedorServiceImplMy8 implements ProveedorService{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Proveedor buscarUno(int idProveedor) {
+		
+		return prepo.findById(idProveedor).orElse(null);
 	}
 
 }
