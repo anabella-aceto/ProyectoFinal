@@ -10,9 +10,9 @@ public interface CarpinteriaService {
 	boolean deleteOne (int idCarpinteria);
 	Carpinteria updateOne(Carpinteria carpinteria);
 	Carpinteria buscarUno(int idCarpinteria);
-	List<Carpinteria> buscarPorIdEstado(int idEstado);
-	List<Carpinteria> buscarPorIdPedido(int idPedido);
-	Carpinteria buscarPorIdPedidoyEstado(int idPedido, int idEstado);
+	List<Carpinteria> buscarPorEstado(int idEstado);
+	List<Carpinteria> buscarPorPedido(int idPedido);
+	
 	
 	
 }

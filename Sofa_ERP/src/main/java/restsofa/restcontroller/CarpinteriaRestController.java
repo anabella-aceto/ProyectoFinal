@@ -1,6 +1,7 @@
 package restsofa.restcontroller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -54,7 +55,7 @@ public class CarpinteriaRestController {
 		    if(estadoNuevo != null) {
 		    	carpinteriaDto.setIdCarpinteria(carpinteria.getIdCarpinteria());
 		    	carpinteria.setPedido(pedidoService.buscarPedido(carpinteriaDto.getIdPedido()));
-		    	carpinteria.setEstadoPedido(estadoPedidoService.buscarEstadoPedido(carpinteriaDto.getIdEstadoPedido()));
+		    	carpinteria.setEstadoPedido(estadoPedidoService.buscarEstadoPedido(carpinteriaDto.getIdEstado()));
 		        carpinteria.setFecha(carpinteriaDto.getFecha());
 		        return ResponseEntity.status(200).body(estadoNuevo);
 		    }
@@ -71,7 +72,7 @@ public class CarpinteriaRestController {
 		
 		if(carpinteria != null) {
 			carpinteriaService.deleteOne(idcarpinteria);
-			return ResponseEntity.status(200).body("Eliminado correctamente");
+			return ResponseEntity.status(200).body("Eliminación exitosa");
 		}
 		
 		return ResponseEntity.status(400).body("No se puede eliminar");
@@ -86,7 +87,7 @@ public class CarpinteriaRestController {
 		
 		if(carpinteria != null) {
 			modelMapper.map(carpinteriaDto, Carpinteria.class);
-			carpinteria.setEstadoPedido(estadoPedidoService.buscarEstadoPedido(carpinteriaDto.getIdEstadoPedido()));
+			carpinteria.setEstadoPedido(estadoPedidoService.buscarEstadoPedido(carpinteriaDto.getIdEstado()));
 			carpinteria.setPedido(pedidoService.buscarPedido(carpinteriaDto.getIdPedido()));
 			carpinteria.setFecha(carpinteriaDto.getFecha());
 		
@@ -99,29 +100,22 @@ public class CarpinteriaRestController {
 	
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-	@GetMapping("/uno/{idCarpinteria}")	//probado y funcionando
-	
-	public ResponseEntity<?> buscarPorIdCarpinteria(@PathVariable ("idCarpinteria") int idCarpinteria){
-		
-		Carpinteria carpinteria = carpinteriaService.buscarUno(idCarpinteria);
-		if(carpinteria != null)
-			return ResponseEntity.status(200).body(carpinteria);
-		
-		return ResponseEntity.status(400).body("No se encuentra el objeto con el identificador ingresado");
-	}
-	
-	
-//------------------------------------------------------------------------------------------------------------------------------
-	
 	@GetMapping("/porPedido/{idPedido}")//probado y funcionando
 	
 	public ResponseEntity<?> buscarPorIdPedido(@PathVariable ("idPedido") int idPedido){
 		
 		Pedido pedido = pedidoService.buscarPedido(idPedido);
 		
+		List<CarpinteriaDto> listaDto= new ArrayList<>();
+		
 		if (pedido != null){
-			List<Carpinteria> lista = carpinteriaService.buscarPorIdPedido(idPedido);
-			return ResponseEntity.status(200).body(lista);
+			List<Carpinteria> lista = carpinteriaService.buscarPorPedido(idPedido);
+			for (Carpinteria carpinteria : lista) {
+				listaDto.add(modelMapper.map(carpinteria, CarpinteriaDto.class));
+			}	
+			
+			return ResponseEntity.status(200).body(listaDto);
+		
 		}
 		
 		else		
@@ -129,17 +123,22 @@ public class CarpinteriaRestController {
 	}
 	
 //----------------------------------------------------------------------------------------------------------------------
-	@GetMapping("/idPedidoIdEstado")//probado y funcionando
+	@GetMapping("/porEstado/{idEstado}")//probado y funcionando
 	
-	public ResponseEntity<?> buscarPorPedidoyEstado(@RequestParam ("idPedido") int idPedido, @RequestParam ("idEstadoPedido") int idEstadoPedido){
+	public ResponseEntity<?> buscarPorEstado(@PathVariable("idEstado") int idEstado){
 	
-		Pedido pedido = pedidoService.buscarPedido(idPedido);
+		EstadoPedido estadoPedido = estadoPedidoService.buscarEstadoPedido(idEstado);
 		
-		EstadoPedido estadoPedido = estadoPedidoService.buscarEstadoPedido(idEstadoPedido);
+		List<CarpinteriaDto> listaDto= new ArrayList<>();
 		
-		if(pedido != null && estadoPedido !=null) {
-			Carpinteria carpinteria = carpinteriaService.buscarPorIdPedidoyEstado(idPedido, idEstadoPedido);
-			return ResponseEntity.status(200).body(carpinteria);
+		if(estadoPedido != null) {
+			List<Carpinteria> lista= carpinteriaService.buscarPorEstado(idEstado);	
+			
+			for (Carpinteria carpinteria : lista) {
+				listaDto.add(modelMapper.map(carpinteria, CarpinteriaDto.class));
+			}	
+			
+			return ResponseEntity.status(200).body(listaDto);
 		}
 		
 		else

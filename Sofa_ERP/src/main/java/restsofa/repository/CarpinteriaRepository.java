@@ -9,13 +9,11 @@ import restsofa.modelo.entities.Carpinteria;
 public interface CarpinteriaRepository extends JpaRepository<Carpinteria, Integer>{
 	
 	@Query("select c from Carpinteria c where c.estadoPedido.idEstado = ?1")
-	List<Carpinteria> buscarPorEstado();
+	List<Carpinteria> buscarPorEstado(int idEstado);
 	
 	@Query("select c from Carpinteria c where c.pedido.idPedido = ?1")
-	List<Carpinteria>  buscarPorIdPedido(int idPedido);
+	List<Carpinteria>  buscarPorPedido(int idPedido);
 	
-	@Query("select c from Carpinteria c where c.pedido.idPedido = ?1 and c.estadoPedido.idEstado=?2")
-	Carpinteria buscarPorIdPedidoyEstado(int idPedido, int estado);
 	
 	
 }

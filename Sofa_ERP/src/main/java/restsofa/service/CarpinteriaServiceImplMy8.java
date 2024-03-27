@@ -36,23 +36,18 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 	}
 
 	@Override
-	public List<Carpinteria> buscarPorIdEstado(int idEstado) {
+	public List<Carpinteria> buscarPorEstado(int idEstado) {
 		
-		return crepo.buscarPorEstado();
+		return crepo.buscarPorEstado(idEstado);
 	}
 
 	@Override
-	public List<Carpinteria> buscarPorIdPedido(int idPedido) {
+	public List<Carpinteria> buscarPorPedido(int idPedido) {
 		
-		return crepo.buscarPorIdPedido(idPedido);
+		return crepo.buscarPorPedido(idPedido);
 	}
 
-	@Override
-	public Carpinteria buscarPorIdPedidoyEstado(int idPedido, int idEstado) {
-		
-		return crepo.buscarPorIdPedidoyEstado(idPedido, idEstado);
-	}
-
+	
 	@Override
 	public boolean deleteOne(int idCarpinteria) {
 		
