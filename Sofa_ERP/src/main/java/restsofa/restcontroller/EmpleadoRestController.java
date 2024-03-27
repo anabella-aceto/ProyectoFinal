@@ -1,5 +1,8 @@
 package restsofa.restcontroller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +37,10 @@ public class EmpleadoRestController {
 	// PerfilService perfilService;
 	
 	
-	@GetMapping("/uno/{idEmpleado}")
-	public ResponseEntity<?> buscarPorId(@PathVariable ("idEmpleado") int idEmpelado){
+	@GetMapping("/uno/{idEmpleado}")//probado y funcionando
+	public ResponseEntity<?> buscarPorId(@PathVariable ("idEmpleado") int idEmpleado){
 		
-		Empleado empleado = empleadoService.buscarUno(idEmpelado);
+		Empleado empleado = empleadoService.buscarUno(idEmpleado);
 		if ( empleado != null)
 			return ResponseEntity.status(200).body(empleado);
 		
@@ -61,7 +64,7 @@ public class EmpleadoRestController {
 	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	@DeleteMapping("/borrar/{idEmpleado}")
+	@DeleteMapping("/eliminar/{idEmpleado}")//probado y funcionando
 	
 	public ResponseEntity<?> borrarUno(@PathVariable ("idEmpleado") int idEmpleado){
 		
@@ -74,6 +77,40 @@ public class EmpleadoRestController {
 			
 		return ResponseEntity.status(400).body("Error al borrar empleado");
 	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("/todos")//probado y funcionando
+	public ResponseEntity<?> listarEmpleados(){
+		
+		List<Empleado> lista = empleadoService.buscarTodos();
+		
+		
+		if (!lista.isEmpty())
+			return ResponseEntity.status(200).body(lista);
+		
+		else
+		return ResponseEntity.status(400).body("La lista está vacía");	
+	
+	
+	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("/porDepto/{idDepartamento}")//probado y funcionando
+	public ResponseEntity<?> buscarUno(@PathVariable ("idDepartamento") int idDepartamento){
+		
+		List<Empleado> lista = empleadoService.buscarPorDepto(idDepartamento);
+		
+		
+		if (!lista.isEmpty())
+			return ResponseEntity.status(200).body(lista);
+		
+		else
+		return ResponseEntity.status(400).body("La lista está vacía");	
+	
+	
+	}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 	
 	
 	

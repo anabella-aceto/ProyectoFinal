@@ -1,5 +1,7 @@
 package restsofa.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,18 @@ public class EmpleadoServiceImplMy8 implements EmpleadoService {
 	public Empleado buscarUno(int idEmpleado) {
 		
 		return emprepo.findById(idEmpleado).orElse(null);
+	}
+
+	@Override
+	public List<Empleado> buscarTodos() {
+		
+		return emprepo.findAll();
+	}
+
+	@Override
+	public List<Empleado> buscarPorDepto(int idDepartamento) {
+		
+		return emprepo.listarPorDepartamento(idDepartamento);
 	}
 
 }

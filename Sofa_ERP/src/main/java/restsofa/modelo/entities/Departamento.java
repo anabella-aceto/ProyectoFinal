@@ -21,4 +21,6 @@ public class Departamento {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_depto")
 	private int idDepartamento;
+	
+	private String nombre;
 }
