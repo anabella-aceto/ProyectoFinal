@@ -124,10 +124,10 @@ public class MaterialRestController {
 	}
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	@PutMapping("/modificar/{idMaterial}")//probado y funcionando
-	public ResponseEntity<?> modificarMaterial(@RequestBody MaterialDto materialDto, @PathVariable ("idMaterial") int idMaterial){
+	@PutMapping("/modificar")//probado y funcionando
+	public ResponseEntity<?> modificarMaterial(@RequestBody MaterialDto materialDto){
 		
-		 Material material = materialService.findById(idMaterial);
+		 Material material = materialService.findById(materialDto.getIdMaterial());
 		
 		 if (material != null) {
 		        material.setCantidad(materialDto.getCantidad());

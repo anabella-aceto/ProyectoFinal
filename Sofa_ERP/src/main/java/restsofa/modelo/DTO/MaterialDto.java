@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class MaterialDto {
 	
+	private int idMaterial;
+	
 	private String nombre;
 	
 	private String descripcion;

@@ -15,7 +15,7 @@ public interface CarpinteriaRepository extends JpaRepository<Carpinteria, Intege
 	List<Carpinteria>  buscarPorIdPedido(int idPedido);
 	
 	@Query("select c from Carpinteria c where c.pedido.idPedido = ?1 and c.estadoPedido.idEstado=?2")
-	List<Carpinteria>  buscarPorIdPedidoyEstado(int idPedido, int estado);
+	Carpinteria buscarPorIdPedidoyEstado(int idPedido, int estado);
 	
 	
 }

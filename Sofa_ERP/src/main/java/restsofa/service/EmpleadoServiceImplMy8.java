@@ -69,4 +69,10 @@ public class EmpleadoServiceImplMy8 implements EmpleadoService {
 		return emprepo.listarPorDepartamento(idDepartamento);
 	}
 
+	@Override
+	public List<Empleado> buscarPorPerfil(int idPerfil) {
+		
+		return emprepo.listarPorPerfil(idPerfil);
+	}
+
 }

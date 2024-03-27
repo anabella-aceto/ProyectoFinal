@@ -2,7 +2,9 @@ package restsofa.restcontroller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import restsofa.modelo.DTO.PedidoDto;
 import restsofa.modelo.entities.Pedido;
+import restsofa.service.ClienteService;
+import restsofa.service.EmpleadoService;
 import restsofa.service.PedidoService;
+import restsofa.service.SofaService;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -24,6 +30,19 @@ public class PedidoController {
 	
 	@Autowired
 	private PedidoService pedidoService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	@Autowired
+	private SofaService sofaService;
+	
+	@Autowired
+	private EmpleadoService empleadoService;
+	
+	@Autowired
+	private ClienteService clienteService;
+	
 	
 	/*
 	* Método que devuelve todos los pedidos
@@ -48,8 +67,21 @@ public class PedidoController {
 	*/
 	
 	@PostMapping("/alta")
-	public Pedido alta(@RequestBody Pedido pedido) {
-		return pedidoService.altaPedido(pedido);
+	public ResponseEntity<?> alta(@RequestBody PedidoDto pedidoDto) {
+		
+		Pedido pedido = new Pedido();
+		modelMapper.map(pedidoDto, pedido);
+		
+		pedido.setSofa(sofaService.buscarSofa(pedidoDto.getIdSofa()));
+		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
+		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));
+		
+		if(pedidoService.altaPedido(pedido) != null) {
+			pedidoDto.setIdPedido(pedido.getIdPedido());
+			return ResponseEntity.status(200).body("Pedido procesado correctamente "+pedido);
+		}
+		else
+			return ResponseEntity.status(400).body("Error al procesar el pedido");
 	}
 	
 	/*
@@ -58,7 +90,9 @@ public class PedidoController {
 	
 	@PutMapping("/modificar")
 	public Pedido modificar(@RequestBody Pedido pedido) {
+		
 		return pedidoService.modifPedido(pedido);
+		
 	}
 	
 	/*

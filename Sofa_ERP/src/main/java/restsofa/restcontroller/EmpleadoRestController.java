@@ -1,6 +1,5 @@
 package restsofa.restcontroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -11,13 +10,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.EmpleadoDto;
 import restsofa.modelo.entities.Empleado;
+import restsofa.modelo.entities.Perfil;
+import restsofa.service.DepartamentoService;
 import restsofa.service.EmpleadoService;
+import restsofa.service.PerfilService;
 
 @RestController
 @RequestMapping("/empleados")
@@ -30,11 +33,11 @@ public class EmpleadoRestController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	//@Autowired
-	//private DepartamentoService departamentoService;
+	@Autowired
+	private DepartamentoService departamentoService;
 	
-	//@Autowired
-	// PerfilService perfilService;
+	@Autowired
+	private PerfilService perfilService;
 	
 	
 	@GetMapping("/uno/{idEmpleado}")//probado y funcionando
@@ -50,16 +53,26 @@ public class EmpleadoRestController {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	@PostMapping("/alta")	
+	@PostMapping("/alta")//probado y funcionando
 
 	public ResponseEntity<?> buscarPorId(@RequestBody EmpleadoDto empleadoDto){
 		
-		Empleado empleado = new Empleado();
-		modelMapper.map(empleadoDto, empleado);
+		Empleado empleado = modelMapper.map(empleadoDto, Empleado.class);
+				
+		Empleado empNuevo = empleadoService.altaEmpleado(empleado);
 		
-		empleado.setDepartamento(null);
+		if ( empNuevo!= null) {
+			empleadoDto.setIdEmpleado(empleado.getIdEmpleado());
+			empleado.setDepartamento(departamentoService.buscarUno(empleadoDto.getIdDepartamento()));
+			empleado.setPerfil(perfilService.buscarUno(empleadoDto.getIdPerfil()));
+			
+			
+			return ResponseEntity.status(200).body(empNuevo);
+		}
+			
 		
-		return ResponseEntity.status(400).body("Error al insertar datos de empleado");
+		else
+			return ResponseEntity.status(400).body("Error al insertar datos de empleado");
 	
 	}
 	
@@ -110,6 +123,46 @@ public class EmpleadoRestController {
 	
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@PutMapping("/modificar")//probado y funcionnado
+	
+public ResponseEntity<?> modificarEmpleado(@RequestBody EmpleadoDto empleadoDto){
+		
+		Empleado empleado = empleadoService.buscarUno(empleadoDto.getIdEmpleado());
+		
+		if ( empleado!= null) {			
+			empleadoDto.setIdEmpleado(empleado.getIdEmpleado());
+			empleado.setDepartamento(departamentoService.buscarUno(empleadoDto.getIdDepartamento()));
+			empleado.setPerfil(perfilService.buscarUno(empleadoDto.getIdPerfil()));
+			empleado.setApellidos(empleadoDto.getApellidos());
+			empleado.setFecha(empleadoDto.getFecha());
+			empleado.setNombre(empleadoDto.getNombre());
+			empleado.setSalario(empleadoDto.getSalario());
+			empleadoService.modificarEmpleado(empleado);
+			
+			return ResponseEntity.status(200).body("Modificación exitosa " +empleado);
+		}
+			
+		
+		else
+			return ResponseEntity.status(400).body("Error al insertar datos de empleado");
+	
+	}
+	
+//---------------------------------------------------------------------------------------------------------------------------	
+	
+	@GetMapping("/porPerfil/{idPerfil}")//probado y funcionando
+	
+	public ResponseEntity<?> listarPorPerfil (@PathVariable ("idPerfil") int idPerfil){
+		
+		Perfil perfil = perfilService.buscarUno(idPerfil);
+				
+		if(perfil != null) {
+			List<Empleado> lista = empleadoService.buscarPorPerfil(idPerfil);
+			return ResponseEntity.status(200).body(lista);
+		}
+		return ResponseEntity.status(400).body("Error al insertar datos de empleado");
+		
+	}
 	
 	
 	

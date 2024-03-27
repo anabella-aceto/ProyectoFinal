@@ -12,13 +12,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CarpDto {
-	
-	private int idCarpinteria;
 
+public class PedidoDto {
+	
 	private int idPedido;
 	
-	private int idEstadoPedido;
+	private int idSofa;
 	
+	private int idCliente;
+	
+	private int cantidad;
+
+	private int plazas;
+
+	private int densCojin;
+
 	private Date fecha;
+
+	private double precio;
+	
+	private int idEmpleado;
+
 }

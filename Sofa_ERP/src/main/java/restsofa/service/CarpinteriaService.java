@@ -12,7 +12,7 @@ public interface CarpinteriaService {
 	Carpinteria buscarUno(int idCarpinteria);
 	List<Carpinteria> buscarPorIdEstado(int idEstado);
 	List<Carpinteria> buscarPorIdPedido(int idPedido);
-	List<Carpinteria> buscarPorIdPedidoyEstado(int idPedido, int idEstado);
+	Carpinteria buscarPorIdPedidoyEstado(int idPedido, int idEstado);
 	
 	
 }

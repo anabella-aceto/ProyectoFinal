@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class EmpleadoDto {
 	
+	private int idEmpleado;
 	private String nombre;
 	private String apellidos;
 	private int idDepartamento;
