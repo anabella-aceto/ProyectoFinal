@@ -257,6 +257,7 @@ CREATE TABLE `pedidos` (
   `fecha` date DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
   `vendedor` int DEFAULT NULL,
+  `estado` VARCHAR (100) DEFAULT NULL,
   PRIMARY KEY (`id_pedido`),
   KEY `sofa` (`sofa`),
   KEY `cliente` (`cliente`),
@@ -381,33 +382,6 @@ LOCK TABLES `sofas` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `sofas_depto`
---
-
-DROP TABLE IF EXISTS `sofas_depto`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sofas_depto` (
-  `id_sd` int NOT NULL AUTO_INCREMENT,
-  `id_sofa` int DEFAULT NULL,
-  `id_depto` int DEFAULT NULL,
-  PRIMARY KEY (`id_sd`),
-  KEY `id_sofa` (`id_sofa`),
-  KEY `id_depto` (`id_depto`),
-  CONSTRAINT `sofas_depto_ibfk_1` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`),
-  CONSTRAINT `sofas_depto_ibfk_2` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sofas_depto`
---
-
-LOCK TABLES `sofas_depto` WRITE;
-/*!40000 ALTER TABLE `sofas_depto` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sofas_depto` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `tapizado`
 --
@@ -431,6 +405,27 @@ CREATE TABLE `tapizado` (
 --
 -- Dumping data for table `tapizado`
 --
+-- RENACIDA EMPLEADO DEPARTAMENTO
+CREATE TABLE empleado_departamento (
+  id_empleado int NOT NULL AUTO_INCREMENT,
+  id_depto int DEFAULT NULL,
+  KEY id_empleado (id_empleado),
+  KEY id_depto (id_depto),
+  CONSTRAINT id_empleado_fk FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
+  CONSTRAINT id_depto_fk FOREIGN KEY (id_depto) REFERENCES departamentos (id_depto)
+);
+
+-- TABLA TAREAS
+CREATE TABLE tareas (
+  id_tarea INT AUTO_INCREMENT PRIMARY KEY,
+  id_empleado int DEFAULT NULL,
+  id_depto int DEFAULT NULL,
+  id_pedido int DEFAULT NULL,
+  CONSTRAINT id_empleado_fk1 FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
+  CONSTRAINT id_depto_fk1 FOREIGN KEY (id_depto) REFERENCES departamentos (id_depto),
+  CONSTRAINT id_pedido_fk1 FOREIGN KEY (id_pedido) REFERENCES pedidos (id_pedido)
+);
+
 
 LOCK TABLES `tapizado` WRITE;
 /*!40000 ALTER TABLE `tapizado` DISABLE KEYS */;

@@ -11,9 +11,9 @@ INSERT INTO departamentos (nombre) VALUES
 
 -- PERFILES
 INSERT INTO perfiles (rol)VALUES
-(1),
-(2),
-(3);
+('administrador'),
+('comercial'),
+('operario');
 
 -- EMPLEADOS
 INSERT INTO empleados (nombre, apellidos, id_depto, id_perfil, fecha_ingreso, salario) VALUES
