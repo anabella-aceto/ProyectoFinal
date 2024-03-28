@@ -21,11 +21,6 @@ public class CosturaServiceImplMy8Jpa implements CosturaService {
 	}
 
 	@Override
-	public List<Costura> buscarTodasCostura() {
-		return cosrepo.findAll();
-	}
-
-	@Override
 	public Costura altaCostura(Costura costura) {
 		return cosrepo.save(costura);
 	}
@@ -51,6 +46,16 @@ public class CosturaServiceImplMy8Jpa implements CosturaService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public List<Costura> buscarCosturaPorEstado(int idEstado) {
+		return cosrepo.buscarCosturaPorEstado(idEstado);
+	}
+
+	@Override
+	public List<Costura> buscarCosturaPorPedido(int idPedido) {
+		return cosrepo.buscarCosturaPorPedido(idPedido);
 	}
 
 }

@@ -73,7 +73,7 @@ public class CarpinteriaRestController {
 		if(carpinteria != null) {
 			carpinteriaService.deleteOne(idcarpinteria);
 			return ResponseEntity.status(200).body("Eliminación exitosa");
-		}
+		} else
 		
 		return ResponseEntity.status(400).body("No se puede eliminar");
 	}
@@ -93,7 +93,7 @@ public class CarpinteriaRestController {
 		
 			carpinteriaService.updateOne(carpinteria);
 			return ResponseEntity.status(200).body("Modificación exitosa " +carpinteria);
-		}
+		} else
 		
 		return ResponseEntity.status(400).body("No se puede modificar");	
 	}
