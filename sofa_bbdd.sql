@@ -141,6 +141,8 @@ CREATE TABLE `empleados` (
   `id_depto` int DEFAULT NULL,
   `id_perfil` int DEFAULT NULL,
   `fecha_ingreso` date DEFAULT NULL,
+  `fecha_baja` date DEFAULT NULL,
+  `estado` int NOT NULL,
   `salario` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id_empleado`),
   KEY `id_depto` (`id_depto`),
