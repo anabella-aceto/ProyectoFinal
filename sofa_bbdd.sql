@@ -145,9 +145,7 @@ CREATE TABLE `empleados` (
   `estado` int NOT NULL,
   `salario` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id_empleado`),
-  KEY `id_depto` (`id_depto`),
   KEY `id_perfil` (`id_perfil`),
-  CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`),
   CONSTRAINT `empleados_ibfk_2` FOREIGN KEY (`id_perfil`) REFERENCES `perfiles` (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -410,12 +408,13 @@ CREATE TABLE `tapizado` (
 --
 -- RENACIDA EMPLEADO DEPARTAMENTO
 CREATE TABLE empleado_departamento (
-  id_empleado int NOT NULL AUTO_INCREMENT,
+  id_empleado_depto INT AUTO_INCREMENT PRIMARY KEY,
+  id_empleado int NOT NULL,
   id_depto int DEFAULT NULL,
   KEY id_empleado (id_empleado),
   KEY id_depto (id_depto),
-  CONSTRAINT id_empleado_fk FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
-  CONSTRAINT id_depto_fk FOREIGN KEY (id_depto) REFERENCES departamentos (id_depto)
+  CONSTRAINT id_empleado_fk3 FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
+  CONSTRAINT id_depto_fk3 FOREIGN KEY (id_depto) REFERENCES departamentos (id_depto)
 );
 
 -- TABLA TAREAS
