@@ -26,7 +26,7 @@ import restsofa.service.SofaService;
 @CrossOrigin(origins = "*")
 @RequestMapping("/pedido")
 
-public class PedidoController {
+public class PedidoRestController {
 	
 	@Autowired
 	private PedidoService pedidoService;

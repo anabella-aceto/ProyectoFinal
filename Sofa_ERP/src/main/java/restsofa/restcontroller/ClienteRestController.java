@@ -21,7 +21,7 @@ import restsofa.service.ClienteService;
 @CrossOrigin(origins = "*")
 @RequestMapping("/cliente")
 
-public class ClienteRestControllerAlb {
+public class ClienteRestController {
 
 	@Autowired
 	private ClienteService clienteService;
@@ -30,27 +30,32 @@ public class ClienteRestControllerAlb {
 	 * Método que devuelve todos los clientes
 	 */
 
-	@GetMapping({ "", "/" })
-	public ResponseEntity<?> buscaTodosClientes() {
+	@GetMapping({ "", "/" }) // probado y funcionando
+	public ResponseEntity<?> todos() {
 
 		List<Cliente> lista = clienteService.buscarTodosClientes();
 
-		return ResponseEntity.status(200).body(lista);
+		if (lista != null)
+			return ResponseEntity.status(200).body(lista);
+
+		else
+			return ResponseEntity.status(400).body("Error al cargar la lista");
 	}
 
 	/*
 	 * Método que devuelve un cliente
 	 */
 
-	@GetMapping("/{idCliente}")
-	public ResponseEntity<?> buscaUnCliente(@PathVariable int idCliente) {
+	@GetMapping("/{idCliente}") // probado y funcionnado
+	public ResponseEntity<?> uno(@PathVariable int idCliente) {
 
 		Cliente cliente = clienteService.buscarCliente(idCliente);
 
-		if (cliente != null) {
+		if (cliente != null)
 			return ResponseEntity.status(200).body(cliente);
-		} else
-			return ResponseEntity.status(200).body("No hay clientes");
+
+		else
+			return ResponseEntity.status(400).body("No se encuentra el cliente");
 
 	}
 
@@ -58,45 +63,44 @@ public class ClienteRestControllerAlb {
 	 * Método que da de alta un cliente
 	 */
 
-	@PostMapping("/alta")
-	public ResponseEntity<?> altaCliente(@RequestBody Cliente cliente) {
+	@PostMapping("/alta") // probado y funcionando
+	public ResponseEntity<?> alta(@RequestBody Cliente cliente) {
 
-		Cliente altaNueva = clienteService.altaCliente(cliente);
+		if (clienteService.altaCliente(cliente) != null)
+			return ResponseEntity.status(200).body(cliente);
 
-		if (altaNueva != null) {
-			return ResponseEntity.status(200).body(altaNueva);
-		} else
-			return ResponseEntity.status(400).body("No se puede dar de alta el cliente");
+		else
+			return ResponseEntity.status(400).body("Error al cargar cliente en la BBDD");
 	}
 
 	/*
 	 * Método que modifica un cliente
 	 */
 
-	@PutMapping("/modificar")
-	public ResponseEntity<?> modificarCliente(@RequestBody Cliente cliente) {
+	@PutMapping("/modificar") // probado y funcionando
+	public ResponseEntity<?> modificar(@RequestBody Cliente cliente) {
 
-		if (cliente != null) {
+		if (clienteService.buscarCliente(cliente.getIdCliente()) != null) {
 			clienteService.modifCliente(cliente);
-			return ResponseEntity.status(200).body("Modificación de cliente realizada correctamente");
+			return ResponseEntity.status(200).body("Modificación exitosa " + cliente);
 		} else
-			return ResponseEntity.status(400).body("No se ha podido modificar el cliente");
+			return ResponseEntity.status(400).body("Error al modificar cliente en la BBDD");
 	}
 
 	/*
 	 * Método que borra un cliente
 	 */
 
-	@DeleteMapping("/borrar/{idCliente}")
-	public ResponseEntity<?> borrarCliente(@PathVariable int idCliente) {
+	@DeleteMapping("/eliminar/{idCliente}") // probado y funcionando
+	public ResponseEntity<?> borrar(@PathVariable int idCliente) {
 
 		Cliente cliente = clienteService.buscarCliente(idCliente);
 
 		if (cliente != null) {
 			clienteService.borrarCliente(idCliente);
-			return ResponseEntity.status(200).body("Cliente eliminado correctamente");
+			return ResponseEntity.status(200).body("Eliminación exitosa ");
 		} else
-			return ResponseEntity.status(400).body("Cliente no se ha podido eliminar");
+			return ResponseEntity.status(400).body("Error al eliminar cliente en la BBDD");
 	}
 
 }
