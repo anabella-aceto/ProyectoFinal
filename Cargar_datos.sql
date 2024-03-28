@@ -43,18 +43,18 @@ INSERT INTO proveedores (nombre, telefono, descripcion) VALUES
 
 
 -- MATERIALES
-INSERT INTO materiales (nombre, descripcion, cantidad, id_proveedor, ref_material_prov)VALUES
-('Tornillos', 'Tornillos madera 7cm', 3, 2, 456),
-('Guata', 'Guata blanca 50cm ancho', 300, 5, 357),
-('Hilo', 'Hilo costura', 25, 1, 003),
-('Tela', 'Rivera beige', 30, 1, 757),
-('Tela', 'Rivera negro', 30, 1, 048),
-('Madera', 'Madera pino esqueleto', 50, 6, 112),
-('Cojines', 'Cojines sofas', 35, 5, 654),
-('Cinchas', 'Cinchas duras', 10, 4, 1795),
-('Cinchas', 'Cinchas blandas', 7, 4, 548),
-('Patas', 'Patas de madera negras básicas', 24, 3, 468),
-('Patas', 'Patas acero inox rectas', 12, 3, 489);
+INSERT INTO materiales (nombre, descripcion, cantidad, id_proveedor, ref_material_prov, categoria)VALUES
+('Tornillos', 'Tornillos madera 7cm', 3, 2, 456, 'ferreteria'),
+('Guata', 'Guata blanca 50cm ancho', 300, 5, 357, 'textil'),
+('Hilo', 'Hilo costura', 25, 1, 003, 'textil'),
+('Tela', 'Rivera beige', 30, 1, 757, 'textil'),
+('Tela', 'Rivera negro', 30, 1, 048, 'textil'),
+('Madera', 'Madera pino esqueleto', 50, 6, 112, 'madera'),
+('Cojines', 'Cojines sofas', 35, 5, 654, 'textil'),
+('Cinchas', 'Cinchas duras', 10, 4, 1795, 'ferreteria'),
+('Cinchas', 'Cinchas blandas', 7, 4, 548, 'ferreteria'),
+('Patas', 'Patas de madera negras básicas', 24, 3, 468, 'patas'),
+('Patas', 'Patas acero inox rectas', 12, 3, 489, 'patas');
 
 -- SOFAS
 INSERT INTO sofas (nombre, descripcion, patas, medida_cojin, precio) 

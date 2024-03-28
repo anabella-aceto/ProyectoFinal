@@ -227,6 +227,7 @@ CREATE TABLE `materiales` (
   `cantidad` decimal(10,2) DEFAULT NULL,
   `id_proveedor` int DEFAULT NULL,
   `ref_material_prov` int DEFAULT NULL,
+  `catergoria` varchar (100) DEFAULT NULL,
   PRIMARY KEY (`id_material`),
   KEY `id_proveedor` (`id_proveedor`),
   CONSTRAINT `materiales_ibfk_1` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`)
