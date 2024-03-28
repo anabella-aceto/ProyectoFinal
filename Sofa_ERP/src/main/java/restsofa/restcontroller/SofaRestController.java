@@ -21,7 +21,7 @@ import restsofa.service.SofaService;
 @CrossOrigin(origins = "*")
 @RequestMapping("/sofa")
 
-public class SofaController {
+public class SofaRestController {
 
 	@Autowired
 	private SofaService sofaService;
