@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import restsofa.modelo.entities.Carpinteria;
+import restsofa.modelo.entities.EstadoPedido;
 import restsofa.modelo.entities.Pedido;
 import restsofa.repository.CarpinteriaRepository;
 
@@ -15,6 +16,12 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 
 	@Autowired
 	private PedidoService pedidoService;
+	
+	@Autowired
+	private EstadoPedidoService estadoPedidoService;
+	
+	//@Autowired
+	//private SofaMaterialService sofaMaterialService;
 	
 	
 	
@@ -79,5 +86,15 @@ public class CarpinteriaServiceImplMy8 implements CarpinteriaService {
 		// TODO Auto-generated method stub
 		return crepo.findById(idCarpinteria).orElse(null);
 	}
+	
+	
+	//public void actualizarStock(int idPedido) {
+		
+		//Carpinteria carpinteria = (Carpinteria) buscarPorPedido(idPedido);
+		
+		//EstadoPedido estadoPedido = estadoPedidoService.buscarEstadoPedido(carpinteria.getEstadoPedido().getIdEstado());	
+		
+		
+	//}
 
 }
