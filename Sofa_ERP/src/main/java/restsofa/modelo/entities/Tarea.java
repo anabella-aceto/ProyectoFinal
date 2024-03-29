@@ -12,23 +12,30 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
-@Table(name="sofas_depto")
+@Table(name="tareas")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class SofaDepartamento {
 
+public class Tarea {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_sd")
-	int idSd;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id_tarea")
+	private int idTarea;
+	
+	@ManyToOne
+	@JoinColumn(name="id_empleado")
+	private Empleado empleado;
 	
 	@ManyToOne
 	@JoinColumn(name="id_depto")
 	private Departamento departamento;
 	
 	@ManyToOne
-	@JoinColumn(name="id_sofa")
-	private Sofa sofa;
+	@JoinColumn(name="id_pedido")
+	private Pedido pedido;
+
 }

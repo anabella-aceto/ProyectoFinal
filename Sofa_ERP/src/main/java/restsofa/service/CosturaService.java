@@ -2,7 +2,6 @@ package restsofa.service;
 
 import java.util.List;
 
-import restsofa.modelo.entities.Carpinteria;
 import restsofa.modelo.entities.Costura;
 
 public interface CosturaService {
