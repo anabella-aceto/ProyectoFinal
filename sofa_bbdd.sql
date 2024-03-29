@@ -96,6 +96,42 @@ INSERT INTO `departamentos` VALUES (1,'carpinteria'),(2,'costura'),(3,'tapizado'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `detalle_pedido`
+--
+
+DROP TABLE IF EXISTS `detalle_pedido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `detalle_pedido` (
+  `id_deped` int NOT NULL AUTO_INCREMENT,
+  `id_pedido` int DEFAULT NULL,
+  `id_sofa` int DEFAULT NULL,
+  `cantidad` int DEFAULT NULL,
+  `plazas` int DEFAULT NULL,
+  `dens_cojin` decimal(10,2) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
+  `id_estado` int DEFAULT NULL,
+  PRIMARY KEY (`id_deped`),
+  KEY `id_sofa9` (`id_sofa`),
+  KEY `id_pedido9` (`id_pedido`),
+  KEY `id_estado` (`id_estado`),
+  CONSTRAINT `id_estado` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`),
+  CONSTRAINT `id_pedido9` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
+  CONSTRAINT `id_sofa9` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `detalle_pedido`
+--
+
+LOCK TABLES `detalle_pedido` WRITE;
+/*!40000 ALTER TABLE `detalle_pedido` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detalle_pedido` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `empleado_departamento`
 --
 
@@ -391,21 +427,13 @@ DROP TABLE IF EXISTS `pedidos`;
 CREATE TABLE `pedidos` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
   `id_cliente` int DEFAULT NULL,
-  `id_sofa` int DEFAULT NULL,
-  `cantidad` int DEFAULT NULL,
-  `plazas` int DEFAULT NULL,
-  `dens_cojin` decimal(10,2) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `precio` decimal(10,2) DEFAULT NULL,
   `vendedor` int DEFAULT NULL,
-  `estado` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_pedido`),
-  KEY `id_sofa` (`id_sofa`),
   KEY `id_cliente` (`id_cliente`),
   KEY `id_empleado` (`vendedor`),
   CONSTRAINT `id_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
-  CONSTRAINT `id_empleado` FOREIGN KEY (`vendedor`) REFERENCES `empleados` (`id_empleado`),
-  CONSTRAINT `id_sofa` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`)
+  CONSTRAINT `id_empleado` FOREIGN KEY (`vendedor`) REFERENCES `empleados` (`id_empleado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -625,4 +653,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 18:40:26
+-- Dump completed on 2024-03-29 19:44:42
