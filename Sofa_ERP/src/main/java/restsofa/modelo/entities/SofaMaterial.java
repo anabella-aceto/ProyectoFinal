@@ -22,8 +22,6 @@ public class SofaMaterial {
 	@Column(name="id_sm")
 	private int idSofaMateriales;
 	
-	private int cantidad;
-	
 	@ManyToOne
 	@JoinColumn(name="id_sofa")
 	private Sofa sofa;
@@ -31,5 +29,8 @@ public class SofaMaterial {
 	@ManyToOne
 	@JoinColumn(name="id_material")
 	private Material material;
+	
+	@Column(name="Cantidad_utilizada")
+	private int cantidadUtilizada; 
 	
 }
