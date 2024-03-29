@@ -54,6 +54,17 @@ public class SofaMaterialServiceImplMy8 implements SofaMaterialService{
 		}
 		return false;
 	}
+
+	@Override
+	public SofaMaterial buscarPorSofa(int idSofa) {
+		
+		SofaMaterial sofaMaterial = sofaMaterialRepository.buscarPorIdSofa(idSofa);
+		
+		if ( sofaMaterial!=null)
+			return sofaMaterial;
+		else
+		return null;
+	}
 	
 	
 

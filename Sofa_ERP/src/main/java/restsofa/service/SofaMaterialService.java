@@ -11,6 +11,7 @@ public interface SofaMaterialService {
 	SofaMaterial insertOne (SofaMaterial  sofaMaterial);
 	SofaMaterial updateOne (SofaMaterial  sofaMaterial);
 	boolean deleteOne (int idSofaMaterial);
+	SofaMaterial buscarPorSofa(int idSofa);
 	
 
 }
