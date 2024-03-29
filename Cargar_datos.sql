@@ -16,12 +16,14 @@ INSERT INTO perfiles (rol)VALUES
 ('operario');
 
 -- EMPLEADOS
-INSERT INTO empleados (nombre, apellidos, id_depto, id_perfil, fecha_ingreso, salario) VALUES
-('Juan', 'García', 1, 1, '2024-03-24', 2500.00),
-('María', 'López', 2, 2, '2024-03-25', 2800.00),
-('Carlos', 'Martínez', 1, 2, '2024-03-26', 3000.00),
-('Laura', 'Pérez', 3, 3, '2024-03-27', 2700.00),
-('Pedro', 'Sánchez', 2, 1, '2024-03-28', 3200.00);
+INSERT INTO empleados (nombre, apellidos, id_depto, id_perfil, fecha_ingreso, fecha_baja, estado, salario) 
+VALUES 
+('Juan', 'Pérez', 1, 1, '2023-01-15', NULL, 1, 2500.00),
+('María', 'Gómez', 2, 2, '2022-11-20', NULL, 1, 2800.00),
+('Pedro', 'Sánchez', 1, 3, '2024-02-10', NULL, 1, 3000.00),
+('Ana', 'López', 3, 2, '2023-09-05', NULL, 1, 2700.00),
+('Luis', 'Martínez', 2, 1, '2024-03-01', NULL, 1, 3200.00);
+
 
 -- CLIENTES
 INSERT INTO clientes (nombre, apellidos, direccion, email, telefono) VALUES
@@ -43,18 +45,20 @@ INSERT INTO proveedores (nombre, telefono, descripcion) VALUES
 
 
 -- MATERIALES
-INSERT INTO materiales (nombre, descripcion, cantidad, id_proveedor, ref_material_prov, categoria)VALUES
-('Tornillos', 'Tornillos madera 7cm', 3, 2, 456, 'ferreteria'),
-('Guata', 'Guata blanca 50cm ancho', 300, 5, 357, 'textil'),
-('Hilo', 'Hilo costura', 25, 1, 003, 'textil'),
-('Tela', 'Rivera beige', 30, 1, 757, 'textil'),
-('Tela', 'Rivera negro', 30, 1, 048, 'textil'),
-('Madera', 'Madera pino esqueleto', 50, 6, 112, 'madera'),
-('Cojines', 'Cojines sofas', 35, 5, 654, 'textil'),
-('Cinchas', 'Cinchas duras', 10, 4, 1795, 'ferreteria'),
-('Cinchas', 'Cinchas blandas', 7, 4, 548, 'ferreteria'),
-('Patas', 'Patas de madera negras básicas', 24, 3, 468, 'patas'),
-('Patas', 'Patas acero inox rectas', 12, 3, 489, 'patas');
+INSERT INTO materiales (nombre, descripcion, cantidad, id_proveedor, ref_material_prov, categoria)
+VALUES
+('Tornillos', 'Tornillos madera 7cm', 3, 2, '456', 'ferreteria'),
+('Guata', 'Guata blanca 50cm ancho', 300, 5, '357', 'textil'),
+('Hilo', 'Hilo costura', 25, 1, '003', 'textil'), 
+('Tela', 'Rivera beige', 30, 1, '757', 'textil'), 
+('Tela', 'Rivera negro', 30, 1, '048', 'textil'), 
+('Madera', 'Madera pino esqueleto', 50, 6, '112', 'madera'),
+('Cojines', 'Cojines sofas', 35, 5, '654', 'textil'),
+('Cinchas', 'Cinchas duras', 10, 4, '1795', 'ferreteria'),
+('Cinchas', 'Cinchas blandas', 7, 4, '548', 'ferreteria'),
+('Patas', 'Patas de madera negras básicas', 24, 3, '468', 'patas'),
+('Patas', 'Patas acero inox rectas', 12, 3, '489', 'patas');
+
 
 -- SOFAS
 INSERT INTO sofas (nombre, descripcion, patas, medida_cojin, precio) 
