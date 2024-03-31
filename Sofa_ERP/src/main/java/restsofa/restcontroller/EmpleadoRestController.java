@@ -134,7 +134,7 @@ public ResponseEntity<?> modificarEmpleado(@RequestBody EmpleadoDto empleadoDto)
 			empleado.setDepartamento(departamentoService.buscarUno(empleadoDto.getIdDepartamento()));
 			empleado.setPerfil(perfilService.buscarUno(empleadoDto.getIdPerfil()));
 			empleado.setApellidos(empleadoDto.getApellidos());
-			empleado.setFecha(empleadoDto.getFecha());
+			empleado.setFechaIngreso(empleadoDto.getFechaIngreso());
 			empleado.setNombre(empleadoDto.getNombre());
 			empleado.setSalario(empleadoDto.getSalario());
 			empleadoService.modificarEmpleado(empleado);

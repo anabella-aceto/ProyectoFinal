@@ -1,6 +1,6 @@
 package restsofa.modelo.DTO;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -12,13 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class EnfundadoDto {
 
-	private int idEnfundado;
-
+public class EstadoPedidoDto {
+	
+	private int idEp;
+	
 	private int idPedido;
 	
-	private int idEstadoPedido;
+	private int idEstado;
 	
 	private Date fecha;
+
 }

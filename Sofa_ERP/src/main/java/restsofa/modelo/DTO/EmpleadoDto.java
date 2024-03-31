@@ -19,7 +19,7 @@ public class EmpleadoDto {
 	private String apellidos;
 	private int idDepartamento;
 	private int idPerfil;
-	private Date fecha;
+	private Date fechaIngreso;
 	private double salario;
 	
 	
