@@ -1,4 +1,5 @@
 package restsofa.modelo.entities;
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -18,14 +19,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Empleado {
+public class Empleado implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_empleado")
 	private int idEmpleado;
 	
 	private String nombre;
+	
 	private String apellidos;
+	
+	private String password;
 	
 	@ManyToOne
 	@JoinColumn(name="id_depto")

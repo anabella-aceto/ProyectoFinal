@@ -1,5 +1,7 @@
 package restsofa.modelo.entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name="sofa_materiales")
-public class SofaMaterial {
+public class SofaMaterial implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

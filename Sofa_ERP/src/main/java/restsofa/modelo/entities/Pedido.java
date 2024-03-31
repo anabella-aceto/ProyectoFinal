@@ -1,5 +1,6 @@
 package restsofa.modelo.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -19,7 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Pedido {
+public class Pedido implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,23 +31,10 @@ public class Pedido {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="sofa")
-	private Sofa sofa;
-	
-	@ManyToOne
 	@JoinColumn(name="cliente")
 	private Cliente cliente;
 	
-	private int cantidad;
-	
-	private int plazas;
-	
-	@Column(name="dens_cojin")
-	private int densCojin;
-	
 	private Date fecha;
-	
-	private double precio;
 	
 	@ManyToOne
 	@JoinColumn(name="vendedor")

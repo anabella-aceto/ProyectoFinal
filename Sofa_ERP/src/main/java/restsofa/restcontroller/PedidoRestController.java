@@ -36,9 +36,6 @@ public class PedidoRestController {
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private SofaService sofaService;
-
-	@Autowired
 	private EmpleadoService empleadoService;
 
 	@Autowired
@@ -93,7 +90,6 @@ public class PedidoRestController {
 		Pedido pedido = new Pedido();
 		modelMapper.map(pedidoDto, pedido);
 
-		pedido.setSofa(sofaService.buscarSofa(pedidoDto.getIdSofa()));
 		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));
 
@@ -117,8 +113,7 @@ public class PedidoRestController {
 			modelMapper.map(pedidoDto, PedidoDto.class);
 			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));
-			pedido.setSofa(sofaService.buscarSofa(pedidoDto.getIdSofa()));
-
+			
 			pedidoService.modifPedido(pedido);
 			return ResponseEntity.status(200).body("Pedido modificado correctamente");
 		} else
