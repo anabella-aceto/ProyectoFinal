@@ -42,7 +42,12 @@ public class Empleado implements Serializable{
 	private Perfil perfil;
 
 	@Column(name="fecha_ingreso")
-	private Date fecha;
+	private Date fechaIngreso;
+	
+	@Column(name="fecha_baja")
+	private Date fechaBaja;
+	
+	private int estado;
 	
 	private double salario;
 	
