@@ -198,6 +198,7 @@ CREATE TABLE `empleados` (
   `id_empleado` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `apellidos` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `id_depto` int DEFAULT NULL,
   `id_perfil` int DEFAULT NULL,
   `fecha_ingreso` date DEFAULT NULL,
@@ -216,7 +217,7 @@ CREATE TABLE `empleados` (
 
 LOCK TABLES `empleados` WRITE;
 /*!40000 ALTER TABLE `empleados` DISABLE KEYS */;
-INSERT INTO `empleados` VALUES (1,'Juan','Pérez',1,1,'2023-05-10',NULL,1,30000.00),(2,'María','García',2,2,'2022-08-20',NULL,1,35000.00),(3,'Pedro','Martínez',3,3,'2024-01-15',NULL,0,28000.00),(4,'Ana','López',1,2,'2023-11-03',NULL,1,32000.00),(5,'Carlos','Sánchez',2,1,'2021-10-05',NULL,1,38000.00),(6,'Laura','Gómez',3,3,'2024-02-28',NULL,1,27000.00),(7,'Luis','Hernández',1,3,'2022-04-12',NULL,1,31000.00),(8,'Sofía','Díaz',2,2,'2023-09-08',NULL,1,33000.00),(9,'Javier','Ruiz',3,1,'2021-12-20',NULL,1,36000.00);
+INSERT INTO `empleados` VALUES (1,'Juan','Pérez','juan',1,1,'2023-05-10',NULL,1,30000.00),(2,'María','García','maria',2,2,'2022-08-20',NULL,1,35000.00),(3,'Pedro','Martínez','pedro',3,3,'2024-01-15',NULL,0,28000.00),(4,'Ana','López','ana',1,2,'2023-11-03',NULL,1,32000.00),(5,'Carlos','Sánchez','carlos',2,1,'2021-10-05',NULL,1,38000.00),(6,'Laura','Gómez','laura',3,3,'2024-02-28',NULL,1,27000.00),(7,'Luis','Hernández','luis',1,3,'2022-04-12',NULL,1,31000.00),(8,'Sofía','Díaz','sofia',2,2,'2023-09-08',NULL,1,33000.00),(9,'Javier','Ruiz','javier',3,1,'2021-12-20',NULL,1,36000.00);
 /*!40000 ALTER TABLE `empleados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -513,7 +514,7 @@ CREATE TABLE `sofa_materiales` (
   KEY `id_material1` (`id_material`),
   CONSTRAINT `id_material1` FOREIGN KEY (`id_material`) REFERENCES `materiales` (`id_material`),
   CONSTRAINT `id_sofa1` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -522,6 +523,7 @@ CREATE TABLE `sofa_materiales` (
 
 LOCK TABLES `sofa_materiales` WRITE;
 /*!40000 ALTER TABLE `sofa_materiales` DISABLE KEYS */;
+INSERT INTO `sofa_materiales` VALUES (1,1,1,20),(2,1,2,5),(3,1,3,2),(4,1,4,14),(5,1,6,5),(6,1,7,5),(7,1,8,5),(8,1,11,4),(9,2,1,25),(10,2,2,8),(11,2,3,3),(12,2,5,14),(13,2,6,6),(14,2,7,6),(15,2,8,12),(16,2,11,4),(17,3,1,22),(18,3,2,7),(19,3,3,2),(20,3,5,14),(21,3,6,5),(22,3,7,6),(23,3,8,11),(24,3,11,4),(25,4,1,28),(26,4,2,10),(27,4,3,3),(28,4,4,14),(29,4,6,7),(30,4,7,7),(31,4,8,6),(32,4,11,6),(33,5,1,30),(34,5,2,12),(35,5,3,4),(36,5,4,16),(37,5,6,8),(38,5,7,8),(39,5,8,9),(40,5,11,4);
 /*!40000 ALTER TABLE `sofa_materiales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -653,4 +655,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 19:44:42
+-- Dump completed on 2024-03-31 17:34:37
