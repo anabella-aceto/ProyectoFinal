@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 
-public class detalle_pedido implements Serializable{	
+public class DetallePedido implements Serializable{	
 	
 		private static final long serialVersionUID = 1L;
 		
@@ -43,7 +43,7 @@ public class detalle_pedido implements Serializable{
 		private int plazas;
 	
 		@Column(name="dens_cojin")
-		private int densCojin;
+		private double densCojin;
 		
 		private Date fecha;
 		
