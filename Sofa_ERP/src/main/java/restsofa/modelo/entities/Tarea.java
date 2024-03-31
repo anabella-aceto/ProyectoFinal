@@ -44,7 +44,7 @@ public class Tarea implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "id_estado")
-	private EstadoPedido estado;
+	private Estado estado;
 
 	private Date fecha; 
 }

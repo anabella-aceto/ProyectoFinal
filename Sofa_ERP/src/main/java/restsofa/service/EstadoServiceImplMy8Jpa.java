@@ -5,33 +5,33 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import restsofa.modelo.entities.EstadoPedido;
-import restsofa.repository.EstadoPedidoRepository;
+import restsofa.modelo.entities.Estado;
+import restsofa.repository.EstadoRepository;
 
 @Service
 
-public class EstadoPedidoServiceImplMy8Jpa implements EstadoPedidoService {
+public class EstadoServiceImplMy8Jpa implements EstadoService {
 
 	@Autowired
-	private EstadoPedidoRepository estrepo;
+	private EstadoRepository estrepo;
 
 	@Override
-	public EstadoPedido buscarEstadoPedido(int idEstado) {
+	public Estado buscarEstado(int idEstado) {
 		return estrepo.findById(idEstado).orElse(null);
 	}
 
 	@Override
-	public List<EstadoPedido> buscarTodosEstadoPedidos() {
+	public List<Estado> buscarTodosEstado() {
 		return estrepo.findAll();
 	}
 
 	@Override
-	public EstadoPedido altaEstadoPedido(EstadoPedido estado) {
+	public Estado altaEstado(Estado estado) {
 		return estrepo.save(estado);
 	}
 
 	@Override
-	public EstadoPedido modifEstadoPedido(EstadoPedido estado) {
+	public Estado modifEstado(Estado estado) {
 		try {
 			return estrepo.save(estado);
 		} catch (Exception e) {
@@ -40,9 +40,9 @@ public class EstadoPedidoServiceImplMy8Jpa implements EstadoPedidoService {
 	}
 
 	@Override
-	public boolean borrarEstadoPedido(int idEstado) {
+	public boolean borrarEstado(int idEstado) {
 		try {
-			if (buscarEstadoPedido(idEstado) != null) {
+			if (buscarEstado(idEstado) != null) {
 				estrepo.deleteById(idEstado);
 				return true;
 			} else

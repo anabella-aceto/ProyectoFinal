@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import restsofa.modelo.entities.EstadoPedido;
-import restsofa.service.EstadoPedidoService;
+import restsofa.modelo.entities.Estado;
+import restsofa.service.EstadoService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/estadopedido")
+@RequestMapping("/estado")
 
-public class EstadoPedidoRestController {
+public class EstadoRestController {
 
 	@Autowired
-	private EstadoPedidoService estadoService;
+	private EstadoService estadoService;
 
 	/*
 	 * Método que devuelve todos los estados pedidos
@@ -33,7 +33,7 @@ public class EstadoPedidoRestController {
 	@GetMapping({ "", "/" })
 	public ResponseEntity<?> todos() {
 		try {
-			List<EstadoPedido> lista = estadoService.buscarTodosEstadoPedidos();
+			List<Estado> lista = estadoService.buscarTodosEstado();
 			return ResponseEntity.status(200).body(lista);
 		} catch (Exception e) {
 			return ResponseEntity.status(400).body("Error al cargar la lista de estados de pedido");
@@ -47,7 +47,7 @@ public class EstadoPedidoRestController {
 	@GetMapping("/{idEstado}")
 	public ResponseEntity<?> uno(@PathVariable int idEstado) {
 
-		EstadoPedido estado = estadoService.buscarEstadoPedido(idEstado);
+		Estado estado = estadoService.buscarEstado(idEstado);
 
 		if (estado != null) {
 
@@ -61,13 +61,13 @@ public class EstadoPedidoRestController {
 	 */
 
 	@PostMapping("/alta")
-	public ResponseEntity<?> alta(@RequestBody EstadoPedido estado) {
+	public ResponseEntity<?> alta(@RequestBody Estado estado) {
 
-		EstadoPedido estadoAlta = new EstadoPedido();
+		Estado estadoAlta = new Estado();
 
 		estadoAlta.setNombre(estado.getNombre());
 
-		if (estadoService.altaEstadoPedido(estado) != null) {
+		if (estadoService.altaEstado(estado) != null) {
 			return ResponseEntity.status(200).body("Estado de pedido procesado correctamente" + estadoAlta);
 		} else
 			return ResponseEntity.status(400).body("Error al procesar el estado de pedido");
@@ -78,14 +78,14 @@ public class EstadoPedidoRestController {
 	 */
 
 	@PutMapping("/modificar")
-	public ResponseEntity<?> modificar(@RequestBody EstadoPedido estado) {
+	public ResponseEntity<?> modificar(@RequestBody Estado estado) {
 
-		EstadoPedido estadoModif = estadoService.buscarEstadoPedido(estado.getIdEstado());
+		Estado estadoModif = estadoService.buscarEstado(estado.getIdEstado());
 
 		if (estadoModif != null) {
 			estadoModif.setNombre(estado.getNombre());
 
-			estadoService.modifEstadoPedido(estado);
+			estadoService.modifEstado(estado);
 			return ResponseEntity.status(200).body("Estado de pedido modificado correctamente");
 		} else
 			return ResponseEntity.status(400).body("No se puede modificar el estado de pedido");
@@ -99,10 +99,10 @@ public class EstadoPedidoRestController {
 	@DeleteMapping("/borrar/{idEstado}")
 	public ResponseEntity<?> borrar(@PathVariable int idEstado) {
 
-		EstadoPedido estadoBorrar = estadoService.buscarEstadoPedido(idEstado);
+		Estado estadoBorrar = estadoService.buscarEstado(idEstado);
 
 		if (estadoBorrar != null) {
-			estadoService.borrarEstadoPedido(idEstado);
+			estadoService.borrarEstado(idEstado);
 			return ResponseEntity.status(200).body("Estado de pedido eliminado correctamente");
 		} else
 			return ResponseEntity.status(400).body("Estado Pedido no se ha podido eliminar");

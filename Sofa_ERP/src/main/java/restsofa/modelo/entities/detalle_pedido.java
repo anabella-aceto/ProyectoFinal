@@ -33,11 +33,11 @@ public class detalle_pedido implements Serializable{
 		
 		@ManyToOne
 		@JoinColumn(name="id_pedido")
-		private int idPedido;
+		private Pedido pedido;
 		
 		@ManyToOne
 		@JoinColumn(name="id_sofa")
-		private int idSofa;
+		private Sofa sofa;
 		
 		private int cantidad;
 	
@@ -52,7 +52,7 @@ public class detalle_pedido implements Serializable{
 		
 		@ManyToOne
 		@JoinColumn(name="id_estado")
-		private int idEstado;
+		private Estado estado;
 		
 	
 
