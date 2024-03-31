@@ -20,6 +20,7 @@ import restsofa.modelo.DTO.TareaDto;
 import restsofa.modelo.entities.Tarea;
 import restsofa.service.DepartamentoService;
 import restsofa.service.EmpleadoService;
+import restsofa.service.EstadoPedidoService;
 import restsofa.service.PedidoService;
 import restsofa.service.TareaService;
 
@@ -40,6 +41,9 @@ public class TareaRestController {
 
 	@Autowired
 	private PedidoService pedidoService;
+	
+	@Autowired
+	private EstadoPedidoService estadoService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -96,6 +100,7 @@ public class TareaRestController {
 		tarea.setEmpleado(empleadoService.buscarUno(tareaDto.getIdEmpleado()));
 		tarea.setDepartamento(depService.buscarUno(tareaDto.getIdDepartamento()));
 		tarea.setPedido(pedidoService.buscarPedido(tareaDto.getIdPedido()));
+		tarea.setEstado(estadoService.buscarEstadoPedido(tareaDto.getIdEstado()));
 
 		if (tareaService.altaTarea(tarea) != null) {
 			tareaDto.setIdTarea(tarea.getIdTarea());
@@ -118,6 +123,7 @@ public class TareaRestController {
 			tarea.setEmpleado(empleadoService.buscarUno(tareaDto.getIdEmpleado()));
 			tarea.setDepartamento(depService.buscarUno(tareaDto.getIdDepartamento()));
 			tarea.setPedido(pedidoService.buscarPedido(tareaDto.getIdPedido()));
+			tarea.setEstado(estadoService.buscarEstadoPedido(tareaDto.getIdEstado()));
 
 			tareaService.modifTarea(tarea);
 			return ResponseEntity.status(200).body("Tarea modificada correctamente");

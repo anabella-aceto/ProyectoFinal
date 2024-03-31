@@ -1,5 +1,7 @@
 package restsofa.modelo.DTO;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -15,10 +17,14 @@ public class TareaDto {
 	
 	private int idTarea;
 	
+	private int idPedido;
+	
 	private int idEmpleado;
 	
 	private int idDepartamento;
 	
-	private int idPedido;
-
+	private int idEstado;
+	
+	private Date fecha;
+	
 }
