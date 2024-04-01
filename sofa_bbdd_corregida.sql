@@ -96,8 +96,6 @@ CREATE TABLE `detalle_pedido` (
   PRIMARY KEY (`id_deped`),
   KEY `id_sofa9` (`id_sofa`),
   KEY `id_pedido9` (`id_pedido`),
-  KEY `id_estado` (`id_estado`),
-  CONSTRAINT `id_estado` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`),
   CONSTRAINT `id_pedido9` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   CONSTRAINT `id_sofa9` FOREIGN KEY (`id_sofa`) REFERENCES `sofas` (`id_sofa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -140,35 +138,6 @@ LOCK TABLES `empleado_departamento` WRITE;
 /*!40000 ALTER TABLE `empleado_departamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `empleado_perfil`
---
-
-DROP TABLE IF EXISTS `empleado_perfil`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `empleado_perfil` (
-  `id_emper` int NOT NULL AUTO_INCREMENT,
-  `id_empleado` int DEFAULT NULL,
-  `id_perfil` int DEFAULT NULL,
-  PRIMARY KEY (`id_emper`),
-  KEY `id_empleado7` (`id_empleado`),
-  KEY `id_perfil7` (`id_perfil`),
-  CONSTRAINT `id_empleado7` FOREIGN KEY (`id_empleado`) REFERENCES `empleados` (`id_empleado`),
-  CONSTRAINT `id_perfil7` FOREIGN KEY (`id_perfil`) REFERENCES `perfiles` (`id_perfil`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `empleado_perfil`
---
-
-LOCK TABLES `empleado_perfil` WRITE;
-/*!40000 ALTER TABLE `empleado_perfil` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empleado_perfil` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `empleados`
 --
 
@@ -202,35 +171,6 @@ INSERT INTO `empleados` VALUES (1,'Juan','Pérez','juan',1,1,'2023-05-10',NULL,1
 /*!40000 ALTER TABLE `empleados` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `estado_departamento`
---
-
-DROP TABLE IF EXISTS `estado_departamento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estado_departamento` (
-  `id_edep` int NOT NULL AUTO_INCREMENT,
-  `id_estado` int DEFAULT NULL,
-  `id_depto` int DEFAULT NULL,
-  PRIMARY KEY (`id_edep`),
-  KEY `id_estado9` (`id_estado`),
-  KEY `id_depto9` (`id_depto`),
-  CONSTRAINT `id_depto9` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`),
-  CONSTRAINT `id_estado9` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estado_departamento`
---
-
-LOCK TABLES `estado_departamento` WRITE;
-/*!40000 ALTER TABLE `estado_departamento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `estado_departamento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `estado_pedido`
 --
 
@@ -239,14 +179,11 @@ DROP TABLE IF EXISTS `estado_pedido`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `estado_pedido` (
   `id_ep` int NOT NULL AUTO_INCREMENT,
-  `id_pedido` int DEFAULT NULL,
   `id_estado` int DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   PRIMARY KEY (`id_ep`),
-  KEY `id_pedido` (`id_pedido`),
-  KEY `id:estado` (`id_estado`),
-  CONSTRAINT `id:estado` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`),
-  CONSTRAINT `id_pedido` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`)
+  KEY `id_estado` (`id_estado`),
+  CONSTRAINT `id_estado` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -327,10 +264,8 @@ CREATE TABLE `materiales` (
   `ref_material_prov` int DEFAULT NULL,
   `categoria` varchar(100) DEFAULT NULL,
   `unidad_medida` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id_material`),
-  KEY `id_proveedor` (`id_proveedor`),
-  CONSTRAINT `id_proveedor` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id_material`))
+  ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,62 +279,6 @@ INSERT INTO `materiales` VALUES (1,'Tornillos','Tornillos madera 7cm',3.00,2,456
 UNLOCK TABLES;
 
 --
--- Table structure for table `pedido_departamento`
---
-
-DROP TABLE IF EXISTS `pedido_departamento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pedido_departamento` (
-  `id_pd` int NOT NULL AUTO_INCREMENT,
-  `id_pedido` int DEFAULT NULL,
-  `id_depto` int DEFAULT NULL,
-  PRIMARY KEY (`id_pd`),
-  KEY `id_pedido2` (`id_pedido`),
-  KEY `id_depto1` (`id_depto`),
-  CONSTRAINT `id_depto1` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`),
-  CONSTRAINT `id_pedido2` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pedido_departamento`
---
-
-LOCK TABLES `pedido_departamento` WRITE;
-/*!40000 ALTER TABLE `pedido_departamento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pedido_departamento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pedido_material`
---
-
-DROP TABLE IF EXISTS `pedido_material`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pedido_material` (
-  `id_pm` int NOT NULL AUTO_INCREMENT,
-  `id_pedido` int DEFAULT NULL,
-  `id_material` int DEFAULT NULL,
-  PRIMARY KEY (`id_pm`),
-  KEY `id_pedido1` (`id_pedido`),
-  KEY `id_material2` (`id_material`),
-  CONSTRAINT `id_material2` FOREIGN KEY (`id_material`) REFERENCES `materiales` (`id_material`),
-  CONSTRAINT `id_pedido1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pedido_material`
---
-
-LOCK TABLES `pedido_material` WRITE;
-/*!40000 ALTER TABLE `pedido_material` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pedido_material` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `pedidos`
 --
 
@@ -409,13 +288,16 @@ DROP TABLE IF EXISTS `pedidos`;
 CREATE TABLE `pedidos` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
   `id_cliente` int DEFAULT NULL,
+  `id_ep` int DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `vendedor` int DEFAULT NULL,
   PRIMARY KEY (`id_pedido`),
   KEY `id_cliente` (`id_cliente`),
   KEY `id_empleado` (`vendedor`),
+  KEY `id_ep` (`id_ep`),
   CONSTRAINT `id_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
-  CONSTRAINT `id_empleado` FOREIGN KEY (`vendedor`) REFERENCES `empleados` (`id_empleado`)
+  CONSTRAINT `id_empleado` FOREIGN KEY (`vendedor`) REFERENCES `empleados` (`id_empleado`),
+  CONSTRAINT `id_ep` FOREIGN KEY (`id_ep`) REFERENCES `estado_pedido` (`id_ep`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -520,7 +402,7 @@ CREATE TABLE `sofas` (
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` varchar(300) DEFAULT NULL,
   `patas` int DEFAULT NULL,
-  `medida_cojin` int DEFAULT NULL,
+  `medida_cojin` varchar (100) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id_sofa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -536,61 +418,7 @@ INSERT INTO `sofas` VALUES (1,'Aithara','Sofá de estilo clásico con tapicería
 /*!40000 ALTER TABLE `sofas` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `tarea_departamento`
---
 
-DROP TABLE IF EXISTS `tarea_departamento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tarea_departamento` (
-  `id_td` int NOT NULL AUTO_INCREMENT,
-  `id_depto` int DEFAULT NULL,
-  `id_tarea` int DEFAULT NULL,
-  PRIMARY KEY (`id_td`),
-  KEY `id_depto4` (`id_depto`),
-  KEY `id_tarea4` (`id_tarea`),
-  CONSTRAINT `id_depto4` FOREIGN KEY (`id_depto`) REFERENCES `departamentos` (`id_depto`),
-  CONSTRAINT `id_tarea4` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tarea_departamento`
---
-
-LOCK TABLES `tarea_departamento` WRITE;
-/*!40000 ALTER TABLE `tarea_departamento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tarea_departamento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tarea_empleado`
---
-
-DROP TABLE IF EXISTS `tarea_empleado`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tarea_empleado` (
-  `id_te` int NOT NULL AUTO_INCREMENT,
-  `id_empleado` int DEFAULT NULL,
-  `id_tarea` int DEFAULT NULL,
-  PRIMARY KEY (`id_te`),
-  KEY `id_empleado5` (`id_empleado`),
-  KEY `id_tarea5` (`id_tarea`),
-  CONSTRAINT `id_empleado5` FOREIGN KEY (`id_empleado`) REFERENCES `empleados` (`id_empleado`),
-  CONSTRAINT `id_tarea5` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tarea_empleado`
---
-
-LOCK TABLES `tarea_empleado` WRITE;
-/*!40000 ALTER TABLE `tarea_empleado` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tarea_empleado` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tareas`
