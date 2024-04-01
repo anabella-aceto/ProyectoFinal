@@ -46,24 +46,30 @@ public class SofaMaterialServiceImplMy8 implements SofaMaterialService{
 	}
 
 	@Override
-	public boolean deleteOne(int idSofaMaterial) {
-		
-		if (buscarUno(idSofaMaterial) != null) {
-			sofaMaterialRepository.deleteById(idSofaMaterial);
+	public boolean deleteOne(SofaMaterial sofaMaterial) {
+			
+		if (buscarUno(sofaMaterial.getIdSofaMateriales()) != null) {
+			sofaMaterialRepository.delete(sofaMaterial);
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public SofaMaterial buscarPorSofa(int idSofa) {
+	public List<SofaMaterial> buscarPorSofa(int idSofa) {
 		
-		SofaMaterial sofaMaterial = sofaMaterialRepository.buscarPorIdSofa(idSofa);
+		List<SofaMaterial> sofaMaterial = sofaMaterialRepository.buscarPorIdSofa(idSofa);
 		
 		if ( sofaMaterial!=null)
 			return sofaMaterial;
 		else
 		return null;
+	}
+
+	@Override
+	public SofaMaterial buscarPorSofaAndmaterial(int idSofa, int idMaterial) {
+		// TODO Auto-generated method stub
+		return sofaMaterialRepository.buscarPorSofaYMaterial(idSofa, idMaterial);
 	}
 	
 	

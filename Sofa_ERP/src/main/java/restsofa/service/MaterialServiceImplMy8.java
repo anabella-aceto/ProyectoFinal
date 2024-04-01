@@ -87,6 +87,12 @@ public class MaterialServiceImplMy8 implements MaterialService{
 		return mrepo.buscarPorProvedor(refMaterialProveedor);
 	}
 
+	@Override
+	public Material buscarUno(int idMaterial) {
+		// TODO Auto-generated method stub
+		return mrepo.findById(idMaterial).orElse(null);
+	}
+
 	
 
 

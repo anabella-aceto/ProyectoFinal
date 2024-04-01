@@ -9,18 +9,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Component
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
+public class SofaMaterialDto {
 
-public class CosturaDto {
+	private int idSofa;
+	private int idMaterial;
+	private int cantidadUtilizada; 
 	
-	private int idCostura;
-
-	private int idPedido;
 	
-	private int idEstado;
-	
-	private Date fecha;
-
 }
