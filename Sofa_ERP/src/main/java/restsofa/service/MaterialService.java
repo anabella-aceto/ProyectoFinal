@@ -7,6 +7,7 @@ import restsofa.modelo.entities.Material;
 public interface MaterialService {
 	
 	Material insertOne (Material material);
+	Material buscarUno(int idMaterial);
 	Material updateOne (Material material);
 	boolean deleteOne(int idMaterial);
 	Material findById(int idMaterial);

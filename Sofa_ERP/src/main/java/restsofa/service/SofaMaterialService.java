@@ -10,8 +10,9 @@ public interface SofaMaterialService {
 	SofaMaterial buscarUno(int idSofaMaterial);
 	SofaMaterial insertOne (SofaMaterial  sofaMaterial);
 	SofaMaterial updateOne (SofaMaterial  sofaMaterial);
-	boolean deleteOne (int idSofaMaterial);
-	SofaMaterial buscarPorSofa(int idSofa);
+	boolean deleteOne (SofaMaterial sofaMaterial);
+	List<SofaMaterial> buscarPorSofa(int idSofa);
+	SofaMaterial buscarPorSofaAndmaterial(int idSofa, int idMaterial);
 	
 
 }
