@@ -141,4 +141,32 @@ public class MaterialRestController {
 		        return ResponseEntity.status(404).body("No se encuentra el material");
 		    }
 		}
+	
+//--------------------------------------------------------------------------------------------------------------
+	@GetMapping("/porProveedor/{idProveedor}")//probado y funcionando
+	
+	public ResponseEntity<?> buscarMaterialPorProveedor(@PathVariable ("idProveedor") int idProveedor){
+		
+		List<Material> material =  materialService.buscarPorProveedor(idProveedor);
+		
+		if(material != null)
+			return ResponseEntity.status(200).body(material);
+		
+		else
+			return ResponseEntity.status(404).body("Provvedor no encontrado");
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

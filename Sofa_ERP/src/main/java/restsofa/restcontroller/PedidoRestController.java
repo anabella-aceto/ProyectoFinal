@@ -20,8 +20,8 @@ import restsofa.modelo.DTO.PedidoDto;
 import restsofa.modelo.entities.Pedido;
 import restsofa.service.ClienteService;
 import restsofa.service.EmpleadoService;
+import restsofa.service.EstadoPedidoService;
 import restsofa.service.PedidoService;
-import restsofa.service.SofaService;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -40,7 +40,11 @@ public class PedidoRestController {
 
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private EstadoPedidoService estadoPedidoService;
 
+	
 	/*
 	 * Método que devuelve todos los pedidos
 	 */
@@ -91,7 +95,8 @@ public class PedidoRestController {
 		modelMapper.map(pedidoDto, pedido);
 
 		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
-		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));
+		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));		
+        pedido.setEstadoPedido(estadoPedidoService.buscarPorNombre("pendiente"));
 
 		if (pedidoService.altaPedido(pedido) != null) {
 			pedidoDto.setIdPedido(pedido.getIdPedido());

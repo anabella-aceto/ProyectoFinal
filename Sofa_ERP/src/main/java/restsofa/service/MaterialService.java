@@ -14,6 +14,7 @@ public interface MaterialService {
 	List<Material> findAll();
 	List<Material> buscarPorNombre(String nombre);
 	Material findByProveedor(String refMaterialProveedor);
+	List<Material> buscarPorProveedor(int idProveedor);
 	
 	
 	

@@ -6,10 +6,11 @@ import restsofa.modelo.entities.EstadoPedido;
 
 public interface EstadoPedidoService {
 	
-	EstadoPedido buscarEstado (int idEstado);
+	EstadoPedido buscarEstadoPedido (int idEstadoPedido);
 	List<EstadoPedido> buscarEstados ();
 	EstadoPedido altaEstado (EstadoPedido estado);
 	EstadoPedido modifEstado (EstadoPedido estado);
 	boolean borrarEstado (int idEstado);
+	EstadoPedido buscarPorNombre(String nombre);
 
 }

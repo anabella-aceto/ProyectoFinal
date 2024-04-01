@@ -72,7 +72,7 @@ public class EstadoPedidoRestController {
 	@GetMapping("/{idEstado}")
 	public ResponseEntity<?> uno(@PathVariable int idEstado) {
 
-		EstadoPedido estado = estadopedService.buscarEstado(idEstado);
+		EstadoPedido estado = estadopedService.buscarEstadoPedido(idEstado);
 
 		if (estado != null) {
 
@@ -111,7 +111,7 @@ public class EstadoPedidoRestController {
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody EstadoPedidoDto estadoDto) {
 
-		EstadoPedido estado = estadopedService.buscarEstado(estadoDto.getIdEstado());
+		EstadoPedido estado = estadopedService.buscarEstadoPedido(estadoDto.getIdEstado());
 
 		if (estado != null) {
 			modelMapper.map(estadoDto, EstadoPedidoDto.class);
@@ -132,7 +132,7 @@ public class EstadoPedidoRestController {
 	@DeleteMapping("/borrar/{idEstado}")
 	public ResponseEntity<?> borrar(@PathVariable int idEstado) {
 
-		EstadoPedido estado = estadopedService.buscarEstado(idEstado);
+		EstadoPedido estado = estadopedService.buscarEstadoPedido(idEstado);
 
 		if (estado != null) {
 			estadopedService.borrarEstado(idEstado);

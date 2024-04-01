@@ -15,11 +15,7 @@ public class EstadoPedidoServiceImplMy8Jpa implements EstadoPedidoService {
 	@Autowired
 	private EstadoPedidoRepository estrepo;
 
-	@Override
-	public EstadoPedido buscarEstado(int idEstado) {
-		return estrepo.findById(idEstado).orElse(null);
-	}
-
+	
 	@Override
 	public List<EstadoPedido> buscarEstados() {
 		return estrepo.findAll();
@@ -42,7 +38,7 @@ public class EstadoPedidoServiceImplMy8Jpa implements EstadoPedidoService {
 	@Override
 	public boolean borrarEstado(int idEstado) {
 		try {
-			if (buscarEstado(idEstado) != null) {
+			if (buscarEstadoPedido(idEstado) != null) {
 				estrepo.deleteById(idEstado);
 				return true;
 			} else
@@ -51,6 +47,18 @@ public class EstadoPedidoServiceImplMy8Jpa implements EstadoPedidoService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public EstadoPedido buscarEstadoPedido(int idEstadoPedido) {
+		// TODO Auto-generated method stub
+		return estrepo.findById(idEstadoPedido).orElse(null);
+	}
+
+	@Override
+	public EstadoPedido buscarPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return estrepo.buscarPorNombreEstado(nombre);
 	}
 
 }
