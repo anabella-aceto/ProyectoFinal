@@ -99,6 +99,12 @@ public class MaterialServiceImplMy8 implements MaterialService{
 		return mrepo.buscarMaterialPorProveedor(idProveedor);
 	}
 
+	@Override
+	public List<Material> buscarPorCategoria(String categoria) {
+		
+		return mrepo.findBycategoria(categoria);
+	}
+
 	
 
 

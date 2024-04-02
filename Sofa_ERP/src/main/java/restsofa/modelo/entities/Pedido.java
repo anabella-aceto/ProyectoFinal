@@ -31,14 +31,14 @@ public class Pedido implements Serializable{
 	
 	
 	@ManyToOne
-	@JoinColumn(name="cliente")
+	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
 	
 	private Date fecha;
 	
 	@ManyToOne
-	@JoinColumn(name="id_ep")
-	private EstadoPedido estadoPedido;
+	@JoinColumn(name="id_estado")
+	private Estado estado;
 	
 	@ManyToOne
 	@JoinColumn(name="vendedor")

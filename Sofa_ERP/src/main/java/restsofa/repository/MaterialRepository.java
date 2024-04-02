@@ -17,5 +17,8 @@ public interface MaterialRepository extends JpaRepository<Material, Integer>{
 	
 	@Query("select m from Material m  where m.proveedor.idProveedor=?1")
 	 List<Material> buscarMaterialPorProveedor(int idProveedor);
+	
+	@Query("select m from Material m where m.categoria=?1")
+	List<Material> findBycategoria(String categoria);
 		
 }

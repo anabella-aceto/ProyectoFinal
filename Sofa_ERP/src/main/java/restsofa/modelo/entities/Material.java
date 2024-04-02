@@ -37,9 +37,14 @@ public class Material implements Serializable{
 	
 	private int cantidad;
 	
+	private String categoria;
+	
 	@ManyToOne
 	@JoinColumn(name="id_proveedor")
 	private Proveedor proveedor; 
+	
+	@Column(name="unidad_medida")
+	private String unidadMedida;
 	
 
 }

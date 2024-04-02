@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.DTO.MaterialDto;
 import restsofa.modelo.entities.Material;
@@ -153,17 +154,27 @@ public class MaterialRestController {
 			return ResponseEntity.status(200).body(material);
 		
 		else
-			return ResponseEntity.status(404).body("Provvedor no encontrado");
-		
-		
+			return ResponseEntity.status(404).body("Provvedor no encontrado");	
 		
 		
 	}
 	
+//----------------------------------------------------------------------------------------------------------------
 	
+	@GetMapping("/porCategoria")
+	public ResponseEntity<?> buscarMaterialPorProveedor(@RequestParam (name="categoria") String categoria){
 	
+		List<Material> material = materialService.buscarPorCategoria(categoria);
+		
+		if(!material.isEmpty())
+			return ResponseEntity.status(200).body(material);
 	
+		else
+			return ResponseEntity.status(404).body("Categoría no encontrada");	
+		
 	
+		
+	}
 	
 	
 	

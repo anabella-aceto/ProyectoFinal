@@ -17,19 +17,11 @@ public class PedidoDto {
 	
 	private int idPedido;
 	
-	private int idSofa;
+	private int idCliente;	
 	
-	private int idCliente;
+	private Date fecha;	
 	
-	private int cantidad;
-
-	private int plazas;
-
-	private int densCojin;
-
-	private Date fecha;
-
-	private double precio;
+	private int idEstado;
 	
 	private int idEmpleado;
 

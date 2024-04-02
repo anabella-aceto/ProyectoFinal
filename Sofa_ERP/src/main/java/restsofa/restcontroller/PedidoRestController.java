@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.PedidoDto;
+import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Pedido;
 import restsofa.service.ClienteService;
 import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoPedidoService;
+import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
 
 @RestController
@@ -43,6 +45,9 @@ public class PedidoRestController {
 	
 	@Autowired
 	private EstadoPedidoService estadoPedidoService;
+	
+	@Autowired
+	private EstadoService estadoService;
 
 	
 	/*
@@ -94,12 +99,16 @@ public class PedidoRestController {
 		Pedido pedido = new Pedido();
 		modelMapper.map(pedidoDto, pedido);
 
-		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
-		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));		
+		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));			
         pedido.setEstadoPedido(estadoPedidoService.buscarPorNombre("pendiente"));
+        
+        Estado estado = estadoService.buscarEstado(1);    
+        
 
 		if (pedidoService.altaPedido(pedido) != null) {
-			pedidoDto.setIdPedido(pedido.getIdPedido());
+			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
+			pedido.setEstadoPedido(estadoPedidoService.buscarEstadoPedido(estado));
+			
 			return ResponseEntity.status(200).body("Pedido procesado correctamente " + pedido);
 		} else
 			return ResponseEntity.status(400).body("Error al procesar el pedido");
