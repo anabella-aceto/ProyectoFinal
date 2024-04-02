@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.PedidoDto;
-import restsofa.modelo.entities.Estado;
+import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Pedido;
 import restsofa.service.ClienteService;
 import restsofa.service.EmpleadoService;
-import restsofa.service.EstadoPedidoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
 
@@ -42,9 +41,6 @@ public class PedidoRestController {
 
 	@Autowired
 	private ClienteService clienteService;
-	
-	@Autowired
-	private EstadoPedidoService estadoPedidoService;
 	
 	@Autowired
 	private EstadoService estadoService;
@@ -98,16 +94,17 @@ public class PedidoRestController {
 
 		Pedido pedido = new Pedido();
 		modelMapper.map(pedidoDto, pedido);
-
+		
+		Empleado vendedor = new Empleado();
+		vendedor.setIdEmpleado(pedidoDto.getVendedor());
+		pedido.setVendedor(vendedor);
+		
+		
 		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));			
-        pedido.setEstadoPedido(estadoPedidoService.buscarPorNombre("pendiente"));
-        
-        Estado estado = estadoService.buscarEstado(1);    
-        
-
-		if (pedidoService.altaPedido(pedido) != null) {
-			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
-			pedido.setEstadoPedido(estadoPedidoService.buscarEstadoPedido(estado));
+        pedido.setEstado(estadoService.buscarEstado(pedidoDto.getIdEstado()));
+        pedido.setFecha(pedidoDto.getFecha());
+      
+        if (pedidoService.altaPedido(pedido) != null) {
 			
 			return ResponseEntity.status(200).body("Pedido procesado correctamente " + pedido);
 		} else
@@ -126,7 +123,7 @@ public class PedidoRestController {
 		if (pedido != null) {
 			modelMapper.map(pedidoDto, PedidoDto.class);
 			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
-			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdEmpleado()));
+			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
 			
 			pedidoService.modifPedido(pedido);
 			return ResponseEntity.status(200).body("Pedido modificado correctamente");

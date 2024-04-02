@@ -23,6 +23,6 @@ public class PedidoDto {
 	
 	private int idEstado;
 	
-	private int idEmpleado;
+	private int vendedor;
 
 }

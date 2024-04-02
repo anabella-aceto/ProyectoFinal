@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.DetallePedidoDto;
-import restsofa.modelo.DTO.EstadoPedidoDto;
 import restsofa.modelo.entities.DetallePedido;
-import restsofa.modelo.entities.EstadoPedido;
 import restsofa.service.DetallePedidoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
