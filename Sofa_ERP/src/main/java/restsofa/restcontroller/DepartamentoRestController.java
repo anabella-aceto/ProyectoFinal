@@ -18,7 +18,7 @@ import restsofa.modelo.entities.Departamento;
 import restsofa.service.DepartamentoService;
 
 @RestController
-@RequestMapping("/departamentos")
+@RequestMapping("/departamento")
 @CrossOrigin(origins="*")
 public class DepartamentoRestController {
 	

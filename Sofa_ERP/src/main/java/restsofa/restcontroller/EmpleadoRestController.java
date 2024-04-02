@@ -23,7 +23,7 @@ import restsofa.service.EmpleadoService;
 import restsofa.service.PerfilService;
 
 @RestController
-@RequestMapping("/empleados")
+@RequestMapping("/empleado")
 @CrossOrigin(origins="*")
 public class EmpleadoRestController {
 	

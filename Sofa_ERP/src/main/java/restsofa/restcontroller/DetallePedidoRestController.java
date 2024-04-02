@@ -49,15 +49,29 @@ public class DetallePedidoRestController {
 	 * Método que devuelve todos los estados de pedido
 	 */
 
-	@GetMapping({ "", "/" })
+	@GetMapping({ "/todos" })
 	public ResponseEntity<?> todos() {
 
 		try {
 			List<DetallePedido> lista = detPedService.buscarTodosDetPed();
 
 			List<DetallePedidoDto> listaDto = new ArrayList<>();
+			
 			for (DetallePedido detalle : lista) {
-				listaDto.add(modelMapper.map(detalle, DetallePedidoDto.class));
+				
+				DetallePedidoDto detalleDto = new DetallePedidoDto();
+				
+				detalleDto.setIdDePed(detalle.getIdDePed());
+				detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
+				detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
+				detalleDto.setCantidad(detalle.getCantidad());
+				detalleDto.setPlazas(detalle.getPlazas());
+				detalleDto.setDensCojin(detalle.getDensCojin());
+				detalleDto.setFecha(detalle.getFecha());
+				detalleDto.setPrecio(detalle.getPrecio());
+				detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
+				
+				listaDto.add(detalleDto);
 			}
 
 			return ResponseEntity.ok(listaDto.isEmpty() ? "No hay detalles de pedido disponibles" : listaDto);
@@ -70,14 +84,25 @@ public class DetallePedidoRestController {
 	 * Método que devuelve un detalle de pedido
 	 */
 
-	@GetMapping("/{idDePed}")
+	@GetMapping("/uno/{idDePed}")
 	public ResponseEntity<?> uno(@PathVariable int idDetalle) {
 
 		DetallePedido detalle = detPedService.buscarDetPed(idDetalle);
 
 		if (detalle != null) {
 
-			DetallePedidoDto detalleDto = modelMapper.map(detalle, DetallePedidoDto.class);
+			DetallePedidoDto detalleDto = new DetallePedidoDto();
+			
+			detalleDto.setIdDePed(detalle.getIdDePed());
+			detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
+			detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
+			detalleDto.setCantidad(detalle.getCantidad());
+			detalleDto.setPlazas(detalle.getPlazas());
+			detalleDto.setDensCojin(detalle.getDensCojin());
+			detalleDto.setFecha(detalle.getFecha());
+			detalleDto.setPrecio(detalle.getPrecio());
+			detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
+			
 
 			return ResponseEntity.status(200).body(detalleDto);
 		} else
@@ -140,7 +165,7 @@ public class DetallePedidoRestController {
 	 * Método que borra un detalle de pedido
 	 */
 
-	@DeleteMapping("/borrar/{idDePed}")
+	@DeleteMapping("/eliminar/{idDePed}")
 	public ResponseEntity<?> borrar(@PathVariable int idDetalle) {
 
 		DetallePedido detalle = detPedService.buscarDetPed(idDetalle);

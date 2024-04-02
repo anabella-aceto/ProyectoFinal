@@ -50,7 +50,7 @@ public class PedidoRestController {
 	 * Método que devuelve todos los pedidos
 	 */
 
-	@GetMapping({ "", "/" })
+	@GetMapping({ "/todos" })
 	public ResponseEntity<?> todos() {
 
 		try {
@@ -64,7 +64,7 @@ public class PedidoRestController {
 				
 				pedidoDto.setIdPedido(pedido.getIdPedido());
 				pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
-				pedidoDto.setEstado(pedido.getEstado().getNombre());
+				pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
 				pedidoDto.setFecha(pedido.getFecha());
 				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 				
@@ -82,7 +82,7 @@ public class PedidoRestController {
 	 * Método que devuelve un pedido
 	 */
 
-	@GetMapping("/{idPedido}")
+	@GetMapping("/uno/{idPedido}")
 	public ResponseEntity<?> uno(@PathVariable int idPedido) {
 
 		Pedido pedido = pedidoService.buscarPedido(idPedido);
@@ -93,7 +93,7 @@ public class PedidoRestController {
 
 			pedidoDto.setIdPedido(pedido.getIdPedido());
 			pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
-			pedidoDto.setEstado(pedido.getEstado().getNombre());
+			pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
 			pedidoDto.setFecha(pedido.getFecha());
 			pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 
@@ -111,7 +111,8 @@ public class PedidoRestController {
 
 		Pedido pedido = new Pedido();
 		
-		modelMapper.map(pedidoDto, pedido);		
+		pedido.setIdPedido(pedidoDto.getIdPedido());
+		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 		
 		Empleado vendedor = new Empleado();
 		vendedor.setIdEmpleado(pedidoDto.getVendedor());
@@ -137,10 +138,13 @@ public class PedidoRestController {
 
 		Pedido pedido = pedidoService.buscarPedido(pedidoDto.getIdPedido());
 
-		if (pedido != null) {
-			modelMapper.map(pedidoDto, PedidoDto.class);
+		if (pedido != null) {			
+			
 			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
+			pedido.setEstado(estadoService.buscarEstado(pedidoDto.getIdEstado()));
+			pedido.setFecha(pedidoDto.getFecha());
+			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdCliente()));
 			
 			pedidoService.modifPedido(pedido);
 			return ResponseEntity.status(200).body("Pedido modificado correctamente");
@@ -152,7 +156,7 @@ public class PedidoRestController {
 	 * Método que borra un pedido
 	 */
 
-	@DeleteMapping("/borrar/{idPedido}")
+	@DeleteMapping("/eliminar/{idPedido}")
 	public ResponseEntity<?> borrar(@PathVariable int idPedido) {
 
 		Pedido pedido = pedidoService.buscarPedido(idPedido);

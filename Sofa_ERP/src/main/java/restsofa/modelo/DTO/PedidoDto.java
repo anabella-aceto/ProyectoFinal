@@ -21,7 +21,7 @@ public class PedidoDto {
 	
 	private Date fecha;	
 	
-	private String estado;
+	private int idEstado;
 	
 	private int vendedor;
 

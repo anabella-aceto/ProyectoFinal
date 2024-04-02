@@ -30,7 +30,7 @@ public class ClienteRestController {
 	 * Método que devuelve todos los clientes
 	 */
 
-	@GetMapping({ "", "/" }) // probado y funcionando
+	@GetMapping({ "/todos" }) // probado y funcionando
 	public ResponseEntity<?> todos() {
 
 		List<Cliente> lista = clienteService.buscarTodosClientes();
@@ -46,7 +46,7 @@ public class ClienteRestController {
 	 * Método que devuelve un cliente
 	 */
 
-	@GetMapping("/{idCliente}") // probado y funcionnado
+	@GetMapping("/uno/{idCliente}") // probado y funcionnado
 	public ResponseEntity<?> uno(@PathVariable int idCliente) {
 
 		Cliente cliente = clienteService.buscarCliente(idCliente);
