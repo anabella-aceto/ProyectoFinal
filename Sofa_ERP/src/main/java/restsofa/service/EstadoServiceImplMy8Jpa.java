@@ -53,4 +53,10 @@ public class EstadoServiceImplMy8Jpa implements EstadoService {
 		return false;
 	}
 
+	@Override
+	public Estado porDefecto(String nombre) {
+		// TODO Auto-generated method stub
+		return estrepo.establecerPorDefecto(nombre);
+	}
+
 }

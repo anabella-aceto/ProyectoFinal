@@ -93,15 +93,15 @@ public class PedidoRestController {
 	public ResponseEntity<?> alta(@RequestBody PedidoDto pedidoDto) {
 
 		Pedido pedido = new Pedido();
-		modelMapper.map(pedidoDto, pedido);
+		
+		modelMapper.map(pedidoDto, pedido);		
 		
 		Empleado vendedor = new Empleado();
 		vendedor.setIdEmpleado(pedidoDto.getVendedor());
 		pedido.setVendedor(vendedor);
 		
-		
 		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));			
-        pedido.setEstado(estadoService.buscarEstado(pedidoDto.getIdEstado()));
+		pedido.setEstado(estadoService.porDefecto("pendiente"));
         pedido.setFecha(pedidoDto.getFecha());
       
         if (pedidoService.altaPedido(pedido) != null) {

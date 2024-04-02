@@ -11,5 +11,6 @@ public interface EstadoService {
 	Estado altaEstado (Estado estado);
 	Estado modifEstado (Estado estado);
 	boolean borrarEstado (int idEstado);
+	Estado porDefecto(String nombre);
 
 }
