@@ -57,8 +57,19 @@ public class PedidoRestController {
 			List<Pedido> lista = pedidoService.buscarTodosPedidos();
 
 			List<PedidoDto> listaDto = new ArrayList<>();
+			
 			for (Pedido pedido : lista) {
-				listaDto.add(modelMapper.map(pedido, PedidoDto.class));
+				
+	            PedidoDto pedidoDto = new PedidoDto();
+				
+				pedidoDto.setIdPedido(pedido.getIdPedido());
+				pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
+				pedidoDto.setEstado(pedido.getEstado().getNombre());
+				pedidoDto.setFecha(pedido.getFecha());
+				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
+				
+				listaDto.add(pedidoDto);
+				
 			}
 
 			return ResponseEntity.ok(listaDto.isEmpty() ? "No hay pedidos disponibles" : listaDto);
@@ -77,8 +88,14 @@ public class PedidoRestController {
 		Pedido pedido = pedidoService.buscarPedido(idPedido);
 
 		if (pedido != null) {
+			
+		    PedidoDto pedidoDto = new PedidoDto();		    
 
-			PedidoDto pedidoDto = modelMapper.map(pedido, PedidoDto.class);
+			pedidoDto.setIdPedido(pedido.getIdPedido());
+			pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
+			pedidoDto.setEstado(pedido.getEstado().getNombre());
+			pedidoDto.setFecha(pedido.getFecha());
+			pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 
 			return ResponseEntity.status(200).body(pedidoDto);
 		} else

@@ -10,5 +10,6 @@ public class Configuraciones {
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
+
 	}
 }
