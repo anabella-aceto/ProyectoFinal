@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import restsofa.modelo.entities.Pedido;
+import restsofa.repository.EstadoRepository;
 import restsofa.repository.PedidoRepository;
 
 @Service
@@ -14,6 +15,10 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
 
 	@Autowired
 	private PedidoRepository pedrepo;
+	
+	@Autowired
+	
+	private EstadoService estadoService;
 
 	public Pedido buscarPedido(int idPedido) {
 		return pedrepo.findById(idPedido).orElse(null);
@@ -50,5 +55,25 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	
+	@Override
+	public boolean cancelarPedido(int idPedido) {
+		Pedido pedido = buscarPedido(idPedido);
+		
+		if (pedido !=null) {
+			pedido.setEstado(estadoService.buscarEstado(4));
+			pedrepo.save(pedido);
+			return true;
+		}
+			
+		return false;
+	}
+
+	@Override
+	public List<Pedido> buscarPorEstado(int idEstado) {
+		// TODO Auto-generated method stub
+		return pedrepo.buscarPorestado(idEstado);
 	}
 }

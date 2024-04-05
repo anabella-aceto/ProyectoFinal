@@ -23,10 +23,12 @@ import restsofa.service.ClienteService;
 import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/pedido")
+@RequestMapping("/pedidos")
 
 public class PedidoRestController {
 
@@ -111,14 +113,11 @@ public class PedidoRestController {
 
 		Pedido pedido = new Pedido();
 		
+		modelMapper.map(pedidoDto, pedido);
+		
 		pedido.setIdPedido(pedidoDto.getIdPedido());
 		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
-		
-		Empleado vendedor = new Empleado();
-		vendedor.setIdEmpleado(pedidoDto.getVendedor());
-		pedido.setVendedor(vendedor);
-		
-		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));			
+		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
 		pedido.setEstado(estadoService.porDefecto("pendiente"));
         pedido.setFecha(pedidoDto.getFecha());
       
@@ -153,19 +152,61 @@ public class PedidoRestController {
 	}
 
 	/*
-	 * Método que borra un pedido
+	 * Método que cancela un pedido
 	 */
 
-	@DeleteMapping("/eliminar/{idPedido}")
-	public ResponseEntity<?> borrar(@PathVariable int idPedido) {
-
-		Pedido pedido = pedidoService.buscarPedido(idPedido);
-
-		if (pedido != null) {
-			pedidoService.borrarPedido(idPedido);
-			return ResponseEntity.status(200).body("Pedido eliminado correctamente");
-		} else
-			return ResponseEntity.status(400).body("Pedido no se ha podido eliminar");
+	@PutMapping("/cancelar/{idPedido}")//probado y funcionando
+	
+	public ResponseEntity<?> cancelarPedido(@PathVariable int idPedido) {
+		
+	    if (pedidoService.cancelarPedido(idPedido)) {
+	    	
+	        return ResponseEntity.status(200).body("Pedido cancelado");
+	    } else {
+	        return ResponseEntity.status(400).body("No se ha podido cancelar el pedido");
+	    }
 	}
+		
+//-------------------------------------------------------------------------------------------------------------
+	@GetMapping("/porEstado/{idEstado}")//probado y funcionando
+	public ResponseEntity<?> listarPorEstado(@PathVariable (name="idEstado") int idEstado){
+		List<Pedido> lista = pedidoService.buscarPorEstado(idEstado);
+		
+		if(!lista.isEmpty()) 
+			 return ResponseEntity.status(200).body(lista);
+	    
+		else 
+	        return ResponseEntity.status(400).body("No se encuentran elementos con el estado indicado");
+	    }
+		
+			
+		
+	}
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-}
+

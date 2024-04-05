@@ -11,4 +11,6 @@ public interface PedidoService {
 	Pedido altaPedido (Pedido pedido);
 	Pedido modifPedido (Pedido pedido);
 	boolean borrarPedido (int idPedido);
+	boolean cancelarPedido(int idPedido);
+	List<Pedido> buscarPorEstado(int idEstado);
 }

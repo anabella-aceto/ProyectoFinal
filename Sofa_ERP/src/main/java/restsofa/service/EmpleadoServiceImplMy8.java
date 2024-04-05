@@ -75,4 +75,10 @@ public class EmpleadoServiceImplMy8 implements EmpleadoService {
 		return emprepo.listarPorPerfil(idPerfil);
 	}
 
+	@Override
+	public Empleado buscarPorNombre( String apellidos) {
+		// TODO Auto-generated method stub
+		return emprepo.buscarPorNombre(apellidos);
+	}
+
 }

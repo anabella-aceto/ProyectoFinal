@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.EmpleadoDto;
@@ -23,7 +24,7 @@ import restsofa.service.EmpleadoService;
 import restsofa.service.PerfilService;
 
 @RestController
-@RequestMapping("/empleado")
+@RequestMapping("/empleados")
 @CrossOrigin(origins="*")
 public class EmpleadoRestController {
 	
@@ -164,7 +165,21 @@ public ResponseEntity<?> modificarEmpleado(@RequestBody EmpleadoDto empleadoDto)
 		
 	}
 	
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("/porNombre")//probado y funcionando
+	public ResponseEntity<?> buscarPorNOmbreYApellido( @RequestParam String apellidos){
+		
+		Empleado empleado = empleadoService.buscarPorNombre(apellidos);
+		
+		
+		if (empleado != null)
+			return ResponseEntity.status(200).body(empleado);
+		
+		else
+		return ResponseEntity.status(400).body("No se encuentran empelados");	
 	
+	
+	}
 	
 	
 	
