@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.DetallePedidoDto;
 import restsofa.modelo.entities.DetallePedido;
+import restsofa.modelo.entities.Pedido;
 import restsofa.service.DetallePedidoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
@@ -119,10 +120,12 @@ public class DetallePedidoRestController {
 		DetallePedido detalle = new DetallePedido();
 		modelMapper.map(detalleDto, detalle);
 		
-		detalle.setEstado(estadoService.buscarEstado(detalleDto.getIdEstado()));
-		detalle.setPedido(pedidoService.buscarPedido(detalleDto.getIdPedido()));
+		Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido()); 
+		
+		detalle.setEstado(pedido.getEstado());
+		detalle.setPedido(pedido);
 		detalle.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
-		detalle.setFecha(new Date());
+		detalle.setFecha(pedido.getFecha());
 		detalle.setCantidad(detalleDto.getCantidad());
 		detalle.setPlazas(detalleDto.getPlazas());
 		detalle.setPrecio(detalleDto.getPrecio());

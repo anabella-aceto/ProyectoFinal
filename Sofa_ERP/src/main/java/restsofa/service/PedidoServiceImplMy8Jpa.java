@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import restsofa.modelo.entities.Pedido;
-import restsofa.repository.EstadoRepository;
 import restsofa.repository.PedidoRepository;
 
 @Service
