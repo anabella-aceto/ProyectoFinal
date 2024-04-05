@@ -54,4 +54,19 @@ public class DetallePedidoServiceImplMy8Jpa implements DetallePedidoService{
 		return false;
 	}
 
+	@Override
+	public int restaurarMateriales(int idPedido) {
+		
+		DetallePedido detallePedido = 
+		
+		
+		return 0;
+	}
+
+	@Override
+	public DetallePedido buscarPorPedido(int idPedido) {
+		// TODO Auto-generated method stub
+		return dprepo.buscarPorPedido(idPedido);
+	}
+
 }

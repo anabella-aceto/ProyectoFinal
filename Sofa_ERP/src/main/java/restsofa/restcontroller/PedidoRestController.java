@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -161,12 +160,23 @@ public class PedidoRestController {
 		
 	    if (pedidoService.cancelarPedido(idPedido)) {
 	    	
+	    		    	
 	        return ResponseEntity.status(200).body("Pedido cancelado");
 	    } else {
 	        return ResponseEntity.status(400).body("No se ha podido cancelar el pedido");
 	    }
 	}
 		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //-------------------------------------------------------------------------------------------------------------
 	@GetMapping("/porEstado/{idEstado}")//probado y funcionando
 	public ResponseEntity<?> listarPorEstado(@PathVariable (name="idEstado") int idEstado){

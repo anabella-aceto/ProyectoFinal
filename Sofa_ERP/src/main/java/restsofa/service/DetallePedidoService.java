@@ -11,5 +11,7 @@ public interface DetallePedidoService {
 	DetallePedido altaDetPed (DetallePedido detPed);
 	DetallePedido modifDetPed (DetallePedido detPed);
 	boolean borrarDetPed (int idDePed);
+	int restaurarMateriales (int idPedido);
+	DetallePedido buscarPorPedido(int idPedido);
 
 }

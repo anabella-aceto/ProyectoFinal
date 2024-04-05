@@ -24,6 +24,8 @@ import restsofa.service.DetallePedidoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
 import restsofa.service.SofaService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -179,5 +181,19 @@ public class DetallePedidoRestController {
 		} else
 			return ResponseEntity.status(400).body("Detalle de pedido no se ha podido eliminar");
 	}
+	
+	
+	@GetMapping("/porPedido/{idPedido}")//probado y funcionando
+	public ResponseEntity<?> filtrarPorPedido(@PathVariable (name="idPedido") int idPedido ) {
+		
+		DetallePedido detallePedido = detPedService.buscarPorPedido(idPedido);
+		
+		if(detallePedido != null)
+			return ResponseEntity.status(200).body(detallePedido);
+		
+		else
+			return ResponseEntity.status(400).body("Pedido no encontrado");
+	}
+	
 
 }
