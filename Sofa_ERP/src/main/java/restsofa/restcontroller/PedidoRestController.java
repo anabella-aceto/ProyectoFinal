@@ -1,13 +1,14 @@
 package restsofa.restcontroller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.PedidoDto;
-import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Pedido;
 import restsofa.service.ClienteService;
 import restsofa.service.EmpleadoService;
@@ -179,7 +179,25 @@ public class PedidoRestController {
 	        return ResponseEntity.status(400).body("No se encuentran elementos con el estado indicado");
 	    }
 		
-			
+//-------------------------------------------------------------------------------------------------------------
+	@GetMapping("/porFecha")
+	public ResponseEntity<?> filtrarProFecha(@RequestParam (name="fechaInicio") Date fechaInicio,
+											@RequestParam (name="fechaFin")  Date fechaFin) {
+		
+		List<Pedido> lista = pedidoService.filtrarPorFecha(fechaInicio, fechaFin);
+		
+		if(!lista.isEmpty())
+			return ResponseEntity.status(200).body(lista);
+		else
+			return ResponseEntity.status(400).body("No se encuentran elementos con el estado indicado");
+	}
+	
+	
+	
+	
+	
+	
+	
 		
 	}
 		

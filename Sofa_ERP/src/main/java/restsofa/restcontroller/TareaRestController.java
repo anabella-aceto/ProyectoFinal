@@ -23,6 +23,8 @@ import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
 import restsofa.service.TareaService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -104,6 +106,7 @@ public class TareaRestController {
 
 		if (tareaService.altaTarea(tarea) != null) {
 			tareaDto.setIdTarea(tarea.getIdTarea());
+			
 			return ResponseEntity.status(200).body("Tarea procesada correctamente " + tarea);
 		} else
 			return ResponseEntity.status(400).body("Error al procesar la tarea");
@@ -146,5 +149,27 @@ public class TareaRestController {
 		} else
 			return ResponseEntity.status(400).body("Tarea no se ha podido eliminar");
 	}
+	
+	/*
+	 * Método que lista las tareas de un empleado
+	 */
+	
+	@GetMapping("/empleado/{idEmpleado}")
+	public ResponseEntity<?> filtrarPorEmpleado(@PathVariable (name="idEmpleado") int idEmpleado) {
+		 
+		List<Tarea> lista = tareaService.buscarPorIdEmpleado(idEmpleado);
+		
+		if(!lista.isEmpty())
+			return ResponseEntity.status(200).body(lista);
+		 
+	 	return  ResponseEntity.status(400).body("No se encuentran tareas para el empleado ingresado");
+	 }
+	 
+	
+	
+	
+	
+	
+	
 
 }

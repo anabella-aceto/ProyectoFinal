@@ -1,5 +1,6 @@
 package restsofa.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer>{
 	
 	@Query("select p from Pedido p where p.estado.idEstado=?1")
 	public List<Pedido> buscarPorestado(int idEstado);
+	
+	@Query("select p from Pedido p where p.fecha >=?1 and p.fecha <=?2")
+	public List<Pedido> buscarPorFecha(Date fechaInicio, Date fechaFin);
 	
 	
 }

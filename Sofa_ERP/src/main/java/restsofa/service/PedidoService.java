@@ -1,5 +1,6 @@
 package restsofa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import restsofa.modelo.entities.Pedido;
@@ -13,4 +14,5 @@ public interface PedidoService {
 	boolean borrarPedido (int idPedido);
 	boolean cancelarPedido(int idPedido);
 	List<Pedido> buscarPorEstado(int idEstado);
+	List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin);
 }

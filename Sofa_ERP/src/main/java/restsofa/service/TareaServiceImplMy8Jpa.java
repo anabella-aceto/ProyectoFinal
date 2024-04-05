@@ -53,4 +53,10 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 		return false;
 	}
 
+	@Override
+	public List<Tarea> buscarPorIdEmpleado(int idEmpleado) {
+		// TODO Auto-generated method stub
+		return tarepo.buscarPorEmpleado(idEmpleado);
+	}
+
 }

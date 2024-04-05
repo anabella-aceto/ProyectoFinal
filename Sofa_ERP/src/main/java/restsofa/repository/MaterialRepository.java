@@ -20,5 +20,8 @@ public interface MaterialRepository extends JpaRepository<Material, Integer>{
 	
 	@Query("select m from Material m where m.categoria=?1")
 	List<Material> findBycategoria(String categoria);
+	
+		
+	
 		
 }

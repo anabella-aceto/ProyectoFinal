@@ -1,5 +1,6 @@
 package restsofa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,11 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
 	public List<Pedido> buscarPorEstado(int idEstado) {
 		// TODO Auto-generated method stub
 		return pedrepo.buscarPorestado(idEstado);
+	}
+
+	@Override
+	public List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin) {
+		// TODO Auto-generated method stub
+		return pedrepo.buscarPorFecha(fechaInicio, fechaFin);
 	}
 }

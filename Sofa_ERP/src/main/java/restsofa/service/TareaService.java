@@ -11,4 +11,5 @@ public interface TareaService {
 	Tarea altaTarea (Tarea tarea);
 	Tarea modifTarea (Tarea tarea);
 	boolean borrarTarea (int idTarea);
+	List<Tarea> buscarPorIdEmpleado(int idEmpleado);
 }
