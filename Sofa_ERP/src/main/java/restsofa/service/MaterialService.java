@@ -20,7 +20,7 @@ public interface MaterialService {
 	Material findByProveedor(String refMaterialProveedor);
 	List<Material> buscarPorProveedor(int idProveedor);
 	List<Material> buscarPorCategoria(String categoria);
-	int restaurarMateriales (int idPedido, int idMaterial, int idSofa);
+	int restaurarMateriales (int idPedido, int idSofa);
 	
 	
 
