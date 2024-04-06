@@ -147,6 +147,9 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
 			tarea.setFecha(new Date());
 			tarepo.save(tarea);
+			
+			pedido.setEstado(estado1);
+			pedidoService.modifPedido(pedido);
 			return 1;
 		}
 
@@ -157,6 +160,9 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
 			tarea.setFecha(new Date());
 			tarepo.save(tarea);
+			
+			pedido.setEstado(estado2);
+			pedidoService.modifPedido(pedido);
 			return 2;
 			
 		} else {

@@ -216,10 +216,11 @@ public class TareaRestController {
 
 	    if (pedido != null) {
 	        int tarea = tareaService.altaEstadoTarea(idPedido, idEmpleado, idDepartamento);
+	       
 
 	        if (tarea == 1)
 	            return ResponseEntity.status(200).body("Se ha actualizado el pedido a 'procesando'");
-
+	        	
 	        else if (tarea == 2)
 	            return ResponseEntity.status(200).body("Se ha actualizado el pedido a 'finalizado'");
 	    }
