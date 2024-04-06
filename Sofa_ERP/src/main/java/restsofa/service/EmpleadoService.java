@@ -17,7 +17,7 @@ public interface EmpleadoService {
 	List<Empleado> buscarTodos();
 	List<Empleado> buscarPorDepto(int idDepartamento);
 	List<Empleado> buscarPorPerfil(int idPerfil);
-	Empleado buscarPorNombre(String apellidos);
+	Empleado buscarPorApellidos(String apellidos);
 	
 
 }

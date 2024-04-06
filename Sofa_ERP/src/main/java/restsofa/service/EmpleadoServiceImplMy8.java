@@ -125,7 +125,7 @@ public class EmpleadoServiceImplMy8 implements EmpleadoService {
 	 * @return El empleado encontrado, o null si no se encuentra.
 	 */
 	@Override
-	public Empleado buscarPorNombre(String apellidos) {
-		return emprepo.buscarPorNombre(apellidos);
+	public Empleado buscarPorApellidos(String apellidos) {
+		return emprepo.buscarPorApellidos(apellidos);
 	}
 }

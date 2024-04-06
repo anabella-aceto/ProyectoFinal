@@ -42,5 +42,5 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Integer> {
 	 *         esos apellidos.
 	 */
 	@Query("select e from Empleado e where e.apellidos=?1")
-	Empleado buscarPorNombre(String apellidos);
+	Empleado buscarPorApellidos(String apellidos);
 }
