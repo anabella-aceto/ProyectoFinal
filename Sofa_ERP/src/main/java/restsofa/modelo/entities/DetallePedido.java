@@ -15,11 +15,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+/**
+ * Clase que representa un departamento.
+ */
+
+@Entity // Indica que esta clase es una entidad JPA
 @Table(name="detalle_pedido")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@NoArgsConstructor // Anotación para generar un constructor sin argumentos
+@AllArgsConstructor // Anotación para generar un constructor con argumentos
+@Data // Anotación Lombok para generar getters, setters, toString, equals, y hashCode automáticamente
 
 public class DetallePedido implements Serializable{	
 	

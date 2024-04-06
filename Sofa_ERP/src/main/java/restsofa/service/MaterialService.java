@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.Material;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad Material.
+ */
+
 public interface MaterialService {
 	
 	Material insertOne (Material material);
@@ -16,7 +20,7 @@ public interface MaterialService {
 	Material findByProveedor(String refMaterialProveedor);
 	List<Material> buscarPorProveedor(int idProveedor);
 	List<Material> buscarPorCategoria(String categoria);
-	
+	int restaurarMateriales (int idPedido, int idSofa);
 	
 	
 

@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.entities.Cliente;
 import restsofa.service.ClienteService;
 
+/**
+ * Controlador para la gestión de clientes.
+ */
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/cliente")
@@ -27,7 +31,10 @@ public class ClienteRestController {
 	private ClienteService clienteService;
 
 	/*
-	 * Método que devuelve todos los clientes
+	 * Método que devuelve todos los clientes.
+	 * 
+	 * @return ResponseEntity con la lista de todos los clientes si se obtienen
+	 * correctamente, o un mensaje de error si la lista está vacía.
 	 */
 
 	@GetMapping({ "/todos" }) // probado y funcionando
@@ -43,10 +50,15 @@ public class ClienteRestController {
 	}
 
 	/*
-	 * Método que devuelve un cliente
+	 * Método que devuelve un cliente.
+	 * 
+	 * @param idCliente. El identificador único del cliente.
+	 * 
+	 * @return ResponseEntity con el cliente si se obtiene correctamente, o un
+	 * mensaje de error si no existe.
 	 */
 
-	@GetMapping("/uno/{idCliente}") // probado y funcionnado
+	@GetMapping("/uno/{idCliente}") // probado y funcionando
 	public ResponseEntity<?> uno(@PathVariable int idCliente) {
 
 		Cliente cliente = clienteService.buscarCliente(idCliente);
@@ -60,7 +72,12 @@ public class ClienteRestController {
 	}
 
 	/*
-	 * Método que da de alta un cliente
+	 * Método que da de alta un cliente.
+	 * 
+	 * @param Cliente. Los datos del cliente.
+	 * 
+	 * @return ResponseEntity con el cliente creado si se realizó correctamente, o
+	 * un mensaje de error si no se ha relaizado el alta.
 	 */
 
 	@PostMapping("/alta") // probado y funcionando
@@ -70,11 +87,16 @@ public class ClienteRestController {
 			return ResponseEntity.status(200).body(cliente);
 
 		else
-			return ResponseEntity.status(400).body("Error al cargar cliente en la BBDD");
+			return ResponseEntity.status(400).body("Error al cargar cliente en la base de datos");
 	}
 
 	/*
-	 * Método que modifica un cliente
+	 * Método que modifica un cliente.
+	 * 
+	 * @param Cliente. Los datos del cliente.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * modificación.
 	 */
 
 	@PutMapping("/modificar") // probado y funcionando
@@ -82,13 +104,18 @@ public class ClienteRestController {
 
 		if (clienteService.buscarCliente(cliente.getIdCliente()) != null) {
 			clienteService.modifCliente(cliente);
-			return ResponseEntity.status(200).body("Modificación exitosa " + cliente);
+			return ResponseEntity.status(200).body("Modificación realizada correctamente " + cliente);
 		} else
-			return ResponseEntity.status(400).body("Error al modificar cliente en la BBDD");
+			return ResponseEntity.status(400).body("Error al modificar cliente en la base de datos");
 	}
 
 	/*
-	 * Método que borra un cliente
+	 * Método que elimina un cliente.
+	 * 
+	 * @param idCliente. El identificador único del cliente.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
 	 */
 
 	@DeleteMapping("/eliminar/{idCliente}") // probado y funcionando
@@ -98,9 +125,9 @@ public class ClienteRestController {
 
 		if (cliente != null) {
 			clienteService.borrarCliente(idCliente);
-			return ResponseEntity.status(200).body("Eliminación exitosa ");
+			return ResponseEntity.status(200).body("Eliminación realizada correctamente");
 		} else
-			return ResponseEntity.status(400).body("Error al eliminar cliente en la BBDD");
+			return ResponseEntity.status(400).body("Error al eliminar cliente en la base de datos");
 	}
 
 }

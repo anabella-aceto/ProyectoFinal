@@ -1,8 +1,14 @@
 package restsofa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import restsofa.modelo.entities.Pedido;
+
+
+/**
+ * Interfaz que define los servicios relacionados con la entidad Pedido.
+ */
 
 public interface PedidoService {
 	
@@ -11,4 +17,7 @@ public interface PedidoService {
 	Pedido altaPedido (Pedido pedido);
 	Pedido modifPedido (Pedido pedido);
 	boolean borrarPedido (int idPedido);
+	boolean cancelarPedido(int idPedido);
+	List<Pedido> buscarPorEstado(int idEstado);
+	List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin);
 }

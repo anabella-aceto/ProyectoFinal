@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.entities.Sofa;
 import restsofa.service.SofaService;
 
+/**
+ * Controlador para la gestión de un sofá.
+ */
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/sofa")
@@ -27,7 +31,10 @@ public class SofaRestController {
 	private SofaService sofaService;
 
 	/*
-	 * Método que devuelve todos los sofas
+	 * Método que devuelve todos los sofás .
+	 *
+	 * @return ResponseEntity con la lista de sofás si se pudo cargar correctamente,
+	 * o un mensaje de error si no se cargó.
 	 */
 
 	@GetMapping({ "", "/" })
@@ -42,8 +49,12 @@ public class SofaRestController {
 			return ResponseEntity.status(400).body("Error al cargar la lista de sofás");
 	}
 
-	/*
-	 * Método que devuelve un sofa
+	/**
+	 * Método que busca un sofá por su identificador.
+	 *
+	 * @param idSofa El identificador único del sofá que se desea buscar.
+	 * @return ResponseEntity con el sofá si existe, o un mensaje de error si no
+	 *         existe.
 	 */
 
 	@GetMapping("/{idSofa}")
@@ -60,7 +71,12 @@ public class SofaRestController {
 	}
 
 	/*
-	 * Método que da de alta un sofa
+	 * Método que permite dar de alta un sofá.
+	 * 
+	 * @param sofa El sofa a dar de alta.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * alta.
 	 */
 
 	@PostMapping("/alta")
@@ -73,7 +89,12 @@ public class SofaRestController {
 	}
 
 	/*
-	 * Método que modifica un sofa
+	 * Método que modifica los datos de un sofa.
+	 * 
+	 * @param sofa El sofa con la información actualizada.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * modificación.
 	 */
 
 	@PutMapping("/modificar")
@@ -87,7 +108,12 @@ public class SofaRestController {
 	}
 
 	/*
-	 * Método que borra un sofa
+	 * Método que elimina un sofá.
+	 * 
+	 * @param idSofa. El identificador único del sofá.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
 	 */
 
 	@DeleteMapping("/borrar/{idSofa}")

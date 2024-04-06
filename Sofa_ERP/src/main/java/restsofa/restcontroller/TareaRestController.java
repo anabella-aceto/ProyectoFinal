@@ -17,12 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.TareaDto;
+import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Tarea;
 import restsofa.service.DepartamentoService;
 import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoService;
 import restsofa.service.PedidoService;
 import restsofa.service.TareaService;
+import org.springframework.web.bind.annotation.RequestParam;
+
+/**
+ * Controlador para la gestión de tareas.
+ */
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -41,7 +47,7 @@ public class TareaRestController {
 
 	@Autowired
 	private PedidoService pedidoService;
-	
+
 	@Autowired
 	private EstadoService estadoService;
 
@@ -49,7 +55,10 @@ public class TareaRestController {
 	private ModelMapper modelMapper;
 
 	/*
-	 * Método que devuelve todos las tareas
+	 * Método que devuelve todos las tareas.
+	 *
+	 * @return ResponseEntity con la lista de tareas si se pudo cargar
+	 * correctamente, o un mensaje de error si no se cargó.
 	 */
 
 	@GetMapping({ "", "/" })
@@ -69,8 +78,12 @@ public class TareaRestController {
 		}
 	}
 
-	/*
-	 * Método que devuelve una tarea
+	/**
+	 * Método que permite obtener una tarea por su identififcador.
+	 *
+	 * @param idTarea El identificador único de la tarea a buscar.
+	 * @return ResponseEntity con la tarea encontrado si existe, o un mensaje de
+	 *         error si no existe.
 	 */
 
 	@GetMapping("/{idTarea}")
@@ -88,7 +101,12 @@ public class TareaRestController {
 	}
 
 	/*
-	 * Método que da de alta una tarea
+	 * Método que permite crear una tarea.
+	 * 
+	 * @param tarea El tarea a dar de alta.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * alta.
 	 */
 
 	@PostMapping("/alta")
@@ -104,13 +122,19 @@ public class TareaRestController {
 
 		if (tareaService.altaTarea(tarea) != null) {
 			tareaDto.setIdTarea(tarea.getIdTarea());
+
 			return ResponseEntity.status(200).body("Tarea procesada correctamente " + tarea);
 		} else
 			return ResponseEntity.status(400).body("Error al procesar la tarea");
 	}
 
 	/*
-	 * Método que modifica una tarea
+	 * Método que modifica una tarea.
+	 * 
+	 * @param tarea El tarea con la información actualizada.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * modificación.
 	 */
 
 	@PutMapping("/modificar")
@@ -132,7 +156,12 @@ public class TareaRestController {
 	}
 
 	/*
-	 * Método que borra una tarea
+	 * Método que elimina una tarea.
+	 * 
+	 * @param idTarea. El identificador único de la tarea.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
 	 */
 
 	@DeleteMapping("/borrar/{idTarea}")
@@ -145,6 +174,57 @@ public class TareaRestController {
 			return ResponseEntity.status(200).body("Tarea eliminada correctamente");
 		} else
 			return ResponseEntity.status(400).body("Tarea no se ha podido eliminar");
+	}
+
+	/**
+	 * Método que filtra las tareas asociadas a un empleado por su identificador.
+	 *
+	 * @param idEmpleado El identificador único del empleado del cual se desean
+	 *                   filtrar las tareas.
+	 * @return ResponseEntity con una lista de tareas si se encuentran tareas para
+	 *         el empleado especificado, o un mensaje de error si no.
+	 */
+
+	@GetMapping("/empleado/{idEmpleado}")
+	public ResponseEntity<?> filtrarPorEmpleado(@PathVariable(name = "idEmpleado") int idEmpleado) {
+
+		List<Tarea> lista = tareaService.buscarPorIdEmpleado(idEmpleado);
+
+		if (!lista.isEmpty())
+			return ResponseEntity.status(200).body(lista);
+
+		return ResponseEntity.status(400).body("No se encuentran tareas para el empleado ingresado");
+	}
+
+	/**
+	 * Método que cambia el estado de una tarea.
+	 * 
+	 * @param idPedido       El identificador del pedido a actualizar.
+	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
+	 * @param idDepartamento El identificsdor del departamento asociado con la
+	 *                       tarea.
+	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
+	 *         realizó correctamente o si hubo algún error.
+	 */
+	
+	@PutMapping("/estadoTarea")
+	public ResponseEntity<?> cambiarEstado(@RequestParam(name = "idPedido") int idPedido,
+	                                       @RequestParam(name = "idEmpleado") int idEmpleado,
+	                                       @RequestParam(name = "idDepartamento") int idDepartamento) {
+
+	    Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+	    if (pedido != null) {
+	        int tarea = tareaService.altaEstadoTarea(idPedido, idEmpleado, idDepartamento);
+	       
+
+	        if (tarea == 1)
+	            return ResponseEntity.status(200).body("Se ha actualizado el pedido a 'procesando'");
+	        	
+	        else if (tarea == 2)
+	            return ResponseEntity.status(200).body("Se ha actualizado el pedido a 'finalizado'");
+	    }
+	    return ResponseEntity.status(400).body("Error al cargar tarea");
 	}
 
 }

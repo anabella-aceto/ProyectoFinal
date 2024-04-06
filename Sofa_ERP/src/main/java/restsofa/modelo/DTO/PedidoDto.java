@@ -8,21 +8,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Component
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+/**
+ * Clase que representa un DTO (Data Transfer Object) para un pedido.
+ */
+
+@Component // Indica que esta clase es un componente gestionado por Spring.
+@NoArgsConstructor // Genera un constructor sin argumentos usando Lombok.
+@AllArgsConstructor // Genera un constructor con todos los argumentos usando Lombok.
+@Data // Genera getters, setters, toString, equals y hashCode automáticamente usando Lombok.
 
 public class PedidoDto {
-	
-	private int idPedido;
-	
-	private int idCliente;	
-	
-	private Date fecha;	
-	
-	private int idEstado;
-	
-	private int vendedor;
 
+    /**
+     * El identificador del pedido.
+     */
+    private int idPedido;
+
+    /**
+     * El identificador del cliente asociado al pedido.
+     */
+    private int idCliente;
+
+    /**
+     * La fecha del pedido.
+     */
+    private Date fecha;
+
+    /**
+     * El identificador del estado del pedido.
+     */
+    private int idEstado;
+
+    /**
+     * El identificador del vendedor asociado al pedido.
+     */
+    private int vendedor;
 }

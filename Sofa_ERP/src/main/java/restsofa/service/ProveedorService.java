@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.Proveedor;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad Proveedor.
+ */
+
 public interface ProveedorService {
 	
 	Proveedor insertOne (Proveedor proveedor);

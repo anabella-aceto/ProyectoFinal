@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.Cliente;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad Cliente.
+ */
+
 public interface ClienteService {
 	
 	Cliente buscarCliente (int idCliente);
