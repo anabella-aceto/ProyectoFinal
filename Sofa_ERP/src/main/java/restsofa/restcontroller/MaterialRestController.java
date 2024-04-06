@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.DTO.MaterialDto;
 import restsofa.modelo.entities.Material;
-
+import restsofa.modelo.entities.Pedido;
 import restsofa.service.MaterialService;
+import restsofa.service.PedidoService;
 import restsofa.service.ProveedorService;
+
 
 /**
  * Controlador para la gestión de los materiales.
@@ -36,10 +38,14 @@ public class MaterialRestController {
 
 	@Autowired
 	private ProveedorService proveedorService;
+	
+	@Autowired
+	private PedidoService pedidoService;
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
+	
 	/*
 	 * Método que devuelve todos los materiales.
 	 *
@@ -233,5 +239,20 @@ public class MaterialRestController {
 			return ResponseEntity.status(404).body("Categoría no encontrada");
 
 	}
-
+	
+	@PutMapping("restaurar/{idPedido}/{idSofa}")
+	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
+	    Pedido pedido = pedidoService.buscarPedido(idPedido);
+	    
+	    if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
+	        if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
+	            return ResponseEntity.status(200).body("Pedido restaurado");
+	        } else {
+	            return ResponseEntity.status(404).body("Error al restaurar los materiales");
+	        }
+	    } else {
+	        return ResponseEntity.status(404).body("El pedido no existe o no está en el estado adecuado para restaurar los materiales");
+	    }
+	}
+	
 }
