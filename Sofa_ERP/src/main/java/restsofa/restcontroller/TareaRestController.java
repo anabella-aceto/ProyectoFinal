@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.TareaDto;
+import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Tarea;
 import restsofa.service.DepartamentoService;
 import restsofa.service.EmpleadoService;
@@ -193,6 +194,36 @@ public class TareaRestController {
 			return ResponseEntity.status(200).body(lista);
 
 		return ResponseEntity.status(400).body("No se encuentran tareas para el empleado ingresado");
+	}
+
+	/**
+	 * Método que cambia el estado de una tarea.
+	 * 
+	 * @param idPedido       El identificador del pedido a actualizar.
+	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
+	 * @param idDepartamento El identificsdor del departamento asociado con la
+	 *                       tarea.
+	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
+	 *         realizó correctamente o si hubo algún error.
+	 */
+	
+	@PutMapping("/estadoTarea")
+	public ResponseEntity<?> cambiarEstado(@RequestParam(name = "idPedido") int idPedido,
+	                                       @RequestParam(name = "idEmpleado") int idEmpleado,
+	                                       @RequestParam(name = "idDepartamento") int idDepartamento) {
+
+	    Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+	    if (pedido != null) {
+	        int tarea = tareaService.altaEstadoTarea(idPedido, idEmpleado, idDepartamento);
+
+	        if (tarea == 1)
+	            return ResponseEntity.status(200).body("Se ha actualizado el pedido a 'procesando'");
+
+	        else if (tarea == 2)
+	            return ResponseEntity.status(200).body("Se ha actualizado el pedido a 'finalizado'");
+	    }
+	    return ResponseEntity.status(400).body("Error al cargar tarea");
 	}
 
 }
