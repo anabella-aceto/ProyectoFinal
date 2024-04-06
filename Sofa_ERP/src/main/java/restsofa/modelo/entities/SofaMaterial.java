@@ -10,13 +10,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@Data
-@Entity
-@Table(name="sofa_materiales")
+/**
+ * Clase que representa los materiales que necesita un sofá.
+ */
+
+@Entity //Indica que esta clase es una entidad JPA.
+@NoArgsConstructor // Anotación para generar un constructor sin argumentos.
+@AllArgsConstructor // Anotación para generar un constructor con argumentos.
+@Data // Anotación Lombok para generar getters, setters, toString, equals, y hashCode automáticamente.
+@Table(name="sofa_materiales") // Especifica el nombre de la tabla en la base de datos.
+
 public class SofaMaterial implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

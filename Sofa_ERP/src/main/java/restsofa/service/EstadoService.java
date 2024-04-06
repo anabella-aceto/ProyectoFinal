@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.Estado;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad Estado.
+ */
+
 public interface EstadoService {
 	
 	Estado buscarEstado (int idEstado);

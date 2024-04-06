@@ -5,6 +5,11 @@ import java.util.List;
 
 import restsofa.modelo.entities.Pedido;
 
+
+/**
+ * Interfaz que define los servicios relacionados con la entidad Pedido.
+ */
+
 public interface PedidoService {
 	
 	Pedido buscarPedido (int idPedido);

@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.entities.Estado;
 import restsofa.service.EstadoService;
 
+/**
+ * Controlador para la gestión de los estados.
+ */
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/estado")
@@ -27,7 +31,10 @@ public class EstadoRestController {
 	private EstadoService estadoService;
 
 	/*
-	 * Método que devuelve todos los estados pedidos
+	 * Método que devuelve todos los estados de pedidos.
+	 *
+	 * @return ResponseEntity con la lista de estados de pedido si se pudo cargar
+	 * correctamente, o un mensaje de error si no.
 	 */
 
 	@GetMapping({ "", "/" })
@@ -40,8 +47,12 @@ public class EstadoRestController {
 		}
 	}
 
-	/*
-	 * Método que devuelve un estado pedido
+	/**
+	 * Método que permite obtener un estado de pedido por su identififcador.
+	 *
+	 * @param idEstado El identificador único del estado de pedido a buscar.
+	 * @return ResponseEntity con el estado de pedido encontrado si existe, o un
+	 *         mensaje de error si no existe.
 	 */
 
 	@GetMapping("/{idEstado}")
@@ -57,7 +68,12 @@ public class EstadoRestController {
 	}
 
 	/*
-	 * Método que da de alta un estado pedido
+	 * Método que permite crear un estado de pedido.
+	 * 
+	 * @param estado El estado de pedido a dar de alta.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * alta.
 	 */
 
 	@PostMapping("/alta")
@@ -74,7 +90,12 @@ public class EstadoRestController {
 	}
 
 	/*
-	 * Método que modifica un estado pedido
+	 * Método que modifica un estado pedido.
+	 * 
+	 * @param estado El estado de pedido con la información actualizada.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * modificación.
 	 */
 
 	@PutMapping("/modificar")
@@ -93,7 +114,12 @@ public class EstadoRestController {
 	}
 
 	/*
-	 * Método que borra un estado pedido
+	 * Método que borra un estado pedido.
+	 * 
+	 * @param idEstado El identificador único del estado a eliminar.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * eliminación.
 	 */
 
 	@DeleteMapping("/borrar/{idEstado}")

@@ -15,11 +15,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "tareas")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+/**
+ * Clase que representa una tarea.
+ */
+
+@Entity //Indica que esta clase es una entidad JPA.
+@NoArgsConstructor // Anotación para generar un constructor sin argumentos.
+@AllArgsConstructor // Anotación para generar un constructor con argumentos.
+@Data // Anotación Lombok para generar getters, setters, toString, equals, y hashCode automáticamente.
+@Table(name = "tareas") // Especifica el nombre de la tabla en la base de datos.
 
 public class Tarea implements Serializable{
 	
