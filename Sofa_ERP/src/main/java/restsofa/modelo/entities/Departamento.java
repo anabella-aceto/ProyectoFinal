@@ -12,11 +12,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name="departamentos")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+/**
+ * Clase que representa un departamento.
+ */
+
+@Entity // Indica que esta clase es una entidad JPA
+@Table(name="departamentos") // Especifica el nombre de la tabla en la base de datos
+@NoArgsConstructor // Genera un constructor sin argumentos usando Lombok
+@AllArgsConstructor // Genera un constructor con todos los argumentos usando Lombok
+@Data // Genera getters, setters, toString, equals y hashCode automáticamente usando Lombok
+
 public class Departamento implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

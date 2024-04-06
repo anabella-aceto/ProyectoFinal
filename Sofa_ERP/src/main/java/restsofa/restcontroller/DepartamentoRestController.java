@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.entities.Departamento;
 import restsofa.service.DepartamentoService;
 
+/**
+ * Controlador para la gestión de departamentos.
+ */
+
 @RestController
 @RequestMapping("/departamento")
 @CrossOrigin(origins="*")
@@ -26,6 +30,12 @@ public class DepartamentoRestController {
 	private DepartamentoService departamentoService;
 	
 	
+	/*
+	 * Método que devuelve todos los departamentos.
+	 * 
+	 * @return ResponseEntity con la lista de todos los departamentos si se obtienen correctamente, o un mensaje 
+	 * de error si la lista está vacía.
+	 */
 	@GetMapping("/todos")//probado y funcionando
 	public ResponseEntity<?> listarTodos (){
 		
@@ -38,7 +48,14 @@ public class DepartamentoRestController {
 			return ResponseEntity.status(500).body("NO hay elementos en la lista");
 	}
 	
-//------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+     * Busca un departamento por su identificador. 
+     *     
+     * @param idDepartamento. El identificador único del departamento a buscar.
+     * @return ResponseEntity con el departamento encontrado si existe, o un mensaje de error si no existe.
+     */
+	
 	@GetMapping("/uno/{idDepartamento}")//probado y funcionando
 	public ResponseEntity<?> buscarUno(@PathVariable ("idDepartamento") int idDepartamento){
 		
@@ -51,7 +68,14 @@ public class DepartamentoRestController {
 			return ResponseEntity.status(500).body("NO hay elementos en la lista");
 	}
 	
-//------------------------------------------------------------------------------------------------------------------------	
+
+	/**
+     * Crea un departamento.  
+     *    
+     * @param Departamento. Los datos del departamento a crear.
+     * @return ResponseEntity con el departamento si fue creado, o un mensaje de error si no se dio de alta.
+     */
+	
 	@PostMapping("/alta")//probado y funcionando
 	public ResponseEntity<?> buscarUno(@RequestBody Departamento departamento){
 		
@@ -62,7 +86,14 @@ public class DepartamentoRestController {
 			return ResponseEntity.status(500).body("NO se puede insertar el departamento");
 	}
 	
-//--------------------------------------------------------------------------------------------------------------	
+	/**
+     * Modifica un departamento. 
+     * 
+     * @param Departamento. El departamento a modificar.
+     * @return ResponseEntity con el departamento modificado y el mensaje de éxito, o un mensaje de error si 
+     * no se realizó la modificación.
+     */
+	
 	@PutMapping("/modificar")//probado y funcionando
 	public ResponseEntity<?> modificarDepto(@RequestBody Departamento departamento){
 		
@@ -76,7 +107,12 @@ public class DepartamentoRestController {
 		
 	}	
 	
-//--------------------------------------------------------------------------------------------------------------	
+	/**
+     * Elimina un departamento por su identificador.
+     *
+     * @param idDepartamento El identificador único del departamento a eliminar.
+     * @return ResponseEntity con un mensaje indicando el resultado de la eliminación.
+     */
 	@DeleteMapping("/eliminar/{idDepartamento}")//probado y funcionando	
 	public ResponseEntity<?> eliminarDepto(@PathVariable ("idDepartamento") int idDepartamento){
 		

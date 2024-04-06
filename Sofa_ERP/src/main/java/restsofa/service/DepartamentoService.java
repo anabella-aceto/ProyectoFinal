@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.Departamento;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad Departamento.
+ */
+
 public interface DepartamentoService {
 	
 	List<Departamento> listarTodos();

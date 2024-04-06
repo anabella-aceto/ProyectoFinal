@@ -14,11 +14,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+/**
+ * Clase que representa un empleado.
+ */
+
+@Entity // Indica que esta clase es una entidad JPA
 @Table(name="empleados")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@NoArgsConstructor // Anotación para generar un constructor sin argumentos
+@AllArgsConstructor // Anotación para generar un constructor con argumentos
+@Data // Anotación Lombok para generar getters, setters, toString, equals, y hashCode automáticamente
 public class Empleado implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

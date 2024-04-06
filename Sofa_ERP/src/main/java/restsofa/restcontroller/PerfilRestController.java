@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.entities.Perfil;
 import restsofa.service.PerfilService;
 
+/**
+ * Controlador para la gestión de los perfiles.
+ */
+
 @RestController
 @RequestMapping("/perfiles")
 @CrossOrigin(origins="*")
@@ -24,6 +28,12 @@ public class PerfilRestController {
 	@Autowired
 	private PerfilService perfilService;
 	
+	/*
+	 * Método que devuelve todos los perfiles.
+	 *
+	 * @return ResponseEntity con la lista de perfiles si se pudo cargar
+	 * correctamente, o un mensaje de error si no se cargó.
+	 */
 	
 	@GetMapping("/todos")//probado y funcionando
 	public ResponseEntity<?> listarTodos(){
@@ -40,7 +50,15 @@ public class PerfilRestController {
 			return ResponseEntity.status(400).body("Error al cargar la lista");
 		
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
+
+	/**
+	 * Método que permite obtener un perfil por su identififcador.
+	 *
+	 * @param idPerfil El identificador único del perfil a buscar.
+	 * @return ResponseEntity con el perfil encontrado si existe, o un mensaje de
+	 *         error si no existe.
+	 */
+	
 	@GetMapping("/uno/{idPerfil}")//probado y funcionando
 	public ResponseEntity<?> mostrarUno(@PathVariable ("idPerfil") int idPerfil){
 		
@@ -54,7 +72,15 @@ public class PerfilRestController {
 		
 	}
 	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------		
+	/*
+	 * Método que permite crear un perfil.
+	 * 
+	 * @param perfil El perfil a dar de alta.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * alta.
+	 */
+	
 	@PostMapping("/alta")//probado y funcionando
 	public ResponseEntity<?> agregarPerfil(@RequestBody Perfil perfil){
 		
@@ -65,7 +91,16 @@ public class PerfilRestController {
 		return ResponseEntity.status(400).body("Error al insertar perfil");
 		
 	}
-//--------------------------------------------------------------------------------------------------------------------------------
+
+	/*
+	 * Método que modifica un perfil.
+	 * 
+	 * @param perfil El perfil con la información actualizada.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * modificación.
+	 */
+	
 	@PutMapping("/modificar")//probado y funcionando
 	public ResponseEntity<?> modificarPerfil(@RequestBody Perfil perfil){
 		
@@ -77,7 +112,16 @@ public class PerfilRestController {
 		
 		return ResponseEntity.status(400).body("Error al cargar el empleado");
 	}
-//-------------------------------------------------------------------------------------------------------------------------------
+
+	/*
+	 * Método que elimina un perfil.
+	 * 
+	 * @param idPerfil. El identificador único del perfil.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
+	 */
+
 	@DeleteMapping("/eliminar/{idPerfil}")//probado y funcionando
 	
 	public ResponseEntity<?> eliminarPerfil(@PathVariable ("idPerfil") int idPerfil){
@@ -90,14 +134,6 @@ public class PerfilRestController {
 		}
 
 
-//-------------------------------------------------------------------------------------------------------------------------------
-	
-	
-	
-	
-	
-	
-	
 
 	
 

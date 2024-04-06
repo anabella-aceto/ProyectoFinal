@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.DetallePedido;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad DetallePedido.
+ */
+
 public interface DetallePedidoService {
 	
 	DetallePedido buscarDetPed (int idDePed);
@@ -11,7 +15,6 @@ public interface DetallePedidoService {
 	DetallePedido altaDetPed (DetallePedido detPed);
 	DetallePedido modifDetPed (DetallePedido detPed);
 	boolean borrarDetPed (int idDePed);
-	int restaurarMateriales (int idPedido);
 	DetallePedido buscarPorPedido(int idPedido);
 
 }

@@ -3,6 +3,9 @@ package restsofa.service;
 import java.util.List;
 
 import restsofa.modelo.entities.Sofa;
+/**
+ * Interfaz que define los servicios relacionados con la entidad Sofa.
+ */
 
 public interface SofaService {
 	

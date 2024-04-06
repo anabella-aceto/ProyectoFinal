@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.SofaMaterial;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad SofaMaterial.
+ */
+
 public interface SofaMaterialService {
 	
 	List<SofaMaterial> todos();

@@ -3,6 +3,9 @@ package restsofa.service;
 import java.util.List;
 
 import restsofa.modelo.entities.Tarea;
+/**
+ * Interfaz que define los servicios relacionados con la entidad Empleado.
+ */
 
 public interface TareaService {
 	

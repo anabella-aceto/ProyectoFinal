@@ -4,6 +4,10 @@ import java.util.List;
 
 import restsofa.modelo.entities.Empleado;
 
+/**
+ * Interfaz que define los servicios relacionados con la entidad Empleado.
+ */
+
 public interface EmpleadoService {
 	
 	Empleado altaEmpleado(Empleado empleado);

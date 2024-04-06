@@ -26,30 +26,37 @@ import restsofa.service.PedidoService;
 import restsofa.service.SofaService;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Controlador para la gestión de detallePedido.
+ */
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/detallepedido")
 
 public class DetallePedidoRestController {
-	
+
 	@Autowired
 	private DetallePedidoService detPedService;
-	
+
 	@Autowired
 	private PedidoService pedidoService;
-	
+
 	@Autowired
 	private SofaService sofaService;
-	
+
 	@Autowired
 	private EstadoService estadoService;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	/*
-	 * Método que devuelve todos los estados de pedido
+
+	/**
+	 * Método que obtiene todos los detalles de pedido.
+	 *
+	 * @return ResponseEntity con la lista de todos los detalles de pedido si se
+	 *         obtienen correctamente, o un mensaje de error si no hay elementos en
+	 *         la lista.
 	 */
 
 	@GetMapping({ "/todos" })
@@ -59,11 +66,11 @@ public class DetallePedidoRestController {
 			List<DetallePedido> lista = detPedService.buscarTodosDetPed();
 
 			List<DetallePedidoDto> listaDto = new ArrayList<>();
-			
+
 			for (DetallePedido detalle : lista) {
-				
+
 				DetallePedidoDto detalleDto = new DetallePedidoDto();
-				
+
 				detalleDto.setIdDePed(detalle.getIdDePed());
 				detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
 				detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
@@ -73,7 +80,7 @@ public class DetallePedidoRestController {
 				detalleDto.setFecha(detalle.getFecha());
 				detalleDto.setPrecio(detalle.getPrecio());
 				detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
-				
+
 				listaDto.add(detalleDto);
 			}
 
@@ -82,9 +89,13 @@ public class DetallePedidoRestController {
 			return ResponseEntity.status(400).body("Error al cargar la lista de detalle de pedido");
 		}
 	}
-	
-	/*
-	 * Método que devuelve un detalle de pedido
+
+	/**
+	 * Método que obtiene un detalle de pedido por su identificador único.
+	 *
+	 * @param idDetalle El identificador único del detalle de pedido a buscar.
+	 * @return ResponseEntity con el detalle de pedido encontrado si existe, o un
+	 *         mensaje de error si no existe.
 	 */
 
 	@GetMapping("/uno/{idDePed}")
@@ -95,7 +106,7 @@ public class DetallePedidoRestController {
 		if (detalle != null) {
 
 			DetallePedidoDto detalleDto = new DetallePedidoDto();
-			
+
 			detalleDto.setIdDePed(detalle.getIdDePed());
 			detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
 			detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
@@ -105,15 +116,19 @@ public class DetallePedidoRestController {
 			detalleDto.setFecha(detalle.getFecha());
 			detalleDto.setPrecio(detalle.getPrecio());
 			detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
-			
 
 			return ResponseEntity.status(200).body(detalleDto);
 		} else
 			return ResponseEntity.status(400).body("Error, no se encuentra el detalle de pedido");
 	}
-	
+
 	/*
-	 * Método que da de alta un detalle de pedido
+	 * Método que permite crear un detalle de pedido
+	 *
+	 * @param detalleDto El DTO del detalle de pedido a dar de alta.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * alta.
 	 */
 
 	@PostMapping("/alta")
@@ -121,9 +136,9 @@ public class DetallePedidoRestController {
 
 		DetallePedido detalle = new DetallePedido();
 		modelMapper.map(detalleDto, detalle);
-		
-		Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido()); 
-		
+
+		Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
+
 		detalle.setEstado(pedido.getEstado());
 		detalle.setPedido(pedido);
 		detalle.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
@@ -131,7 +146,7 @@ public class DetallePedidoRestController {
 		detalle.setCantidad(detalleDto.getCantidad());
 		detalle.setPlazas(detalleDto.getPlazas());
 		detalle.setPrecio(detalleDto.getPrecio());
-		detalle.setDensCojin(detalleDto.getDensCojin());		
+		detalle.setDensCojin(detalleDto.getDensCojin());
 
 		if (detPedService.altaDetPed(detalle) != null) {
 			detalleDto.setIdDePed(detalle.getIdDePed());
@@ -139,9 +154,14 @@ public class DetallePedidoRestController {
 		} else
 			return ResponseEntity.status(400).body("Error al procesar el detalle de pedido");
 	}
-	
+
 	/*
-	 * Método que modifica un estado de pedido
+	 * Método que modifica un estado de pedido.
+	 * 
+	 * @param detalleDto El DTO del detalle de pedido a modificar. *
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 * modificación.
 	 */
 
 	@PutMapping("/modificar")
@@ -159,15 +179,20 @@ public class DetallePedidoRestController {
 			detalle.setPlazas(detalleDto.getPlazas());
 			detalle.setPrecio(detalleDto.getPrecio());
 			detalle.setDensCojin(detalleDto.getDensCojin());
-			
+
 			detPedService.modifDetPed(detalle);
 			return ResponseEntity.status(200).body("Detalle de pedido modificado correctamente");
 		} else
 			return ResponseEntity.status(400).body("No se puede modificar el detalle de pedido");
 	}
-	
+
 	/*
-	 * Método que borra un detalle de pedido
+	 * Método que borra un detalle de pedido.
+	 * 
+	 * @param idDetalle El identificador único del detalle de pedido a eliminar. *
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
 	 */
 
 	@DeleteMapping("/eliminar/{idDePed}")
@@ -181,19 +206,25 @@ public class DetallePedidoRestController {
 		} else
 			return ResponseEntity.status(400).body("Detalle de pedido no se ha podido eliminar");
 	}
-	
-	
-	@GetMapping("/porPedido/{idPedido}")//probado y funcionando
-	public ResponseEntity<?> filtrarPorPedido(@PathVariable (name="idPedido") int idPedido ) {
-		
+
+	/**
+	 * Método que filtra los detalles de pedido por identificador de pedido.
+	 *
+	 * @param idPedido El identificador único del pedido para filtrar los detalles
+	 *                 de pedido.
+	 * @return ResponseEntity con el detalle de pedido encontrado si existe, o un
+	 *         mensaje de error si no.
+	 */
+	@GetMapping("/porPedido/{idPedido}") // probado y funcionando
+	public ResponseEntity<?> filtrarPorPedido(@PathVariable(name = "idPedido") int idPedido) {
+
 		DetallePedido detallePedido = detPedService.buscarPorPedido(idPedido);
-		
-		if(detallePedido != null)
+
+		if (detallePedido != null)
 			return ResponseEntity.status(200).body(detallePedido);
-		
+
 		else
 			return ResponseEntity.status(400).body("Pedido no encontrado");
 	}
-	
 
 }
