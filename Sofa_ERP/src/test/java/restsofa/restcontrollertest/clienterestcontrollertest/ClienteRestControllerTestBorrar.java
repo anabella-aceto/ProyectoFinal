@@ -19,7 +19,7 @@ public class ClienteRestControllerTestBorrar {
 	
     @Test
     public void testBorrar() {
-        int clientId = 11; // Reemplaza con un idCliente existente en tus datos
+        int clientId = 6; // Reemplaza con un idCliente
         ResponseEntity<?> responseEntity = clienteRestController.borrar(clientId);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         String mensaje = (String) responseEntity.getBody();

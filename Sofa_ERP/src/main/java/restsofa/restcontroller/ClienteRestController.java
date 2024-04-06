@@ -125,7 +125,7 @@ public class ClienteRestController {
 
 		if (cliente != null) {
 			clienteService.borrarCliente(idCliente);
-			return ResponseEntity.status(200).body("Eliminación exitosa ");
+			return ResponseEntity.status(200).body("Eliminación realizada correctamente");
 		} else
 			return ResponseEntity.status(400).body("Error al eliminar cliente en la base de datos");
 	}

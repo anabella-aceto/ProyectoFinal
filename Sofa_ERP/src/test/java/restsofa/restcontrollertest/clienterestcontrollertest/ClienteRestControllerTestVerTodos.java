@@ -30,12 +30,11 @@ public class ClienteRestControllerTestVerTodos {
 		// Verifica que la lista no esté vacía
 		assertFalse(clientes.isEmpty(), "La lista de clientes no debería estar vacía");
 
-		// Verifica si contiene clientes específicos (por ejemplo, por su idCliente o
-		// nombre)
+		// Verifica si contiene clientes específicos
 		boolean containsSpecificClient = clientes.stream()
 				.anyMatch(cliente -> cliente.getIdCliente() == 4 || cliente.getNombre().equals("Laura"));
 
-		assertTrue(containsSpecificClient, "La lista debe contener clientes específicos");
+		assertTrue(containsSpecificClient, "La lista debe contener clientes");
 	}
 
 }

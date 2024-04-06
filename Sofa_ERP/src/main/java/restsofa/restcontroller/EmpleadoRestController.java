@@ -28,7 +28,7 @@ import restsofa.service.PerfilService;
  */
 
 @RestController
-@RequestMapping("/empleados")
+@RequestMapping("/empleado")
 @CrossOrigin(origins = "*")
 public class EmpleadoRestController {
 
@@ -74,20 +74,23 @@ public class EmpleadoRestController {
 
 	@PostMapping("/alta") // probado y funcionando
 
-	public ResponseEntity<?> buscarPorId(@RequestBody EmpleadoDto empleadoDto) {
+	public ResponseEntity<?> alta(@RequestBody EmpleadoDto empleadoDto) {
 
-		Empleado empleado = modelMapper.map(empleadoDto, Empleado.class);
+		Empleado empleado = new Empleado();
+		
+		empleado.setDepartamento(departamentoService.buscarUno(empleadoDto.getIdDepartamento()));
+		empleado.setPerfil(perfilService.buscarUno(empleadoDto.getIdPerfil()));
+		empleado.setNombre(empleadoDto.getNombre());
+		empleado.setApellidos(empleadoDto.getApellidos());
+		empleado.setEstado(1);
+		empleado.setFechaIngreso(empleadoDto.getFechaIngreso());
+		empleado.setSalario(empleadoDto.getSalario());
 
 		Empleado empNuevo = empleadoService.altaEmpleado(empleado);
 
 		if (empNuevo != null) {
-			empleadoDto.setIdEmpleado(empleado.getIdEmpleado());
-			empleado.setDepartamento(departamentoService.buscarUno(empleadoDto.getIdDepartamento()));
-			empleado.setPerfil(perfilService.buscarUno(empleadoDto.getIdPerfil()));
-
 			return ResponseEntity.status(200).body(empNuevo);
 		}
-
 		else
 			return ResponseEntity.status(400).body("Error al insertar datos de empleado");
 

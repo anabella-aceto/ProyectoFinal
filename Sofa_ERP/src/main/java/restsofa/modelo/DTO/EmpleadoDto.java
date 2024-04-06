@@ -32,7 +32,7 @@ public class EmpleadoDto {
     /**
      * Los apellidos del empleado.
      */
-    private String apellidos;
+    private String apellidos;   
 
     /**
      * El identificador del departamento al que pertenece el empleado.

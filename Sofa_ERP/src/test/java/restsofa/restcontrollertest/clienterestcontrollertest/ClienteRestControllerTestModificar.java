@@ -22,8 +22,8 @@ public class ClienteRestControllerTestModificar {
 	public void testModificar() {
 		// Crea un cliente de ejemplo
 		Cliente clienteExistente = new Cliente();
-		clienteExistente.setIdCliente(9); // Establece un idCliente existente
-		clienteExistente.setNombre("Carmelo"); // Establece el nombre del cliente
+		clienteExistente.setIdCliente(6); // Establece un idCliente existente
+		clienteExistente.setNombre("Roberto"); // Establece el nombre del cliente
 
 		ResponseEntity<?> responseEntity = clienteRestController.modificar(clienteExistente);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
