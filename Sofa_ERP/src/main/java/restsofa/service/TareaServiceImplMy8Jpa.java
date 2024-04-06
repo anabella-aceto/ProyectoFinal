@@ -1,10 +1,14 @@
 package restsofa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import restsofa.modelo.entities.Empleado;
+import restsofa.modelo.entities.Estado;
+import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Tarea;
 import restsofa.repository.TareaRepository;
 
@@ -20,6 +24,18 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 
 	@Autowired
 	private TareaRepository tarepo;
+
+	@Autowired
+	private PedidoService pedidoService;
+
+	@Autowired
+	private EstadoService estadoService;
+
+	@Autowired
+	private DepartamentoService departamentoService;
+	
+	@Autowired
+	private EmpleadoService empleadoService;
 
 	/**
 	 * Método que busca una tarea por su identificador.
@@ -99,5 +115,58 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	@Override
 	public List<Tarea> buscarPorIdEmpleado(int idEmpleado) {
 		return tarepo.buscarPorEmpleado(idEmpleado);
+	}
+
+	/**
+	 * Método que actualiza el estado de una tarea basado en el identificador de
+	 * pedido, identificador de empleado y identificador de departamento
+	 * proporcionados.
+	 * 
+	 * @param idPedido       El identificador único del pedido (tarea) a actualizar.
+	 * @param idEmpleado     El identificador único del empleado asociado con la
+	 *                       tarea.
+	 * @param idDepartamento El identificador único del departamento asociado con la
+	 *                       tarea.
+	 * @return Devuelve 1 si el estado de la tarea se actualiza a estado1, devuelve
+	 *         2 si el estado de la tarea se actualiza a estado2, devuelve 0 si no
+	 *         se encuentra el pedido o el estado del pedido no es 1 o 2.
+	 */
+	@Override
+	public int altaEstadoTarea(int idPedido, int idEmpleado, int idDepartamento) {
+		Pedido pedido = pedidoService.buscarPedido(idPedido);
+		Estado estado1 = estadoService.buscarEstado(2);
+		Estado estado2 = estadoService.buscarEstado(3);
+		
+		Empleado empleado = empleadoService.buscarUno(idEmpleado);
+
+		if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
+			Tarea tarea = new Tarea();
+			tarea.setPedido(pedidoService.buscarPedido(idPedido));
+			tarea.setEmpleado(empleado);
+			tarea.setEstado(estado1);
+			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
+			tarea.setFecha(new Date());
+			tarepo.save(tarea);
+			
+			pedido.setEstado(estado1);
+			pedidoService.modifPedido(pedido);
+			return 1;
+		}
+
+		if (pedido != null && pedido.getEstado().getIdEstado() == 2) {
+			Tarea tarea = new Tarea();
+			tarea.setPedido(pedidoService.buscarPedido(idPedido));
+			tarea.setEstado(estado2);
+			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
+			tarea.setFecha(new Date());
+			tarepo.save(tarea);
+			
+			pedido.setEstado(estado2);
+			pedidoService.modifPedido(pedido);
+			return 2;
+			
+		} else {
+			return 0;
+		}
 	}
 }
