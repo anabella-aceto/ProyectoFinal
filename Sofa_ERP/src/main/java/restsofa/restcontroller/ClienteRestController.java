@@ -70,7 +70,7 @@ public class ClienteRestController {
 			return ResponseEntity.status(200).body(cliente);
 
 		else
-			return ResponseEntity.status(400).body("Error al cargar cliente en la BBDD");
+			return ResponseEntity.status(400).body("Error al cargar cliente en la base de datos");
 	}
 
 	/*
@@ -82,9 +82,9 @@ public class ClienteRestController {
 
 		if (clienteService.buscarCliente(cliente.getIdCliente()) != null) {
 			clienteService.modifCliente(cliente);
-			return ResponseEntity.status(200).body("Modificación exitosa " + cliente);
+			return ResponseEntity.status(200).body("Modificación realizada correctamente " + cliente);
 		} else
-			return ResponseEntity.status(400).body("Error al modificar cliente en la BBDD");
+			return ResponseEntity.status(400).body("Error al modificar cliente en la base de datos");
 	}
 
 	/*
@@ -100,7 +100,7 @@ public class ClienteRestController {
 			clienteService.borrarCliente(idCliente);
 			return ResponseEntity.status(200).body("Eliminación exitosa ");
 		} else
-			return ResponseEntity.status(400).body("Error al eliminar cliente en la BBDD");
+			return ResponseEntity.status(400).body("Error al eliminar cliente en la base de datos");
 	}
 
 }
