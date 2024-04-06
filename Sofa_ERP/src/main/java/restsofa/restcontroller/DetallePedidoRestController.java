@@ -115,7 +115,10 @@ public class DetallePedidoRestController {
 
 	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody DetallePedidoDto detalleDto) {
-
+		
+		try {
+			
+		
 		DetallePedido detalle = new DetallePedido();
 		modelMapper.map(detalleDto, detalle);
 		
@@ -128,11 +131,19 @@ public class DetallePedidoRestController {
 		detalle.setPrecio(detalleDto.getPrecio());
 		detalle.setDensCojin(detalleDto.getDensCojin());		
 
-		if (detPedService.altaDetPed(detalle) != null) {
+		return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente " + detalle);
+			
+		
+		
+		}
+		catch (Exception e){
+			return ResponseEntity.status(500).body(e);
+		}
+		/*if (detPedService.altaDetPed(detalle) != null) {
 			detalleDto.setIdDePed(detalle.getIdDePed());
 			return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente " + detalle);
 		} else
-			return ResponseEntity.status(400).body("Error al procesar el detalle de pedido");
+			return ResponseEntity.status(400).body("Error al procesar el detalle de pedido"); */
 	}
 	
 	/*
