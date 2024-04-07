@@ -19,10 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.DetallePedidoDto;
 import restsofa.modelo.entities.DetallePedido;
+import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
+import restsofa.modelo.entities.Sofa;
+import restsofa.modelo.entities.SofaMaterial;
 import restsofa.service.DetallePedidoService;
 import restsofa.service.EstadoService;
+import restsofa.service.MaterialService;
 import restsofa.service.PedidoService;
+import restsofa.service.SofaMaterialService;
 import restsofa.service.SofaService;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,6 +53,12 @@ public class DetallePedidoRestController {
 	@Autowired
 	private EstadoService estadoService;
 
+	@Autowired
+	private SofaMaterialService sofaMaterialService;
+	
+	@Autowired
+	private MaterialService materialService;
+	
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -135,23 +146,43 @@ public class DetallePedidoRestController {
 	public ResponseEntity<?> alta(@RequestBody DetallePedidoDto detalleDto) {
 		
 		try {
-			
 		
-		DetallePedido detalle = new DetallePedido();
-		modelMapper.map(detalleDto, detalle);
+		// modelMapper.map(detalleDto, detalle);
 
 		Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
 
-		detalle.setEstado(pedido.getEstado());
-		detalle.setPedido(pedido);
-		detalle.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
-		detalle.setFecha(pedido.getFecha());
-		detalle.setCantidad(detalleDto.getCantidad());
-		detalle.setPlazas(detalleDto.getPlazas());
-		detalle.setPrecio(detalleDto.getPrecio());
-		detalle.setDensCojin(detalleDto.getDensCojin());
+		Sofa sofa = sofaService.buscarSofa(detalleDto.getIdSofa());
+		
+		//sacar la lista de materiales de un sofá
+		
+		List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
+		
+		for (SofaMaterial sofaMaterial : sofaMateriales) {
+		    Material material = sofaMaterial.getMaterial();
+            int cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
+            int cantidadDisponible = material.getCantidad();
+         
+            if (cantidadDisponible < cantidadUtilizada) {
+            	return ResponseEntity.status(200).body("Stock insuficiente para el material: " + material.getNombre());
+            }
+            //Si hay suficientes unidades para descontar del almacén, procedemos a descontarlas y a guardarlo en la base de datos
+            material.setCantidad(cantidadDisponible - cantidadUtilizada);
+            materialService.updateOne(material);
+		}
+		
+		DetallePedido detallePedido = new DetallePedido();
+		//Una vez descontados los materiales del almacén, damos de alta el detalle del pedido.
+		
+		detallePedido.setEstado(pedido.getEstado());
+		detallePedido.setPedido(pedido);
+		detallePedido.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
+		detallePedido.setFecha(pedido.getFecha());
+		detallePedido.setCantidad(detalleDto.getCantidad());
+		detallePedido.setPlazas(detalleDto.getPlazas());
+		detallePedido.setPrecio(detalleDto.getPrecio());
+		detallePedido.setDensCojin(detalleDto.getDensCojin());
 
-		return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente " + detalle);
+		return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente " + detallePedido);
 			
 		
 		

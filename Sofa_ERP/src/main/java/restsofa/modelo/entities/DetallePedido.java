@@ -47,7 +47,7 @@ public class DetallePedido implements Serializable{
 		private int plazas;
 	
 		@Column(name="dens_cojin")
-		private double densCojin;
+		private int densCojin;
 		
 		private Date fecha;
 		

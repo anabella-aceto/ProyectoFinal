@@ -47,7 +47,7 @@ public class DetallePedidoDto {
     /**
      * La densidad del cojín del sofá.
      */
-    private double densCojin;
+    private int densCojin;
 
     /**
      * La fecha del detalle del pedido.
