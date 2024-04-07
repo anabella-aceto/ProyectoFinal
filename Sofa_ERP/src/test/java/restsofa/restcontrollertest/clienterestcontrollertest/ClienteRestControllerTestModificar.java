@@ -12,24 +12,35 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
+/**
+ * Clase de prueba JUnit para el método "modificar" en ClienteRestController.
+ */
 @SpringBootTest
 public class ClienteRestControllerTestModificar {
 
-	@Autowired
-	private ClienteRestController clienteRestController;
+    @Autowired
+    private ClienteRestController clienteRestController;
 
-	@Test
-	public void testModificar() {
-		// Crea un cliente de ejemplo
-		Cliente clienteExistente = new Cliente();
-		clienteExistente.setIdCliente(6); // Establece un idCliente existente
-		clienteExistente.setNombre("Roberto"); // Establece el nombre del cliente
+    /**
+     * Prueba del método "modificar".
+     */
+    @Test
+    public void testModificar() {
+        // Crea un cliente de ejemplo
+        Cliente clienteExistente = new Cliente();
+        clienteExistente.setIdCliente(6); // Establece un idCliente existente
+        clienteExistente.setNombre("Roberto"); // Establece el nombre del cliente
 
-		ResponseEntity<?> responseEntity = clienteRestController.modificar(clienteExistente);
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		String mensaje = (String) responseEntity.getBody();
+        // Llama al método "modificar"
+        ResponseEntity<?> responseEntity = clienteRestController.modificar(clienteExistente);
 
-		// Verifica que la modificación fue exitosa
-		assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
-	}
+        // Verifica que el código de estado de la respuesta sea OK
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        // Obtiene el mensaje de la respuesta
+        String mensaje = (String) responseEntity.getBody();
+
+        // Verifica que la modificación fue exitosa
+        assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
+    }
 }

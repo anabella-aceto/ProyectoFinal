@@ -15,26 +15,40 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
+/**
+ * Clase de prueba JUnit para el método "todos" en ClienteRestController.
+ */
 @SpringBootTest
 public class ClienteRestControllerTestVerTodos {
 
-	@Autowired
-	private ClienteRestController clienteRestController;
+    @Autowired
+    private ClienteRestController clienteRestController;
 
-	@Test
-	public void testTodos() {
-		ResponseEntity<?> responseEntity = clienteRestController.todos();
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		List<Cliente> clientes = (List<Cliente>) responseEntity.getBody();
+    /**
+     * Prueba del método "todos".
+     */
+    @Test
+    public void testTodos() {
+        // Llama al método "todos"
+        ResponseEntity<?> responseEntity = clienteRestController.todos();
 
-		// Verifica que la lista no esté vacía
-		assertFalse(clientes.isEmpty(), "La lista de clientes no debería estar vacía");
+        // Verifica que el código de estado de la respuesta sea OK
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-		// Verifica si contiene clientes específicos
-		boolean containsSpecificClient = clientes.stream()
-				.anyMatch(cliente -> cliente.getIdCliente() == 4 || cliente.getNombre().equals("Laura"));
+        // Obtiene la lista de clientes del cuerpo de la respuesta
+        List<Cliente> clientes = (List<Cliente>) responseEntity.getBody();
 
-		assertTrue(containsSpecificClient, "La lista debe contener clientes");
-	}
+        // Verifica que la lista no esté vacía
+        assertFalse(clientes.isEmpty(), "La lista de clientes no debería estar vacía");
 
+        // Verifica si contiene clientes específicos
+        boolean contieneClienteEspecifico = false;
+        for (Cliente cliente : clientes) {
+            if (cliente.getIdCliente() == 4 || cliente.getNombre().equals("Laura")) {
+                contieneClienteEspecifico = true;
+                break;
+            }
+        }
+        assertTrue(contieneClienteEspecifico, "La lista debe contener clientes específicos");
+    }
 }

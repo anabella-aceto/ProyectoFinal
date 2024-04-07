@@ -11,13 +11,12 @@ import restsofa.modelo.entities.Empleado;
 public interface EmpleadoService {
 	
 	Empleado altaEmpleado(Empleado empleado);
-	Empleado modificarEmpleado(Empleado empelado);
+	Empleado modificarEmpleado(Empleado emplelado);
 	boolean deleteOne(int idEmpleado);
 	Empleado buscarUno (int idEmpleado);
 	List<Empleado> buscarTodos();
 	List<Empleado> buscarPorDepto(int idDepartamento);
 	List<Empleado> buscarPorPerfil(int idPerfil);
-	Empleado buscarPorNombre(String apellidos);
-	
+	Empleado buscarPorApellidos(String apellidos);	
 
 }

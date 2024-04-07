@@ -2,7 +2,6 @@ package restsofa.restcontroller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,9 +33,6 @@ public class EmpleadoRestController {
 
 	@Autowired
 	private EmpleadoService empleadoService;
-
-	@Autowired
-	private ModelMapper modelMapper;
 
 	@Autowired
 	private DepartamentoService departamentoService;
@@ -148,7 +144,7 @@ public class EmpleadoRestController {
 	 */
 
 	@GetMapping("/porDepto/{idDepartamento}") // probado y funcionando
-	public ResponseEntity<?> buscarUno(@PathVariable("idDepartamento") int idDepartamento) {
+	public ResponseEntity<?> buscarPorDpto(@PathVariable("idDepartamento") int idDepartamento) {
 
 		List<Empleado> lista = empleadoService.buscarPorDepto(idDepartamento);
 
@@ -181,7 +177,7 @@ public class EmpleadoRestController {
 			empleado.setSalario(empleadoDto.getSalario());
 			empleadoService.modificarEmpleado(empleado);
 
-			return ResponseEntity.status(200).body("Modificación exitosa " + empleado);
+			return ResponseEntity.status(200).body("Modificación realizada correctamente " + empleado);
 		}
 
 		else
@@ -206,7 +202,7 @@ public class EmpleadoRestController {
 			List<Empleado> lista = empleadoService.buscarPorPerfil(idPerfil);
 			return ResponseEntity.status(200).body(lista);
 		}
-		return ResponseEntity.status(400).body("Error al insertar datos de empleado");
+		return ResponseEntity.status(400).body("La lista está vacía");
 
 	}
 
@@ -217,16 +213,16 @@ public class EmpleadoRestController {
 	 * @return ResponseEntity con el empleado encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
-	@GetMapping("/porApellido") // probado y funcionando
-	public ResponseEntity<?> buscarPorNOmbreYApellido(@RequestParam String apellidos) {
+	@GetMapping("/porApellido/{apellidos}") // probado y funcionando
+	public ResponseEntity<?> buscarPorApellido(@RequestParam String apellidos) {
 
-		Empleado empleado = empleadoService.buscarPorNombre(apellidos);
+		Empleado empleado = empleadoService.buscarPorApellidos(apellidos);
 
 		if (empleado != null)
 			return ResponseEntity.status(200).body(empleado);
 
 		else
-			return ResponseEntity.status(400).body("No se encuentran empelados");
+			return ResponseEntity.status(400).body("No se encuentran empleado");
 
 	}
 

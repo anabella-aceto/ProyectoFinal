@@ -25,15 +25,17 @@ public class EmpleadoRestControllerTestVerTodos {
 	public void testTodos() {
 		ResponseEntity<?> responseEntity = empleadoRestController.listarEmpleados();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		List<Empleado> empleados = (List<Empleado>) responseEntity.getBody();
-
-		// Verifica que la lista no esté vacía
+		
+		List<Empleado> empleados = (List<Empleado>) responseEntity.getBody();	
 		assertFalse(empleados.isEmpty(), "La lista de empleados no debería estar vacía");
 
-		// Verifica si contiene empleados
-		boolean containsSpecificClient = empleados.stream()
-				.anyMatch(empleado -> empleado.getIdEmpleado() == 4 || empleado.getNombre().equals("Laura"));
-
+		boolean containsSpecificClient = false;
+		for (Empleado empleado : empleados) {
+			if (empleado.getIdEmpleado() == 4 || empleado.getNombre().equals("Laura")) {
+				containsSpecificClient = true;
+				break;
+			}
+		}				
 		assertTrue(containsSpecificClient, "La lista debe contener empleados");
 	}
 

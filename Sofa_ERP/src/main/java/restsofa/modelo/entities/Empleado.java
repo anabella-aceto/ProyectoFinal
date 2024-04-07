@@ -55,4 +55,23 @@ public class Empleado implements Serializable{
 	
 	private double salario;
 	
+	/**
+	 * Marca el empleado como inactivo al establecer el atributo 'estado' en 0 (baja).
+	 *
+	 * @param fechaBaja La fecha de fin del contrato del empleado.
+	 */
+	public void darDeBaja(Date fechaBaja) {
+	    // Cambia el atributo "estado" a 0 (baja)
+	    this.estado = 0;
+	    // Cambia el atributo "fechaBaja" a la fecha que se le introduce por parámetro
+	    this.fechaBaja = fechaBaja;
+	}
+	
+	public void darDeAltaEmpAntiguo(Date fechaAlta) {
+	    // Cambia el atributo "estado" a 1 (alta)
+	    this.estado = 1;
+	    // Cambia el atributo "fechaIngreso" a la fecha que se le introduce por parámetro
+	    this.fechaIngreso = fechaAlta;
+	}
+	
 }

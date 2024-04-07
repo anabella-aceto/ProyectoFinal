@@ -13,23 +13,23 @@ import restsofa.modelo.entities.Empleado;
 import restsofa.restcontroller.EmpleadoRestController;
 
 /**
- * Clase de prueba JUnit para el método "buscarPorId" en EmpleadoRestController.
+ * Clase de prueba JUnit para el método "buscarPorApellido" en EmpleadoRestController.
  */
 @SpringBootTest
-public class EmpleadoRestControllerTestVerUno {
+public class EmpleadoRestControllerTestVerPorApellido {
 	
 	@Autowired
 	private EmpleadoRestController empleadoRestController;
 	
 	/**
-	 * Prueba del método "buscarPorId".
+	 * Prueba del método "buscarPorApellido".
 	 */
 	@Test
-	public void testbuscarPorId() {
-		int empId = 3;
-		ResponseEntity<?> responseEntity = empleadoRestController.buscarPorId(empId);
+	public void testBuscarPorApellido() {
+		String apellidos = "Ruiz";
+		ResponseEntity<?> responseEntity = empleadoRestController.buscarPorApellido(apellidos);
 
-		// Asegura que el código de estado de la respuesta sea HttpStatus.OK (200)
+		// Verifica que el código de estado de la respuesta sea OK
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
 		// Obtiene el empleado del cuerpo de la respuesta
@@ -38,10 +38,7 @@ public class EmpleadoRestControllerTestVerUno {
 		// Verifica que el empleado no sea nulo
 		assertNotNull(empleado, "El empleado no debería ser nulo");
 
-		// Verifica que el empleado tenga el idEmpleado correcto
-		assertEquals(empId, empleado.getIdEmpleado(), "No se encuentra el empleado");
-
-		// Verifica si el nombre del empleado es correcto
-		assertEquals("Pedro", empleado.getNombre(), "El nombre del empleado no coincide");
+		// Verifica si los apellidos del empleado son correctos
+		assertEquals("Ruiz", empleado.getApellidos(), "Los apellidos del empleado no coinciden");
 	}
 }
