@@ -15,12 +15,34 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.entities.Empleado;
 import restsofa.restcontroller.EmpleadoRestController;
 
+/**
+ * Clase de prueba JUnit para el método "listarEmpleados" en EmpleadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
+ */
 @SpringBootTest
 public class EmpleadoRestControllerTestVerTodos {
 
 	@Autowired
 	private EmpleadoRestController empleadoRestController;
 
+	/**
+	 * Prueba del método "listarEmpleados".
+	 *
+	 * @Test
+	 * Anota este método como una prueba JUnit.
+	 *
+	 * Verifica que el código de estado de la respuesta sea OK.
+	 * Obtiene la lista de empleados del cuerpo de la respuesta.
+	 * Verifica que la lista no esté vacía.
+	 * Verifica si contiene empleados específicos.
+	 *
+	 * @return ResponseEntity con la lista de empleados.
+	 */
 	@Test
 	public void testTodos() {
 		ResponseEntity<?> responseEntity = empleadoRestController.listarEmpleados();

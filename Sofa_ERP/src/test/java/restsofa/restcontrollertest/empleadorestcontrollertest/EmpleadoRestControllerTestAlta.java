@@ -15,6 +15,12 @@ import restsofa.restcontroller.EmpleadoRestController;
 
 /**
  * Clase de prueba JUnit para el método "alta" en EmpleadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
  */
 @SpringBootTest
 public class EmpleadoRestControllerTestAlta {
@@ -24,6 +30,17 @@ public class EmpleadoRestControllerTestAlta {
 
     /**
      * Prueba del método "alta".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el empleado guardado del cuerpo de la respuesta.
+     * Verifica que el empleado guardado no sea nulo.
+     * Verifica si el nombre del empleado es correcto.
+     *
+     * @param nuevoEmpleado El empleado a dar de alta.
+     * @return ResponseEntity con el resultado de la operación de alta.
      */
     @Test
     public void testAlta() {
@@ -47,3 +64,4 @@ public class EmpleadoRestControllerTestAlta {
         assertEquals("Elisa", empGuardado.getNombre(), "El nombre del empleado guardado no coincide");
     }
 }
+

@@ -1,4 +1,4 @@
-package restsofa.restcontrollertest.clienterestcontrollertest;
+package restsofa.restcontrollertest.departamentorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,25 +9,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import restsofa.restcontroller.ClienteRestController;
+import restsofa.restcontroller.DepartamentoRestController;
 
 /**
- * Clase de prueba JUnit para el método "borrar" en ClienteRestController.
+ * Clase de prueba JUnit para el método "borrar" en DepartamentoRestController.
  *
  * @SpringBootTest
  * Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired
- * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
+ * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
  */
 @SpringBootTest
-public class ClienteRestControllerTestBorrar {
 
+public class DepartamentoRestControllerTestBorrar {
+	
     @Autowired
-    private ClienteRestController clienteRestController;
-
+    private DepartamentoRestController departamentoRestController;
+    
     /**
-     * Prueba del método "borrar".
+     * Prueba del método "eliminarDpto".
      *
      * @Test
      * Anota este método como una prueba JUnit.
@@ -36,13 +37,14 @@ public class ClienteRestControllerTestBorrar {
      * Obtiene el mensaje de la respuesta.
      * Verifica que la eliminación fue correcta.
      *
-     * @param clientId El identificador del cliente a borrar.
+     * @param depId El identificador del departamento a borrar.
      * @return ResponseEntity con el resultado de la operación de borrado.
      */
+    
     @Test
     public void testBorrar() {
-        int clientId = 6; // Reemplaza con un idCliente válido
-        ResponseEntity<?> responseEntity = clienteRestController.borrar(clientId);
+        int depId = 5; // Reemplaza con un idDepartamento válido
+        ResponseEntity<?> responseEntity = departamentoRestController.eliminarDepto(depId);
 
         // Verifica que el código de estado de la respuesta sea OK
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -51,7 +53,7 @@ public class ClienteRestControllerTestBorrar {
         String mensaje = (String) responseEntity.getBody();
 
         // Verifica que la eliminación fue correcta
-        assertTrue(mensaje.contains("Eliminación realizada correctamente"), "La eliminación debería ser correcta");
+        assertTrue(mensaje.contains("Departamento eliminado correctamente"), "La eliminación debería ser correcta");
     }
-}
 
+}

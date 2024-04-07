@@ -14,6 +14,12 @@ import restsofa.restcontroller.EmpleadoRestController;
 
 /**
  * Clase de prueba JUnit para el método "buscarPorId" en EmpleadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
  */
 @SpringBootTest
 public class EmpleadoRestControllerTestVerUno {
@@ -23,6 +29,18 @@ public class EmpleadoRestControllerTestVerUno {
 	
 	/**
 	 * Prueba del método "buscarPorId".
+	 *
+	 * @Test
+	 * Anota este método como una prueba JUnit.
+	 *
+	 * Verifica que el código de estado de la respuesta sea HttpStatus.OK (200).
+	 * Obtiene el empleado del cuerpo de la respuesta.
+	 * Verifica que el empleado no sea nulo.
+	 * Verifica que el empleado tenga el idEmpleado correcto.
+	 * Verifica si el nombre del empleado es correcto.
+	 *
+	 * @param empId El identificador del empleado a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
 	 */
 	@Test
 	public void testbuscarPorId() {
@@ -45,3 +63,4 @@ public class EmpleadoRestControllerTestVerUno {
 		assertEquals("Pedro", empleado.getNombre(), "El nombre del empleado no coincide");
 	}
 }
+

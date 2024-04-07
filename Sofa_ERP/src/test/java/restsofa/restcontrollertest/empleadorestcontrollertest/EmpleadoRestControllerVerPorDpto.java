@@ -16,6 +16,12 @@ import restsofa.restcontroller.EmpleadoRestController;
 
 /**
  * Clase de prueba JUnit para el método "buscarPorDpto" en EmpleadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
  */
 @SpringBootTest
 public class EmpleadoRestControllerVerPorDpto {
@@ -25,6 +31,20 @@ public class EmpleadoRestControllerVerPorDpto {
 	
 	/**
 	 * Prueba del método "buscarPorDpto".
+	 *
+	 * @Test
+	 * Anota este método como una prueba JUnit.
+	 *
+	 * Verifica que el código de estado de la respuesta sea HttpStatus.OK (200).
+	 * Obtiene la lista de empleados del cuerpo de la respuesta.
+	 * Verifica que la lista no esté vacía.
+	 * Asegura que el cuerpo de la respuesta sea igual a la lista de muestra.
+	 * Llama al método buscarPorDpto con un ID inválido (99).
+	 * Asegura que el código de estado de la respuesta sea 400.
+	 * Verifica el mensaje del cuerpo de la respuesta cuando la lista está vacía.
+	 *
+	 * @param idDepartamento El identificador del departamento para filtrar los empleados.
+	 * @return ResponseEntity con la lista de empleados por departamento.
 	 */
 	@Test
 	public void testBuscarEmpPorDpto() {

@@ -14,6 +14,12 @@ import restsofa.restcontroller.ClienteRestController;
 
 /**
  * Clase de prueba JUnit para el método "uno" en ClienteRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
  */
 @SpringBootTest
 public class ClienteRestControllerTestVerUno {
@@ -23,6 +29,18 @@ public class ClienteRestControllerTestVerUno {
 
     /**
      * Prueba del método "uno".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el cliente del cuerpo de la respuesta.
+     * Verifica que el cliente no sea nulo.
+     * Verifica que el cliente tenga el idCliente correcto.
+     * Verifica si el nombre del cliente es correcto.
+     *
+     * @param clientId El identificador del cliente a buscar.
+     * @return ResponseEntity con el resultado de la búsqueda.
      */
     @Test
     public void testUno() {

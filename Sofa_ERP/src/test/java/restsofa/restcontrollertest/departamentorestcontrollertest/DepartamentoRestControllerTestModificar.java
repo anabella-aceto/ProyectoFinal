@@ -1,4 +1,4 @@
-package restsofa.restcontrollertest.empleadorestcontrollertest;
+package restsofa.restcontrollertest.departamentorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,26 +9,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import restsofa.modelo.DTO.EmpleadoDto;
-import restsofa.restcontroller.EmpleadoRestController;
+import restsofa.modelo.entities.Departamento;
+import restsofa.restcontroller.DepartamentoRestController;
 
 /**
- * Clase de prueba JUnit para el método "modificarEmpleado" en EmpleadoRestController.
+ * Clase de prueba JUnit para el método "modificarDepto" en DepartamentoRestController.
  *
  * @SpringBootTest
  * Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired
- * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
+ * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
  */
 @SpringBootTest
-public class EmpleadoRestControllerTesModificar {
-
+public class DepartamentoRestControllerTestModificar {
+	
     @Autowired
-    private EmpleadoRestController empleadoRestController;
-
+    private DepartamentoRestController departamentoRestController;
+    
     /**
-     * Prueba del método "modificarEmpleado".
+     * Prueba del método "modificarDepto".
      *
      * @Test
      * Anota este método como una prueba JUnit.
@@ -37,18 +37,18 @@ public class EmpleadoRestControllerTesModificar {
      * Obtiene el mensaje de la respuesta.
      * Verifica que la modificación fue exitosa.
      *
-     * @param empExistente El empleado con los datos a modificar.
+     * @param depExistente El departamento con los datos a modificar.
      * @return ResponseEntity con el resultado de la operación de modificación.
      */
     @Test
     public void testModificar() {
-        // Crea un empleado de ejemplo
-        EmpleadoDto empExistente = new EmpleadoDto();
-        empExistente.setIdEmpleado(6); // Establece un idEmpleado existente
-        empExistente.setNombre("Roberto"); // Establece el nombre del empleado
+        // Crea un departamento de ejemplo
+        Departamento depExistente = new Departamento();
+        depExistente.setIdDepartamento(5); // Establece un idDepartamento existente
+        depExistente.setNombre("administracion"); // Establece el nombre del departamento
 
-        // Llama al método "modificarEmpleado"
-        ResponseEntity<?> responseEntity = empleadoRestController.modificarEmpleado(empExistente);
+        // Llama al método "modificarDepto"
+        ResponseEntity<?> responseEntity = departamentoRestController.modificarDepto(depExistente);
 
         // Verifica que el código de estado de la respuesta sea OK
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -59,5 +59,6 @@ public class EmpleadoRestControllerTesModificar {
         // Verifica que la modificación fue exitosa
         assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
     }
+
 }
 

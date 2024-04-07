@@ -13,6 +13,12 @@ import restsofa.restcontroller.EmpleadoRestController;
 
 /**
  * Clase de prueba JUnit para el método "borrarUno" en EmpleadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
  */
 @SpringBootTest
 public class EmpleadoRestControllerTesBorrar {
@@ -22,10 +28,20 @@ public class EmpleadoRestControllerTesBorrar {
 
     /**
      * Prueba del método "borrarUno".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que la eliminación fue correcta.
+     *
+     * @param empId El identificador del empleado a borrar.
+     * @return ResponseEntity con el resultado de la operación de borrado.
      */
     @Test
     public void testBorrar() {
-        int empId = 9; // Reemplaza con un idEmpleado
+        int empId = 9; // Reemplaza con un idEmpleado válido
         ResponseEntity<?> responseEntity = empleadoRestController.borrarUno(empId);
 
         // Verifica que el código de estado de la respuesta sea OK
@@ -38,3 +54,4 @@ public class EmpleadoRestControllerTesBorrar {
         assertTrue(mensaje.contains("Empleado eliminado correctamente"), "La eliminación debería ser correcta");
     }
 }
+
