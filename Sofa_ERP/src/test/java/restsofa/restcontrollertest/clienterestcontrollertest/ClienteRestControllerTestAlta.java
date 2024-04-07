@@ -11,28 +11,37 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
+/**
+ * Clase de prueba JUnit para el método "alta" en ClienteRestController.
+ */
 @SpringBootTest
 public class ClienteRestControllerTestAlta {
 
-	@Autowired
-	private ClienteRestController clienteRestController;
+    @Autowired
+    private ClienteRestController clienteRestController;
 
-	@Test
-	public void testAlta() {
-		// Crea un cliente de ejemplo
-		Cliente nuevoCliente = new Cliente();
+    /**
+     * Prueba del método "alta".
+     */
+    @Test
+    public void testAlta() {
+        // Crea un cliente de ejemplo
+        Cliente nuevoCliente = new Cliente();
+        nuevoCliente.setNombre("Elisa"); // Establece el nombre del cliente
 
-		nuevoCliente.setNombre("Elisa"); // Establece el nombre del cliente
+        // Llama al método "alta"
+        ResponseEntity<?> responseEntity = clienteRestController.alta(nuevoCliente);
 
-		ResponseEntity<?> responseEntity = clienteRestController.alta(nuevoCliente);
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		Cliente clienteGuardado = (Cliente) responseEntity.getBody();
+        // Verifica que el código de estado de la respuesta sea OK
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-		// Verifica que el cliente guardado no sea nulo
-		assertNotNull(clienteGuardado, "El cliente guardado no debería ser nulo");
+        // Obtiene el cliente guardado del cuerpo de la respuesta
+        Cliente clienteGuardado = (Cliente) responseEntity.getBody();
 
-		// Verifica si el nombre del cliente es correcto
-		assertEquals("Elisa", clienteGuardado.getNombre(), "El nombre del cliente guardado no coincide");
-	}
+        // Verifica que el cliente guardado no sea nulo
+        assertNotNull(clienteGuardado, "El cliente guardado no debería ser nulo");
 
+        // Verifica que el nombre del cliente guardado coincida con el nombre esperado
+        assertEquals("Elisa", clienteGuardado.getNombre(), "El nombre del cliente guardado no coincide");
+    }
 }
