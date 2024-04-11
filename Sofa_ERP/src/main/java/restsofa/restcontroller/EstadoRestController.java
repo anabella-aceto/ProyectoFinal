@@ -37,7 +37,7 @@ public class EstadoRestController {
 	 * correctamente, o un mensaje de error si no.
 	 */
 
-	@GetMapping({ "", "/" })
+	@GetMapping({ "/todos" })
 	public ResponseEntity<?> todos() {
 		try {
 			List<Estado> lista = estadoService.buscarTodosEstado();
@@ -55,7 +55,7 @@ public class EstadoRestController {
 	 *         mensaje de error si no existe.
 	 */
 
-	@GetMapping("/{idEstado}")
+	@GetMapping("/uno/{idEstado}")
 	public ResponseEntity<?> uno(@PathVariable int idEstado) {
 
 		Estado estado = estadoService.buscarEstado(idEstado);
