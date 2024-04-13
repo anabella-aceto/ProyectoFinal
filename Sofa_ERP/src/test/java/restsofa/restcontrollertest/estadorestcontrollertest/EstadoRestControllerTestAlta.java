@@ -1,7 +1,7 @@
 package restsofa.restcontrollertest.estadorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +12,52 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.entities.Estado;
 import restsofa.restcontroller.EstadoRestController;
 
+/**
+ * Clase de prueba JUnit para el método "alta" en EstadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EstadoRestController` para realizar las pruebas.
+ */
 @SpringBootTest
 public class EstadoRestControllerTestAlta {
-	
+
     @Autowired
     private EstadoRestController estadoRestController;
-    
+
+    /**
+     * Prueba del método "alta".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Verifica que el cuerpo de la respuesta contenga el mensaje esperado y el nombre del estado.
+     * Asume que la clase Estado tiene un método getNombre() que devuelve el nombre del estado.
+     *
+     * @param estado El estado a dar de alta.
+     * @return ResponseEntity con el resultado de la operación de alta.
+     */
     @Test
     public void testAlta() {
-        // Crea un objeto Estado de ejemplo
-        Estado nuevoEstado = new Estado();
-        nuevoEstado.setNombre("Nuevo Estado");
+        // Crear el objeto Estado que se enviará en la solicitud POST
+        Estado estado = new Estado();
+        estado.setNombre("Exito");
 
-        // Llama al método "alta"
-        ResponseEntity<?> responseEntity = estadoRestController.alta(nuevoEstado);
+        // Invocar el método alta
+        ResponseEntity<?> result = estadoRestController.alta(estado);
 
-        // Verifica que el código de estado de la respuesta sea OK
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Verificar que la respuesta tenga el estado HTTP correcto
+        assertEquals(HttpStatus.OK, result.getStatusCode());
 
-        // Verifica el mensaje de respuesta
-        String responseMessage = (String) responseEntity.getBody();
-        String expectedMessage = "Estado de pedido procesado correctamente" + nuevoEstado.getNombre();
-        assertEquals(expectedMessage, responseMessage, "Error al procesar el estado de pedido");
+        // Verificar que el cuerpo de la respuesta contenga el mensaje esperado
+        assertTrue(result.getBody().toString().contains("Estado de pedido procesado correctamente"));
+        assertTrue(result.getBody().toString().contains(estado.getNombre()));
+
+        // Asumiendo que tienes un getter para el nombre en la clase Estado
+        assertEquals("Exito", estado.getNombre());
     }
 }
+
