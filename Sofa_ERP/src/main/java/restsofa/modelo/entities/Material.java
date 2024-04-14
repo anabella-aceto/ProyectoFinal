@@ -1,7 +1,6 @@
 package restsofa.modelo.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,16 +36,16 @@ public class Material implements Serializable{
 	
 	private String descripcion;
 	
-	@Column(name="ref_material_prov")
-	private String refMaterialProveedor;
-	
-	private int cantidad;
-	
-	private String categoria;
+	private double cantidad;
 	
 	@ManyToOne
 	@JoinColumn(name="id_proveedor")
 	private Proveedor proveedor; 
+	
+	@Column(name="ref_material_prov")
+	private String refMaterialProveedor;
+	
+	private String categoria;
 	
 	@Column(name="unidad_medida")
 	private String unidadMedida;
