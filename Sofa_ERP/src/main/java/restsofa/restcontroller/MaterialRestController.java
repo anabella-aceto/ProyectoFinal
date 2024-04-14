@@ -192,7 +192,7 @@ public class MaterialRestController {
 			material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
 			material.setRefMaterialProveedor(materialDto.getRefMaterialProveedor());
 			materialService.updateOne(material);
-			return ResponseEntity.status(200).body("Material modificado exitosamente: " + material);
+			return ResponseEntity.status(200).body("Material modificado exitosamente" + material);
 		} else {
 			return ResponseEntity.status(404).body("No se encuentra el material");
 		}
@@ -216,7 +216,7 @@ public class MaterialRestController {
 			return ResponseEntity.status(200).body(material);
 
 		else
-			return ResponseEntity.status(404).body("Provvedor no encontrado");
+			return ResponseEntity.status(404).body("Proveedor no encontrado");
 
 	}
 
