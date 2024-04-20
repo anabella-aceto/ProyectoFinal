@@ -23,7 +23,7 @@ import restsofa.service.ProveedorService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/proveedores")
+@RequestMapping("/proveedor")
 public class ProveedorRestController {
 
 	@Autowired
