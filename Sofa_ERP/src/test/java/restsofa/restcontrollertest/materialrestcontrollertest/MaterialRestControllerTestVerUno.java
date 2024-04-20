@@ -13,12 +13,39 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.modelo.entities.Material;
 import restsofa.restcontroller.MaterialRestController;
 
+/**
+ * Clase de prueba JUnit para el método "buscarUno" en MaterialRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `MaterialRestController` para realizar las pruebas.
+ * 
+ * @author Alberto Saboya
+ * @version 1.0
+ */
 @SpringBootTest
 public class MaterialRestControllerTestVerUno {
 
 	@Autowired
 	MaterialRestController materialRestController;
 
+    /**
+     * Prueba del método "buscarUno".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el material del cuerpo de la respuesta.
+     * Verifica que el material no sea nulo.
+     * Verifica que el material tenga el idMaterial correcto.
+     * Verifica si el nombre del material es correcto.
+     *
+     * @param materialId El identificador del material a buscar.
+     * @return ResponseEntity con el resultado de la búsqueda.
+     */
 	@Test
 	public void testUno() {
 		int materialId = 3;

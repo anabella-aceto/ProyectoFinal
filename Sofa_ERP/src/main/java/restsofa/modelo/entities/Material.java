@@ -15,6 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @author David Rodriguez Moral
+ * @version 1.0
+ * 
  * Clase que representa un material.
  */
 

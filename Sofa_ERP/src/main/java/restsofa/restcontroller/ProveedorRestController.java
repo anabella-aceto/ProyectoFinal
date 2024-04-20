@@ -39,7 +39,7 @@ public class ProveedorRestController {
 	 */
 
 	@PostMapping("/alta")
-	ResponseEntity<Proveedor> altaproveedor(@RequestBody Proveedor proveedor) {
+	public ResponseEntity<Proveedor> alta(@RequestBody Proveedor proveedor) {
 
 		return ResponseEntity.status(200).body(proveedorService.insertOne(proveedor));
 
@@ -53,8 +53,31 @@ public class ProveedorRestController {
 	 */
 
 	@GetMapping("/todos")
-	ResponseEntity<List<Proveedor>> mostrartodos() {
+	public ResponseEntity<List<Proveedor>> mostrartodos() {
 		return ResponseEntity.status(200).body(proveedorService.mostrarTodos());
+	}
+
+	
+	/*
+	 * Método que devuelve un proveedor.
+	 * 
+	 * @param idProveedor. El identificador único del proveedor.
+	 * 
+	 * @return ResponseEntity con el proveedor si se obtiene correctamente, o un
+	 * mensaje de error si no existe.
+	 */
+
+	@GetMapping("/uno/{idProveedor}") // probado y funcionando
+	public ResponseEntity<?> uno(@PathVariable int idProveedor) {
+
+		Proveedor proveedor = proveedorService.buscarUno(idProveedor);
+
+		if (proveedor != null)
+			return ResponseEntity.status(200).body(proveedor);
+
+		else
+			return ResponseEntity.status(400).body("No se encuentra el proveedor");
+
 	}
 
 	/*
@@ -64,15 +87,16 @@ public class ProveedorRestController {
 	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 * modificación.
-	 */
-
+	 */	
+	
 	@PutMapping("/modificar/{id}")
-	ResponseEntity<?> modificarproveedor(@RequestBody Proveedor proveedor, @PathVariable("id") int idProveedor) {
+	public ResponseEntity<?> modificar(@RequestBody Proveedor proveedor) {
 
-		if (proveedorService.modificarUno(proveedor) == null) {
-			return ResponseEntity.status(500).body("ERROR");
-		}
-		return ResponseEntity.status(200).body(proveedor);
+		if (proveedorService.buscarUno(proveedor.getIdProveedor()) != null) {
+			proveedorService.modificarUno(proveedor);
+			return ResponseEntity.status(200).body("Modificación realizada correctamente " + proveedor);
+		} else
+			return ResponseEntity.status(400).body("Error al modificar proveedor en la base de datos");
 	}
 
 	/*
@@ -85,7 +109,7 @@ public class ProveedorRestController {
 	 */
 	
 	@DeleteMapping("/eliminar/{id}")
-	ResponseEntity<?> eliminarproveedor(@PathVariable("id") int idProveedor) {
+	public ResponseEntity<?> borrar(@PathVariable("id") int idProveedor) {
 
 		if (proveedorService.eliminarUno(idProveedor) == 1) {
 			return ResponseEntity.status(200).body("Proveedor eliminado");

@@ -1,4 +1,4 @@
-package restsofa.restcontrollertest.materialrestcontrollertest;
+package restsofa.restcontrollertest.proveedorrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,28 +9,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import restsofa.restcontroller.MaterialRestController;
+import restsofa.restcontroller.ProveedorRestController;
 
 /**
- * Clase de prueba JUnit para el método "eliminarMaterial" en MaterialRestController.
+ * Clase de prueba JUnit para el método "borrar" en ProveedorRestController.
  *
  * @SpringBootTest
  * Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired
- * Inyecta la instancia de `MaterialRestController` para realizar las pruebas.
+ * Inyecta la instancia de `ProveedorRestController` para realizar las pruebas.
  * 
  * @author Alberto Saboya
  * @version 1.0
  */
 @SpringBootTest
-public class MaterialRestControllerTestBorrar {
-
+public class ProveedorRestControllerTestBorrar {
+	
     @Autowired
-    private MaterialRestController materialRestController;
-
+    private ProveedorRestController proveedorRestController;
+    
     /**
-     * Prueba del método "eliminarMaterial".
+     * Prueba del método "borrar".
      *
      * @Test
      * Anota este método como una prueba JUnit.
@@ -39,13 +39,14 @@ public class MaterialRestControllerTestBorrar {
      * Obtiene el mensaje de la respuesta.
      * Verifica que la eliminación fue correcta.
      *
-     * @param materialId El identificador del material a borrar.
+     * @param proveedorId El identificador del proveedor a borrar.
      * @return ResponseEntity con el resultado de la operación de borrado.
      */
+    
     @Test
     public void testBorrar() {
-        int materialId = 12; // Reemplaza con un idMaterial válido
-        ResponseEntity<?> responseEntity = materialRestController.elimnarMaterial(materialId);
+        int proveedorId = 7; // Reemplaza con un idCliente válido
+        ResponseEntity<?> responseEntity = proveedorRestController.borrar(proveedorId);
 
         // Verifica que el código de estado de la respuesta sea OK
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -54,6 +55,7 @@ public class MaterialRestControllerTestBorrar {
         String mensaje = (String) responseEntity.getBody();
 
         // Verifica que la eliminación fue correcta
-        assertTrue(mensaje.contains("Material eliminado correctamente"), "La eliminación debería ser correcta");
+        assertTrue(mensaje.contains("Proveedor eliminado"), "La eliminación debería ser correcta");
     }
+
 }

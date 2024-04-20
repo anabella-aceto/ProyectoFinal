@@ -1,4 +1,4 @@
-package restsofa.restcontrollertest.clienterestcontrollertest;
+package restsofa.restcontrollertest.proveedorrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,27 +9,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import restsofa.modelo.entities.Cliente;
-import restsofa.restcontroller.ClienteRestController;
+import restsofa.modelo.entities.Proveedor;
+import restsofa.restcontroller.ProveedorRestController;
 
 /**
- * Clase de prueba JUnit para el método "modificar" en ClienteRestController.
+ * Clase de prueba JUnit para el método "modificar" en ProveedorRestController.
  *
  * @SpringBootTest
  * Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired
- * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
+ * Inyecta la instancia de `ProveedorRestController` para realizar las pruebas.
  * 
  * @author Alberto Saboya
  * @version 1.0
  */
 @SpringBootTest
-public class ClienteRestControllerTestModificar {
-
+public class ProveedorRestControllerTestModificar {
+	
     @Autowired
-    private ClienteRestController clienteRestController;
-
+    private ProveedorRestController proveedorRestController;
+    
     /**
      * Prueba del método "modificar".
      *
@@ -40,18 +40,19 @@ public class ClienteRestControllerTestModificar {
      * Obtiene el mensaje de la respuesta.
      * Verifica que la modificación fue exitosa.
      *
-     * @param clienteExistente El cliente con los datos a modificar.
+     * @param proveedorExistente El proveedor con los datos a modificar.
      * @return ResponseEntity con el resultado de la operación de modificación.
      */
+    
     @Test
     public void testModificar() {
-        // Crea un cliente de ejemplo
-        Cliente clienteExistente = new Cliente();
-        clienteExistente.setIdCliente(6); // Establece un idCliente existente
-        clienteExistente.setNombre("Roberto"); // Establece el nombre del cliente
+        // Crea un proveedor de ejemplo
+        Proveedor proveedorExistente = new Proveedor();
+        proveedorExistente.setIdProveedor(7);; // Establece un idProveedor existente
+        proveedorExistente.setNombre("Neos"); // Establece el nombre del proveedor
 
         // Llama al método "modificar"
-        ResponseEntity<?> responseEntity = clienteRestController.modificar(clienteExistente);
+        ResponseEntity<?> responseEntity = proveedorRestController.modificar(proveedorExistente);
 
         // Verifica que el código de estado de la respuesta sea OK
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -62,5 +63,5 @@ public class ClienteRestControllerTestModificar {
         // Verifica que la modificación fue exitosa
         assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
     }
-}
 
+}

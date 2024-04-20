@@ -20,6 +20,9 @@ import restsofa.restcontroller.ClienteRestController;
  *
  * @Autowired
  * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
+ * 
+ * @author Alberto Saboya
+ * @version 1.0
  */
 @SpringBootTest
 public class ClienteRestControllerTestVerUno {

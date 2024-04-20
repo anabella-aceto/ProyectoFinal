@@ -24,6 +24,9 @@ import restsofa.restcontroller.EstadoRestController;
  *
  * @Autowired
  * Inyecta la instancia de `EstadoRestController` para realizar las pruebas.
+ * 
+ * @author Alberto Saboya
+ * @version 1.0
  */
 @SpringBootTest
 public class EstadoRestControllerTestVerTodos {

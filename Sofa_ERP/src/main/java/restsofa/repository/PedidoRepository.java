@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import restsofa.modelo.entities.Pedido;
 
 /**
+ * @author Anabella Aceto
+ * @version 1.0
+ * 
  * Interfaz que define un repositorio para la entidad Pedido. 
  * Extiende de JpaRepository para obtener métodos de acceso a datos comunes.
  *
