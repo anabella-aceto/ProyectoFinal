@@ -23,6 +23,9 @@ import restsofa.restcontroller.MaterialRestController;
  *                 permite cargar el contexto completo de la aplicación.
  * @Autowired Inyecta la instancia de `MaterialRestController` para realizar las
  *            pruebas de los métodos de búsqueda por ID de proveedor.
+ *            
+ * @author Alberto Saboya
+ * @version 1.0
  */
 @SpringBootTest
 public class MaterialRestControllerTestVerPorIdProveedor {

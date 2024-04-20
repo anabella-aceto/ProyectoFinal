@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import restsofa.modelo.entities.DetallePedido;
 
 /**
+ * @author Anabella Aceto
+ * @version 1.0
+ * 
  * Interfaz que define un repositorio para la entidad Detalle de pedido.
  * Extiende de JpaRepository para obtener métodos de acceso a datos comunes.
  *

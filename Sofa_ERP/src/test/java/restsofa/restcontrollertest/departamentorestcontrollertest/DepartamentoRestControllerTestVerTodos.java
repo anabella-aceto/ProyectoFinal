@@ -23,6 +23,9 @@ import restsofa.restcontroller.DepartamentoRestController;
  *
  * @Autowired
  * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
+ * 
+ * @author Alberto Saboya
+ * @version 1.0
  */
 @SpringBootTest
 public class DepartamentoRestControllerTestVerTodos {

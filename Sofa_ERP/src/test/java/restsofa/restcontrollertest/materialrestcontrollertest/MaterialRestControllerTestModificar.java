@@ -12,11 +12,37 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.DTO.MaterialDto;
 import restsofa.restcontroller.MaterialRestController;
 
+/**
+ * Clase de prueba JUnit para el método "modificarMaterial" en MaterialRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `MaterialRestController` para realizar las pruebas.
+ * 
+ * @author Alberto Saboya
+ * @version 1.0
+ */
 @SpringBootTest
 public class MaterialRestControllerTestModificar {
 	
 	@Autowired
 	MaterialRestController materialRestController;
+	
+    /**
+     * Prueba del método "modificarMaterial".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que la modificación fue exitosa.
+     *
+     * @param materialExistente El cliente con los datos a modificar.
+     * @return ResponseEntity con el resultado de la operación de modificación.
+     */
 	
     @Test
     public void testModificar() {

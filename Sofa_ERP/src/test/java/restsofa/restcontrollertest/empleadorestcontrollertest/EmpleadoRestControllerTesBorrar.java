@@ -19,6 +19,9 @@ import restsofa.restcontroller.EmpleadoRestController;
  *
  * @Autowired
  * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
+ * 
+ * @author Alberto Saboya
+ * @version 1.0
  */
 @SpringBootTest
 public class EmpleadoRestControllerTesBorrar {
