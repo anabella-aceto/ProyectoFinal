@@ -22,33 +22,33 @@ import restsofa.service.PerfilService;
 
 @RestController
 @RequestMapping("/perfiles")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class PerfilRestController {
-	
+
 	@Autowired
 	private PerfilService perfilService;
-	
+
 	/*
 	 * Método que devuelve todos los perfiles.
 	 *
 	 * @return ResponseEntity con la lista de perfiles si se pudo cargar
 	 * correctamente, o un mensaje de error si no se cargó.
 	 */
-	
-	@GetMapping("/todos")//probado y funcionando
-	public ResponseEntity<?> listarTodos(){
-		
+
+	@GetMapping("/todos") // probado y funcionando
+	public ResponseEntity<?> todos() {
+
 		List<Perfil> lista = perfilService.buscarTodos();
-		
-		if(!lista.isEmpty())
+
+		if (!lista.isEmpty())
 			return ResponseEntity.status(200).body(lista);
-		
+
 		else if (lista.isEmpty())
 			return ResponseEntity.status(200).body("La lista está vacía");
-		
+
 		else
 			return ResponseEntity.status(400).body("Error al cargar la lista");
-		
+
 	}
 
 	/**
@@ -58,20 +58,20 @@ public class PerfilRestController {
 	 * @return ResponseEntity con el perfil encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
-	
-	@GetMapping("/uno/{idPerfil}")//probado y funcionando
-	public ResponseEntity<?> mostrarUno(@PathVariable ("idPerfil") int idPerfil){
-		
+
+	@GetMapping("/uno/{idPerfil}") // probado y funcionando
+	public ResponseEntity<?> uno(@PathVariable("idPerfil") int idPerfil) {
+
 		Perfil perfil = perfilService.buscarUno(idPerfil);
-		
-		if(perfil != null)
+
+		if (perfil != null)
 			return ResponseEntity.status(200).body(perfil);
-		
+
 		else
-			return ResponseEntity.status(400).body("Error al cargar el empleado");
-		
+			return ResponseEntity.status(400).body("Error al cargar el perfil");
+
 	}
-	
+
 	/*
 	 * Método que permite crear un perfil.
 	 * 
@@ -80,16 +80,15 @@ public class PerfilRestController {
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 * alta.
 	 */
-	
-	@PostMapping("/alta")//probado y funcionando
-	public ResponseEntity<?> agregarPerfil(@RequestBody Perfil perfil){
-		
-		if(perfilService.insertOne(perfil)!= null)
+
+	@PostMapping("/alta") // probado y funcionando
+	public ResponseEntity<?> alta(@RequestBody Perfil perfil) {
+
+		if (perfilService.insertOne(perfil) != null)
 			return ResponseEntity.status(200).body(perfil);
-		
-		
+
 		return ResponseEntity.status(400).body("Error al insertar perfil");
-		
+
 	}
 
 	/*
@@ -100,17 +99,15 @@ public class PerfilRestController {
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 * modificación.
 	 */
-	
-	@PutMapping("/modificar")//probado y funcionando
-	public ResponseEntity<?> modificarPerfil(@RequestBody Perfil perfil){
-		
-		if(perfilService.buscarUno(perfil.getIdPerfil())!= null) {
+
+	@PutMapping("/modificar") // probado y funcionando
+	public ResponseEntity<?> modificar(@RequestBody Perfil perfil) {
+
+		if (perfilService.buscarUno(perfil.getIdPerfil()) != null) {
 			perfilService.insertOne(perfil);
-			return ResponseEntity.status(200).body(perfil);
-		}
-		
-		
-		return ResponseEntity.status(400).body("Error al cargar el empleado");
+			return ResponseEntity.status(200).body("Modificación realizada correctamente" + perfil);
+		} else
+			return ResponseEntity.status(400).body("Error al cargar el perfil");
 	}
 
 	/*
@@ -122,19 +119,15 @@ public class PerfilRestController {
 	 * eliminación.
 	 */
 
-	@DeleteMapping("/eliminar/{idPerfil}")//probado y funcionando
-	
-	public ResponseEntity<?> eliminarPerfil(@PathVariable ("idPerfil") int idPerfil){
+	@DeleteMapping("/eliminar/{idPerfil}") // probado y funcionando
 
-		if(perfilService.buscarUno(idPerfil) != null) {
+	public ResponseEntity<?> borrar(@PathVariable("idPerfil") int idPerfil) {
+
+		if (perfilService.buscarUno(idPerfil) != null) {
 			perfilService.deleteOne(idPerfil);
-			return ResponseEntity.status(200).body("Perfil eliminado correctamente");		
+			return ResponseEntity.status(200).body("Perfil eliminado correctamente");
 		}
 		return ResponseEntity.status(400).body("No se puede eliminar el perfil");
-		}
-
-
-
-	
+	}
 
 }

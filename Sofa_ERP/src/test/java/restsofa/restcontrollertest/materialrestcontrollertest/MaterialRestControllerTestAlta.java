@@ -14,6 +14,9 @@ import restsofa.modelo.entities.Material;
 import restsofa.restcontroller.MaterialRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "altaMaterial" en
  * MaterialRestController.
  *
@@ -21,9 +24,7 @@ import restsofa.restcontroller.MaterialRestController;
  *
  * @Autowired Inyecta la instancia de `MaterialRestController` para realizar las
  *            pruebas.
- *            
- * @author Alberto Saboya
- * @version 1.0
+ *           
  */
 @SpringBootTest
 public class MaterialRestControllerTestAlta {

@@ -18,6 +18,9 @@ import restsofa.modelo.entities.Material;
 import restsofa.restcontroller.MaterialRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "buscarPorNombre" en
  * MaterialRestController.
  *
@@ -28,8 +31,6 @@ import restsofa.restcontroller.MaterialRestController;
  * Inyecta la instancia de `MaterialRestController` para realizar las
  * pruebas de los métodos de búsqueda por nombre.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class MaterialRestControllerTestVerPorNombre {

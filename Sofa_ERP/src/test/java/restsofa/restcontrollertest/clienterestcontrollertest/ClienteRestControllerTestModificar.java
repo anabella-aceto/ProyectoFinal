@@ -13,6 +13,9 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "modificar" en ClienteRestController.
  *
  * @SpringBootTest
@@ -21,8 +24,6 @@ import restsofa.restcontroller.ClienteRestController;
  * @Autowired
  * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class ClienteRestControllerTestModificar {

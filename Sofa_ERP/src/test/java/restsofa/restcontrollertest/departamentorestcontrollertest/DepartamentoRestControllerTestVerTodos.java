@@ -16,6 +16,9 @@ import restsofa.modelo.entities.Departamento;
 import restsofa.restcontroller.DepartamentoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "listarTodos" en DepartamentoRestController.
  *
  * @SpringBootTest
@@ -24,8 +27,6 @@ import restsofa.restcontroller.DepartamentoRestController;
  * @Autowired
  * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class DepartamentoRestControllerTestVerTodos {

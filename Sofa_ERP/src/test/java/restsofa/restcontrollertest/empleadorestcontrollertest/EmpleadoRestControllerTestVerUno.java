@@ -13,6 +13,9 @@ import restsofa.modelo.entities.Empleado;
 import restsofa.restcontroller.EmpleadoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "buscarPorId" en EmpleadoRestController.
  *
  * @SpringBootTest
@@ -21,8 +24,6 @@ import restsofa.restcontroller.EmpleadoRestController;
  * @Autowired
  * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class EmpleadoRestControllerTestVerUno {

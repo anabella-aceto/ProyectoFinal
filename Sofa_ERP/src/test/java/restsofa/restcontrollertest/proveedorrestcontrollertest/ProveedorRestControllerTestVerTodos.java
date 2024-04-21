@@ -16,6 +16,9 @@ import restsofa.modelo.entities.Proveedor;
 import restsofa.restcontroller.ProveedorRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "mostrartodos" en ProveedorRestController.
  *
  * @SpringBootTest
@@ -24,8 +27,6 @@ import restsofa.restcontroller.ProveedorRestController;
  * @Autowired
  * Inyecta la instancia de `ProveedorRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class ProveedorRestControllerTestVerTodos {

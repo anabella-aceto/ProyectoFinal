@@ -1,4 +1,4 @@
-package restsofa.restcontrollertest.departamentorestcontrollertest;
+package restsofa.restcontrollertest.perfilrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,30 +9,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import restsofa.restcontroller.DepartamentoRestController;
+import restsofa.restcontroller.PerfilRestController;
 
 /**
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "borrar" en DepartamentoRestController.
+ * Clase de prueba JUnit para el método "borrar" en PerfilRestController.
  *
  * @SpringBootTest
  * Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired
- * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
+ * Inyecta la instancia de `PerfilRestController` para realizar las pruebas.
  * 
  */
 @SpringBootTest
-
-public class DepartamentoRestControllerTestBorrar {
+public class PerfilRestControllerTestBorrar {
 	
-    @Autowired
-    private DepartamentoRestController departamentoRestController;
-    
+	@Autowired
+	private PerfilRestController perfilRestController;
+	
     /**
-     * Prueba del método "eliminarDpto".
+     * Prueba del método "borrar".
      *
      * @Test
      * Anota este método como una prueba JUnit.
@@ -41,14 +40,14 @@ public class DepartamentoRestControllerTestBorrar {
      * Obtiene el mensaje de la respuesta.
      * Verifica que la eliminación fue correcta.
      *
-     * @param depId El identificador del departamento a borrar.
+     * @param perfilId El identificador del perfil a borrar.
      * @return ResponseEntity con el resultado de la operación de borrado.
      */
-    
+	
     @Test
     public void testBorrar() {
-        int depId = 5; // Reemplaza con un idDepartamento válido
-        ResponseEntity<?> responseEntity = departamentoRestController.eliminarDepto(depId);
+        int perfilId = 4; // Reemplaza con un idPerfil válido
+        ResponseEntity<?> responseEntity = perfilRestController.borrar(perfilId);
 
         // Verifica que el código de estado de la respuesta sea OK
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -57,7 +56,7 @@ public class DepartamentoRestControllerTestBorrar {
         String mensaje = (String) responseEntity.getBody();
 
         // Verifica que la eliminación fue correcta
-        assertTrue(mensaje.contains("Departamento eliminado correctamente"), "La eliminación debería ser correcta");
+        assertTrue(mensaje.contains("Perfil eliminado correctamente"), "La eliminación debería ser correcta");
     }
 
 }
