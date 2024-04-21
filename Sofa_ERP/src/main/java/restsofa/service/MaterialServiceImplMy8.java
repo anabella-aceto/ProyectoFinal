@@ -208,7 +208,9 @@ public class MaterialServiceImplMy8 implements MaterialService {
 				int materialId = sm.getMaterial().getIdMaterial();
 				Material material = buscarUno(materialId);
 
+
 	            double cantidad = sm.getCantidadUtilizada() + material.getCantidad();
+
 	            material.setCantidad(cantidad);
 	            
 	            DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
