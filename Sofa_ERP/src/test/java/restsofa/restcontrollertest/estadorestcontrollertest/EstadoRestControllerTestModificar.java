@@ -13,15 +13,16 @@ import restsofa.modelo.entities.Estado;
 import restsofa.restcontroller.EstadoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "modificar" en EstadoRestController.
  *
  * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired Inyecta la instancia de `EstadoRestController` para realizar las
  *            pruebas.
- *            
- * @author Alberto Saboya
- * @version 1.0
+ *           
  */
 @SpringBootTest
 public class EstadoRestControllerTestModificar {

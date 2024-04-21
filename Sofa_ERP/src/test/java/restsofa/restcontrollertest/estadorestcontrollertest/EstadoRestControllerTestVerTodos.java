@@ -16,6 +16,9 @@ import restsofa.modelo.entities.Estado;
 import restsofa.restcontroller.EstadoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "todos" en `EstadoRestController`.
  * Verifica el comportamiento del método "todos" que obtiene la lista de estados.
  *
@@ -25,8 +28,6 @@ import restsofa.restcontroller.EstadoRestController;
  * @Autowired
  * Inyecta la instancia de `EstadoRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class EstadoRestControllerTestVerTodos {

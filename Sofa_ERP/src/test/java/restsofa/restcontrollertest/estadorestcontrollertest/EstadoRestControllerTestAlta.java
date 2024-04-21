@@ -13,6 +13,9 @@ import restsofa.modelo.entities.Estado;
 import restsofa.restcontroller.EstadoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "alta" en EstadoRestController.
  *
  * @SpringBootTest
@@ -21,8 +24,6 @@ import restsofa.restcontroller.EstadoRestController;
  * @Autowired
  * Inyecta la instancia de `EstadoRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class EstadoRestControllerTestAlta {

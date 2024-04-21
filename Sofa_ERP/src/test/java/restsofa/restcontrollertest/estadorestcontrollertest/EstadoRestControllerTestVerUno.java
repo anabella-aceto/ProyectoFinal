@@ -13,6 +13,9 @@ import restsofa.modelo.entities.Estado;
 import restsofa.restcontroller.EstadoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "uno" en `EstadoRestController`.
  * Verifica el comportamiento del método "uno" que obtiene un estado por su ID.
  *
@@ -22,8 +25,6 @@ import restsofa.restcontroller.EstadoRestController;
  * @Autowired
  * Inyecta la instancia de `EstadoRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 
 @SpringBootTest

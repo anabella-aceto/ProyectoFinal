@@ -13,15 +13,16 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.MaterialRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba para MaterialRestController que verifica la funcionalidad de búsqueda de materiales por categoría.
  * 
  * @SpringBootTest Indica que esta clase es una prueba de Spring Boot que
  *                 permite cargar el contexto completo de la aplicación.
  * @Autowired Inyecta la instancia de `MaterialRestController` para realizar las
  *            pruebas de los métodos de búsqueda por categoría.
- *            
- * @author Alberto Saboya
- * @version 1.0
+ *           
  */
 @SpringBootTest
 public class MaterialRestControllerTestVerPorCategoria {

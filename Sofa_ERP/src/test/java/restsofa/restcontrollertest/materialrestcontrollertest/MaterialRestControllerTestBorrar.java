@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.MaterialRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "eliminarMaterial" en MaterialRestController.
  *
  * @SpringBootTest
@@ -20,8 +23,6 @@ import restsofa.restcontroller.MaterialRestController;
  * @Autowired
  * Inyecta la instancia de `MaterialRestController` para realizar las pruebas.
  * 
- * @author Alberto Saboya
- * @version 1.0
  */
 @SpringBootTest
 public class MaterialRestControllerTestBorrar {
