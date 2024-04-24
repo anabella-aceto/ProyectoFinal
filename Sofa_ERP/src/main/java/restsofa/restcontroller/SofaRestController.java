@@ -37,7 +37,7 @@ public class SofaRestController {
 	 * o un mensaje de error si no se cargó.
 	 */
 
-	@GetMapping({ "", "/" })
+	@GetMapping("/todos")
 	public ResponseEntity<?> todos() {
 
 		List<Sofa> lista = sofaService.buscarTodosSofas();
@@ -57,7 +57,7 @@ public class SofaRestController {
 	 *         existe.
 	 */
 
-	@GetMapping("/{idSofa}")
+	@GetMapping("/uno/{idSofa}")
 	public ResponseEntity<?> uno(@PathVariable int idSofa) {
 
 		Sofa sofa = sofaService.buscarSofa(idSofa);
