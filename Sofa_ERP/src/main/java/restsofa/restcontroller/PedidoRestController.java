@@ -1,13 +1,14 @@
 package restsofa.restcontroller;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/pedidos")
+@RequestMapping("/pedido")
 
 public class PedidoRestController {
 
@@ -178,17 +179,39 @@ public class PedidoRestController {
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 * cancelación.
 	 */
-
+	
 	@PutMapping("/cancelar/{idPedido}") // probado y funcionando
 
 	public ResponseEntity<?> cancelarPedido(@PathVariable int idPedido) {
 
 		if (pedidoService.cancelarPedido(idPedido)) {
 
-			return ResponseEntity.status(200).body("Pedido cancelado");
+			return ResponseEntity.status(200).body("Pedido cancelado correctamente");
 		} else {
 			return ResponseEntity.status(400).body("No se ha podido cancelar el pedido");
 		}
+	}
+	
+	/*
+	 * Método que elimina un pedido.
+	 * 
+	 * @param idPedido El identificador único del pedido a eliminar. *
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
+	 */
+	@DeleteMapping("/eliminar/{idPedido}") // probado y funcionando
+
+	public ResponseEntity<?> borrar(@PathVariable("idPedido") int idPedido) {
+
+		Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+		if (pedido != null) {
+			pedidoService.borrarPedido(idPedido);
+			return ResponseEntity.status(200).body("Pedido eliminado correctamente");
+		}
+
+		return ResponseEntity.status(400).body("Error al borrar pedido");
 	}
 
 	/**
@@ -219,7 +242,7 @@ public class PedidoRestController {
 	 *         rango de fechas, o un mensaje de error si no existen.
 	 */
 	@GetMapping("/porFecha")
-	public ResponseEntity<?> filtrarProFecha(@RequestParam(name = "fechaInicio") Date fechaInicio,
+	public ResponseEntity<?> filtrarPorFecha(@RequestParam(name = "fechaInicio") Date fechaInicio,
 			@RequestParam(name = "fechaFin") Date fechaFin) {
 
 		List<Pedido> lista = pedidoService.filtrarPorFecha(fechaInicio, fechaFin);
@@ -227,7 +250,7 @@ public class PedidoRestController {
 		if (!lista.isEmpty())
 			return ResponseEntity.status(200).body(lista);
 		else
-			return ResponseEntity.status(400).body("No se encuentran elementos con el estado indicado");
+			return ResponseEntity.status(400).body("No se encuentran elementos en el intervalod de fechas indicado");
 	}
 
 }
