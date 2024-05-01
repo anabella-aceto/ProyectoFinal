@@ -66,6 +66,8 @@ public class SofaMaterialServiceImplMy8 implements SofaMaterialService {
 			if (buscarUno(sofaMaterial.getIdSofaMateriales()) != null) {
 				sofaMaterialRepository.save(sofaMaterial);
 				return sofaMaterial;
+			} else {
+				return null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

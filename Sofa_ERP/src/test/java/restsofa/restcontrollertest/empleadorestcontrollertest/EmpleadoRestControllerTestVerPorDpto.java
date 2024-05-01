@@ -28,7 +28,7 @@ import restsofa.restcontroller.EmpleadoRestController;
  * 
  */
 @SpringBootTest
-public class EmpleadoRestControllerVerPorDpto {
+public class EmpleadoRestControllerTestVerPorDpto {
 	
 	@Autowired
 	private EmpleadoRestController empleadoRestController;

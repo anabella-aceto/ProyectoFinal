@@ -133,7 +133,7 @@ public class PedidoRestController {
 		pedido.setIdPedido(pedidoDto.getIdPedido());
 		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
-		pedido.setEstado(estadoService.porDefecto("pendiente"));
+		pedido.setEstado(estadoService.porDefecto("Pendiente"));
 		pedido.setFecha(pedidoDto.getFecha());
 
 		if (pedidoService.altaPedido(pedido) != null) {

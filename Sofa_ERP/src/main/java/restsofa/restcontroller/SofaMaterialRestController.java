@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import restsofa.modelo.DTO.EmpleadoDto;
 import restsofa.modelo.DTO.SofaMaterialDto;
+import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.SofaMaterial;
 import restsofa.service.MaterialService;
 import restsofa.service.SofaMaterialService;
@@ -39,9 +42,6 @@ public class SofaMaterialRestController {
 	@Autowired
 	private MaterialService materialService;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
 	/*
 	 * Método que devuelve todos los sofás con todos sus materiales.
 	 *
@@ -60,6 +60,25 @@ public class SofaMaterialRestController {
 		else
 			return ResponseEntity.status(400).body("Error al cargar la lista");
 	}
+	
+	/**
+	 * Método que obtiene un material de sofá por su identificador único.
+	 *
+	 * @param idmaterialSofa El identificador único del material de sofá a buscar.
+	 * @return ResponseEntity con el material de sofá encontrado si existe, o un mensaje de
+	 *         error si no existe.
+	 */
+
+	@GetMapping("/uno/{idMaterialSofa}") // probado y funcionando
+	public ResponseEntity<?> buscarPorIdMaterialSofa(@PathVariable("idMaterialSofa") int idMaterialSofa) {
+
+		SofaMaterial sofaMaterial = sofaMaterialService.buscarUno(idMaterialSofa);
+		if (sofaMaterial != null)
+			return ResponseEntity.status(200).body(sofaMaterial);
+
+		else
+			return ResponseEntity.status(400).body("No se encuentra el material de sofá");
+	}
 
 	/**
 	 * Método que busca materiales por sofá.
@@ -73,13 +92,13 @@ public class SofaMaterialRestController {
 
 	public ResponseEntity<?> buscarPorSofa(@PathVariable("idSofa") int idSofa) {
 
-		List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(idSofa);
+		List<SofaMaterial> lista = sofaMaterialService.buscarPorSofa(idSofa);
 
-		if (sofaMaterial != null)
-			return ResponseEntity.status(200).body(sofaMaterial);
+		if (!lista.isEmpty())
+			return ResponseEntity.status(200).body(lista);
 
 		else
-			return ResponseEntity.status(400).body("Error al cargar sofá");
+			return ResponseEntity.status(400).body("La lista está vacía");
 
 	}
 
@@ -96,19 +115,44 @@ public class SofaMaterialRestController {
 
 	public ResponseEntity<?> altaSofaMaterial(@RequestBody SofaMaterialDto sofaMaterialDto) {
 
-		SofaMaterial sofaMaterial = new SofaMaterial();
+	    SofaMaterial sofaMaterial = new SofaMaterial();
+//	    modelMapper.map(sofaMaterialDto, sofaMaterial);
+	    sofaMaterial.setSofa(sofaService.buscarSofa(sofaMaterialDto.getIdSofa()));
+	    sofaMaterial.setMaterial(materialService.buscarUno(sofaMaterialDto.getIdMaterial()));
+	    sofaMaterial.setCantidadUtilizada(sofaMaterialDto.getCantidadUtilizada());
 
-		modelMapper.map(sofaMaterialDto, sofaMaterial);
+	    SofaMaterial materialGuardado = sofaMaterialService.insertOne(sofaMaterial);
+	    if (materialGuardado != null) {
+	        return ResponseEntity.status(HttpStatus.OK).body(materialGuardado);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	    }
+	}
+	
+	/**
+	 * Método que obtiene modifica los datos de un material de sofá.
+	 *
+	 * @param SofaMaterialDto. El DTO del material de sofá a modificar.
+	 * @return ResponseEntity con el mensaje del resultado de la modificación.
+	 */
+	@PutMapping("/modificar") // probado y funcionnado
 
-		sofaMaterial.setSofa(sofaService.buscarSofa(sofaMaterialDto.getIdSofa()));
-		sofaMaterial.setMaterial(materialService.buscarUno(sofaMaterialDto.getIdMaterial()));
-		sofaMaterial.setCantidadUtilizada(sofaMaterialDto.getCantidadUtilizada());
+	public ResponseEntity<?> modificar(@RequestBody SofaMaterialDto sofaMaterialDto) {
 
-		if (sofaMaterialService.insertOne(sofaMaterial) != null)
-			return ResponseEntity.status(200).body("Material ingresado correctamente " + sofaMaterial);
+		SofaMaterial sofaMaterial = sofaMaterialService.buscarUno(sofaMaterialDto.getIdSofaMateriales());
+
+		if (sofaMaterial != null) {
+			sofaMaterialDto.setIdSofaMateriales(sofaMaterial.getIdSofaMateriales());
+			sofaMaterial.setSofa(sofaService.buscarSofa(sofaMaterialDto.getIdSofa()));
+			sofaMaterial.setMaterial(materialService.buscarUno(sofaMaterialDto.getIdMaterial()));
+			sofaMaterialDto.setCantidadUtilizada(sofaMaterial.getCantidadUtilizada());
+			sofaMaterialService.updateOne(sofaMaterial);
+
+			return ResponseEntity.status(200).body("Modificación realizada correctamente " + sofaMaterial);
+		}
 
 		else
-			return ResponseEntity.status(400).body("Error al cargar sofá");
+			return ResponseEntity.status(400).body("Error al insertar datos de material de sofá");
 
 	}
 
@@ -120,7 +164,7 @@ public class SofaMaterialRestController {
 	 *         correctamente, o un mensaje de error si no.
 	 */
 
-	@PutMapping("/modificar") // probado y funcionando
+	@PutMapping("/modificarSofaMaterial/{idSofa}/{idMaterial}") // probado y funcionando
 
 	public ResponseEntity<?> modificarSofaMaterial(@RequestBody SofaMaterialDto sofaMaterialDto) {
 
@@ -132,13 +176,35 @@ public class SofaMaterialRestController {
 			sofaMaterial.setCantidadUtilizada(sofaMaterialDto.getCantidadUtilizada());
 			sofaMaterialService.updateOne(sofaMaterial);
 
-			return ResponseEntity.status(200).body("Material modificado correctamente " + sofaMaterial);
+			return ResponseEntity.status(200).body("Modificación realizada correctamente" + sofaMaterial);
 
 		}
 
 		else
 			return ResponseEntity.status(400).body("No se ha podido modificar el material");
 
+	}
+	
+	/*
+	 * Método que elimina un material de sofá.
+	 * 
+	 * @param idSofaMateriales El identificador único del material de sofá a eliminar. *
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 * eliminación.
+	 */
+	@DeleteMapping("/eliminar/{idSofaMateriales}") // probado y funcionando
+
+	public ResponseEntity<?> borrarUno(@PathVariable("idSofaMateriales") int idSofaMateriales) {
+
+		SofaMaterial sofaMaterial = sofaMaterialService.buscarUno(idSofaMateriales);
+
+		if (sofaMaterial != null) {
+			sofaMaterialService.deleteOne(sofaMaterial);
+			return ResponseEntity.status(200).body("Material de sofá eliminado correctamente");
+		}
+
+		return ResponseEntity.status(400).body("Error al borrar material de sofá");
 	}
 
 	/**
