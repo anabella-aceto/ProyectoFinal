@@ -49,8 +49,12 @@ public class SofaRestControllerTestAlta {
     public void testAlta() {
         // Crea un sofa de ejemplo
         Sofa nuevoSofa = new Sofa();
-        nuevoSofa.setNombre("Alhambra"); // Establece el nombre del sofa
-
+        nuevoSofa.setNombre("Alhambra"); // Establece el nombre del sofá
+        nuevoSofa.setDescripcion("Sofa de diseño vanguardista"); // Establece la descripción del sofá
+        nuevoSofa.setPatas(4); // Establece el número de patas del sofá
+        nuevoSofa.setMedidaCojin("52.00"); // Establece las medidas del coj´n
+        nuevoSofa.setPrecio(750); // Establece el precio del sofá
+        
         // Llama al método "alta"
         ResponseEntity<?> responseEntity = sofaRestController.alta(nuevoSofa);
 
