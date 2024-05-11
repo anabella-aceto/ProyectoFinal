@@ -183,6 +183,7 @@ public class DetallePedidoRestController {
 		detallePedido.setPrecio(detalleDto.getPrecio());
 		detallePedido.setDensCojin(detalleDto.getDensCojin());
 
+		detPedService.altaDetPed(detallePedido);
 		return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente " + detallePedido);
 			
 		

@@ -2,6 +2,8 @@ package restsofa.restcontrollertest.detallepedidorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Date;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,6 +48,11 @@ public class DetallePedidoRestControllerTestModificar {
         detalleDto.setIdDePed(4); // Establece un idDePed existente
         detalleDto.setIdPedido(4); // Establece el idPedido
         detalleDto.setIdSofa(1); // Establece el idSofa
+        detalleDto.setFecha(new Date());
+        detalleDto.setDensCojin(20);
+        detalleDto.setCantidad(2);
+        detalleDto.setPlazas(3);
+        detalleDto.setPrecio(1500);
 
         // Llama al método "modificar"
         ResponseEntity<?> response = detallePedidoRestController.modificar(detalleDto);
@@ -70,7 +77,7 @@ public class DetallePedidoRestControllerTestModificar {
     public void testModificarDetallePedidoNoExistente() {
         // Crea un detalle de pedido con un idDePed no existente
         DetallePedidoDto detalleDto = new DetallePedidoDto();
-        detalleDto.setIdDePed(99);
+        detalleDto.setIdDePed(-1); // Establece un id que no existe
 
         // Llama al método "modificar"
         ResponseEntity<?> response = detallePedidoRestController.modificar(detalleDto);
