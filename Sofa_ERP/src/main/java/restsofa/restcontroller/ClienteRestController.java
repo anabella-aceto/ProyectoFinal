@@ -3,6 +3,7 @@ package restsofa.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,17 +38,18 @@ public class ClienteRestController {
 	 * correctamente, o un mensaje de error si la lista está vacía.
 	 */
 
-	@GetMapping({ "/todos" }) // probado y funcionando
+	@GetMapping("/todos")
 	public ResponseEntity<?> todos() {
-
-		List<Cliente> lista = clienteService.buscarTodosClientes();
-
-		if (lista != null)
-			return ResponseEntity.status(200).body(lista);
-
-		else
-			return ResponseEntity.status(400).body("Error al cargar la lista");
+	    List<Cliente> lista = clienteService.buscarTodosClientes();
+	    
+	    if (!lista.isEmpty()) {
+	        return ResponseEntity.status(200).body(lista);
+	    } else {
+	        return ResponseEntity.status(204).build(); // Lista vacía
+	    }
 	}
+
+
 
 	/*
 	 * Método que devuelve un cliente.
@@ -58,18 +60,18 @@ public class ClienteRestController {
 	 * mensaje de error si no existe.
 	 */
 
-	@GetMapping("/uno/{idCliente}") // probado y funcionando
+	@GetMapping("/uno/{idCliente}")
 	public ResponseEntity<?> uno(@PathVariable int idCliente) {
+	    Cliente cliente = clienteService.buscarCliente(idCliente);
 
-		Cliente cliente = clienteService.buscarCliente(idCliente);
-
-		if (cliente != null)
-			return ResponseEntity.status(200).body(cliente);
-
-		else
-			return ResponseEntity.status(400).body("No se encuentra el cliente");
-
+	    if (cliente != null) {
+	        return ResponseEntity.status(HttpStatus.OK).body(cliente);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // No se proporciona ningún cuerpo de respuesta
+	    }
 	}
+
+
 
 	/*
 	 * Método que da de alta un cliente.
@@ -99,14 +101,17 @@ public class ClienteRestController {
 	 * modificación.
 	 */
 
-	@PutMapping("/modificar") // probado y funcionando
+	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody Cliente cliente) {
+	    Cliente clienteExistente = clienteService.buscarCliente(cliente.getIdCliente());
 
-		if (clienteService.buscarCliente(cliente.getIdCliente()) != null) {
-			clienteService.modifCliente(cliente);
-			return ResponseEntity.status(200).body("Modificación realizada correctamente " + cliente);
-		} else
-			return ResponseEntity.status(400).body("Error al modificar cliente en la base de datos");
+	    if (clienteExistente != null) {
+	        clienteService.modifCliente(cliente);
+	        return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente " + cliente);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                             .body("El cliente con el ID " + cliente.getIdCliente() + " no existe");
+	    }
 	}
 
 	/*
@@ -118,16 +123,17 @@ public class ClienteRestController {
 	 * eliminación.
 	 */
 
-	@DeleteMapping("/eliminar/{idCliente}") // probado y funcionando
+	@DeleteMapping("/eliminar/{idCliente}")
 	public ResponseEntity<?> borrar(@PathVariable int idCliente) {
+	    Cliente cliente = clienteService.buscarCliente(idCliente);
 
-		Cliente cliente = clienteService.buscarCliente(idCliente);
-
-		if (cliente != null) {
-			clienteService.borrarCliente(idCliente);
-			return ResponseEntity.status(200).body("Eliminación realizada correctamente");
-		} else
-			return ResponseEntity.status(400).body("Error al eliminar cliente en la base de datos");
+	    if (cliente != null) {
+	        clienteService.borrarCliente(idCliente);
+	        return ResponseEntity.status(HttpStatus.OK).body("Eliminación realizada correctamente");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                             .body("El cliente con el ID " + idCliente + " no existe");
+	    }
 	}
 
 }

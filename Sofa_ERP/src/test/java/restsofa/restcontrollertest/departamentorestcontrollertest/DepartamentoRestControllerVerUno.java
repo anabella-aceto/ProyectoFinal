@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.departamentorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import restsofa.restcontroller.DepartamentoRestController;
  * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
  * 
  */
+@SpringBootTest
 public class DepartamentoRestControllerVerUno {
 
 	@Autowired
@@ -45,7 +47,7 @@ public class DepartamentoRestControllerVerUno {
 	 * @return ResponseEntity con el resultado de la búsqueda.
 	 */
 	@Test
-	public void testUno() {
+	public void testUnoDepartamentoExiste() {
 		int idDepartamento = 3;
 		ResponseEntity<?> responseEntity = departamentoRestController.buscarUno(idDepartamento);
 
@@ -64,5 +66,30 @@ public class DepartamentoRestControllerVerUno {
 		// Verifica si el nombre del departamento es correcto
 		assertEquals("tapizado", departamento.getNombre(), "El nombre del departamento no coincide");
 	}
+	
+    /**
+     * Prueba del método "buscarUno" cuando el departamento no existe.
+     * 
+     * @Test
+     * Verifica que el código de estado de la respuesta sea 404 (Not Found).
+     * Verifica que el departamento obtenido del cuerpo de la respuesta sea nulo.
+     *
+	 * @param idDepartamento El identificador del departamento a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
+     */
+    @Test
+    public void testUnoDepartamentoNoExiste() {
+        int idDepartamento = -1; // ID de un departamento que no existe
+        ResponseEntity<?> responseEntity = departamentoRestController.buscarUno(idDepartamento);
+
+        // Verifica que el código de estado de la respuesta sea 404 (Not Found)
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Obtiene el departamento del cuerpo de la respuesta
+        Departamento departamento = (Departamento) responseEntity.getBody();
+
+        // Verifica que el departamento obtenido del cuerpo de la respuesta sea nulo
+        assertNull(departamento, "El departamento debería ser nulo");
+    }
 
 }

@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.clienterestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ClienteRestControllerTestVerUno {
      * @return ResponseEntity con el resultado de la búsqueda.
      */
     @Test
-    public void testUno() {
+    public void testUnoClienteExistente() {
         int clientId = 3;
         ResponseEntity<?> responseEntity = clienteRestController.uno(clientId);
 
@@ -66,4 +67,28 @@ public class ClienteRestControllerTestVerUno {
         // Verifica si el nombre del cliente es correcto
         assertEquals("Carlos", cliente.getNombre(), "El nombre del cliente no coincide");
     }
+    
+    /**
+     * Prueba del método "uno" cuando se intenta buscar un cliente que no existe.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea NOT_FOUND.
+     * Verifica que el cuerpo de la respuesta esté vacío.
+     *
+     * @param clienteNoExistenteId El identificador del cliente que no existe.
+     * @return ResponseEntity con el resultado de la búsqueda.
+     */
+    @Test
+    public void testUnoClienteNoExistente() {
+        int clienteNoExistenteId = -1; // idCliente que no existe
+        ResponseEntity<?> responseEntity = clienteRestController.uno(clienteNoExistenteId);
+
+        // Verifica que el código de estado de la respuesta sea NOT_FOUND
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Verifica que el cuerpo de la respuesta esté vacío
+        assertNull(responseEntity.getBody(), "El cuerpo de la respuesta debería estar vacío");
+    }
 }
+

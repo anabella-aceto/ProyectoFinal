@@ -44,7 +44,7 @@ public class ClienteRestControllerTestBorrar {
      * @return ResponseEntity con el resultado de la operación de borrado.
      */
     @Test
-    public void testBorrar() {
+    public void testBorrarClienteExistente() {
         int clientId = 6; // Reemplaza con un idCliente válido
         ResponseEntity<?> responseEntity = clienteRestController.borrar(clientId);
 
@@ -56,6 +56,33 @@ public class ClienteRestControllerTestBorrar {
 
         // Verifica que la eliminación fue correcta
         assertTrue(mensaje.contains("Eliminación realizada correctamente"), "La eliminación debería ser correcta");
+    }
+    
+    /**
+     * Prueba del método "borrar" cuando se intenta borrar un cliente que no existe.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea NOT_FOUND.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que el mensaje de la respuesta indica que el cliente no existe.
+     * 
+     * @param clientId El identificador del cliente a borrar.
+     * @return ResponseEntity con el resultado de la operación de borrado.
+     */
+    @Test
+    public void testBorrarClienteNoExistente() {
+        int clientId = -1; // idCliente que no existe
+        ResponseEntity<?> responseEntity = clienteRestController.borrar(clientId);
+
+        // Verifica que el código de estado de la respuesta sea NOT_FOUND
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Obtiene el mensaje de la respuesta
+        String mensaje = (String) responseEntity.getBody();
+
+        // Verifica que el mensaje de la respuesta indica que el cliente no existe
+        assertTrue(mensaje.contains("El cliente con el ID " + clientId + " no existe"), "El cliente no debería existir");
     }
 }
 

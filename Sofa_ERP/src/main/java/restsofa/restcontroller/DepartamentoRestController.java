@@ -3,6 +3,7 @@ package restsofa.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,16 +57,14 @@ public class DepartamentoRestController {
      * @return ResponseEntity con el departamento encontrado si existe, o un mensaje de error si no existe.
      */
 	
-	@GetMapping("/uno/{idDepartamento}")//probado y funcionando
-	public ResponseEntity<?> buscarUno(@PathVariable ("idDepartamento") int idDepartamento){
-		
-		Departamento departamento = departamentoService.buscarUno(idDepartamento);
-		if(departamento != null)
-			return ResponseEntity.status(200).body(departamento);
-		
-		
-		else
-			return ResponseEntity.status(500).body("NO hay elementos en la lista");
+	@GetMapping("/uno/{idDepartamento}")
+	public ResponseEntity<?> buscarUno(@PathVariable int idDepartamento) {
+	    Departamento departamento = departamentoService.buscarUno(idDepartamento);
+	    if (departamento != null) {
+	        return ResponseEntity.ok().body(departamento);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	    }
 	}
 	
 
@@ -94,18 +93,16 @@ public class DepartamentoRestController {
      * no se realizó la modificación.
      */
 	
-	@PutMapping("/modificar")//probado y funcionando
-	public ResponseEntity<?> modificarDepto(@RequestBody Departamento departamento){
-		
-		if(departamentoService.buscarUno(departamento.getIdDepartamento())!=null) {
-			departamentoService.updateOne(departamento);
-			return ResponseEntity.status(200).body("Modificación realizada correctamente" +departamento);
-		}
-		
-		else
-			return ResponseEntity.status(500).body("Error al modificar el departamento");
-		
-	}	
+	@PutMapping("/modificar")
+	public ResponseEntity<?> modificarDepto(@RequestBody Departamento departamento) {
+	    if (departamentoService.buscarUno(departamento.getIdDepartamento()) != null) {
+	        departamentoService.updateOne(departamento);
+	        return ResponseEntity.status(200).body("Modificación realizada correctamente" + departamento);
+	    } else {
+	        return ResponseEntity.status(404).body("Departamento no encontrado");
+	    }
+	}
+	
 	
 	/**
      * Elimina un departamento por su identificador.
@@ -113,20 +110,16 @@ public class DepartamentoRestController {
      * @param idDepartamento El identificador único del departamento a eliminar.
      * @return ResponseEntity con un mensaje indicando el resultado de la eliminación.
      */
-	@DeleteMapping("/eliminar/{idDepartamento}")//probado y funcionando	
-	public ResponseEntity<?> eliminarDepto(@PathVariable ("idDepartamento") int idDepartamento){
-		
-		if(departamentoService.buscarUno(idDepartamento)!=null) {
-			departamentoService.deleteOne(idDepartamento);
-			return ResponseEntity.status(200).body("Departamento eliminado correctamente");
-			
-		}
-		
-		else
-			return ResponseEntity.status(500).body("Error al modificar el departamento");
-		
-		
+	@DeleteMapping("/eliminar/{idDepartamento}")
+	public ResponseEntity<?> eliminarDepto(@PathVariable("idDepartamento") int idDepartamento) {
+	    boolean eliminado = departamentoService.deleteOne(idDepartamento);
+	    if (eliminado) {
+	        return ResponseEntity.status(200).body("Departamento eliminado correctamente");
+	    } else {
+	        return ResponseEntity.status(404).body("Departamento no encontrado");
+	    }
 	}
+
 }
 	
 	

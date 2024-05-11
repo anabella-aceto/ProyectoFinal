@@ -46,8 +46,8 @@ public class DepartamentoRestControllerTestBorrar {
      */
     
     @Test
-    public void testBorrar() {
-        int depId = 5; // Reemplaza con un idDepartamento válido
+    public void testBorrarDepartamentoExiste() {
+        int depId = 6; // Reemplaza con un idDepartamento válido
         ResponseEntity<?> responseEntity = departamentoRestController.eliminarDepto(depId);
 
         // Verifica que el código de estado de la respuesta sea OK
@@ -58,6 +58,34 @@ public class DepartamentoRestControllerTestBorrar {
 
         // Verifica que la eliminación fue correcta
         assertTrue(mensaje.contains("Departamento eliminado correctamente"), "La eliminación debería ser correcta");
+    }
+    
+    /**
+     * Prueba del método "eliminarDpto" cuando el departamento no existe.
+     * 
+     * @Test
+     * Anota este método como una prueba JUnit.
+     * 
+     * Verifica que el código de estado de la respuesta sea 404 (Not Found).
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que el mensaje indica que el departamento no fue encontrado.
+     * 
+     * @param depId El identificador del departamento a borrar.
+     * @return ResponseEntity con el resultado de la operación de borrado.
+     */
+    @Test
+    public void testBorrarDepartamentoNoExiste() {
+        int depId = -1; // Un id de departamento que no existe
+        ResponseEntity<?> responseEntity = departamentoRestController.eliminarDepto(depId);
+
+        // Verifica que el código de estado de la respuesta sea 404 (Not Found)
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Obtiene el mensaje de la respuesta
+        String mensaje = (String) responseEntity.getBody();
+
+        // Verifica que el mensaje indica que el departamento no existe
+        assertTrue(mensaje.contains("Departamento no encontrado"), "El mensaje debería indicar que el departamento no existe");
     }
 
 }

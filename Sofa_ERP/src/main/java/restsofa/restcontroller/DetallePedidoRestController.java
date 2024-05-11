@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -72,33 +73,33 @@ public class DetallePedidoRestController {
 
 	@GetMapping({ "/todos" })
 	public ResponseEntity<?> todos() {
+	    try {
+	        List<DetallePedido> lista = detPedService.buscarTodosDetPed();
 
-		try {
-			List<DetallePedido> lista = detPedService.buscarTodosDetPed();
+	        List<DetallePedidoDto> listaDto = new ArrayList<>();
 
-			List<DetallePedidoDto> listaDto = new ArrayList<>();
+	        for (DetallePedido detalle : lista) {
+	            DetallePedidoDto detalleDto = new DetallePedidoDto();
 
-			for (DetallePedido detalle : lista) {
+	            detalleDto.setIdDePed(detalle.getIdDePed());
+	            detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
+	            detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
+	            detalleDto.setCantidad(detalle.getCantidad());
+	            detalleDto.setPlazas(detalle.getPlazas());
+	            detalleDto.setDensCojin(detalle.getDensCojin());
+	            detalleDto.setFecha(detalle.getFecha());
+	            detalleDto.setPrecio(detalle.getPrecio());
+	            detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
 
-				DetallePedidoDto detalleDto = new DetallePedidoDto();
+	            listaDto.add(detalleDto);
+	        }
 
-				detalleDto.setIdDePed(detalle.getIdDePed());
-				detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
-				detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
-				detalleDto.setCantidad(detalle.getCantidad());
-				detalleDto.setPlazas(detalle.getPlazas());
-				detalleDto.setDensCojin(detalle.getDensCojin());
-				detalleDto.setFecha(detalle.getFecha());
-				detalleDto.setPrecio(detalle.getPrecio());
-				detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
-
-				listaDto.add(detalleDto);
-			}
-
-			return ResponseEntity.ok(listaDto.isEmpty() ? "No hay detalles de pedido disponibles" : listaDto);
-		} catch (Exception e) {
-			return ResponseEntity.status(400).body("Error al cargar la lista de detalle de pedido");
-		}
+	        return ResponseEntity.ok(listaDto.isEmpty() ? "No hay detalles de pedido disponibles" : listaDto);
+	    } catch (Exception e) {
+	        // Captura cualquier excepción y devuelve un estado 500 (INTERNAL_SERVER_ERROR)
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body("Error al cargar la lista de detalle de pedido: " + e.getMessage());
+	    }
 	}
 
 	/**
@@ -110,9 +111,9 @@ public class DetallePedidoRestController {
 	 */
 
 	@GetMapping("/uno/{idDePed}")
-	public ResponseEntity<?> uno(@PathVariable int idDetalle) {
+	public ResponseEntity<?> uno(@PathVariable int idDePed) {
 
-		DetallePedido detalle = detPedService.buscarDetPed(idDetalle);
+		DetallePedido detalle = detPedService.buscarDetPed(idDePed);
 
 		if (detalle != null) {
 

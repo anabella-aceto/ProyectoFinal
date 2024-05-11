@@ -49,7 +49,11 @@ public class ClienteRestControllerTestAlta {
         // Crea un cliente de ejemplo
         Cliente nuevoCliente = new Cliente();
         nuevoCliente.setNombre("Elisa"); // Establece el nombre del cliente
-
+        nuevoCliente.setApellidos("Salamanca"); // Establece el apellido del cliente
+        nuevoCliente.setDireccion("Calle Rosales"); // Establece la dirección del cliente
+        nuevoCliente.setEmail("elisasalamanca@gmail.com");  // Establece el email del cliente
+        nuevoCliente.setTelefono("956351487"); // Establece el teléfono del cliente
+        
         // Llama al método "alta"
         ResponseEntity<?> responseEntity = clienteRestController.alta(nuevoCliente);
 
