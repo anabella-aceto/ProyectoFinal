@@ -163,7 +163,7 @@ public class DetallePedidoRestController {
             int cantidadDisponible = material.getCantidad();
          
             if (cantidadDisponible < cantidadUtilizada) {
-            	return ResponseEntity.status(200).body("Stock insuficiente para el material: " + material.getNombre());
+            	return ResponseEntity.status(200).body("Stock insuficiente para el material: " + material.getNombre() + " - " + material.getDescripcion());
             }
             //Si hay suficientes unidades para descontar del almacén, procedemos a descontarlas y a guardarlo en la base de datos
             material.setCantidad(cantidadDisponible - cantidadUtilizada);
@@ -182,7 +182,8 @@ public class DetallePedidoRestController {
 		detallePedido.setPrecio(detalleDto.getPrecio());
 		detallePedido.setDensCojin(detalleDto.getDensCojin());
 
-		return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente " + detallePedido);
+		detPedService.altaDetPed(detallePedido);
+		return ResponseEntity.status(200).body("Detalle de pedido procesado correctamente ");
 			
 		
 		
