@@ -25,7 +25,7 @@ import restsofa.restcontroller.EmpleadoRestController;
  * 
  */
 @SpringBootTest
-public class EmpleadoRestControllerTesModificar {
+public class EmpleadoRestControllerTestModificar {
 
 	@Autowired
 	private EmpleadoRestController empleadoRestController;
@@ -41,7 +41,7 @@ public class EmpleadoRestControllerTesModificar {
 	 * @return ResponseEntity con el resultado de la operación de modificación.
 	 */
 	@Test
-	public void testModificar() {
+	public void testModificarEmpleadoExistente() {
 		// Crea un empleado de ejemplo
 		EmpleadoDto empExistente = new EmpleadoDto();
 		empExistente.setIdEmpleado(6); // Establece un idEmpleado existente
