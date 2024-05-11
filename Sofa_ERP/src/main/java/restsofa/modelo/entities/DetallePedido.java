@@ -16,6 +16,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @author David Rodriguez Moral
+ * @version 1.0
+ * 
  * Clase que representa un departamento.
  */
 
@@ -42,16 +45,16 @@ public class DetallePedido implements Serializable{
 		@JoinColumn(name="id_sofa")
 		private Sofa sofa;
 		
-		private int cantidad;
+		private Integer cantidad;
 	
-		private int plazas;
+		private Integer plazas;
 	
 		@Column(name="dens_cojin")
-		private int densCojin;
+		private Integer densCojin;
 		
 		private Date fecha;
 		
-		private double precio;
+		private Double precio;
 		
 		@ManyToOne
 		@JoinColumn(name="id_estado")

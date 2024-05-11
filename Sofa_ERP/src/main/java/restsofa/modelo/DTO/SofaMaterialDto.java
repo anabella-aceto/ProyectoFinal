@@ -17,7 +17,12 @@ import lombok.NoArgsConstructor;
 
 public class SofaMaterialDto {
 
-    /**
+	/**
+     * El identificador del material del sofá.
+     */
+    private int idSofaMateriales;
+	
+	/**
      * El identificador del sofá.
      */
     private int idSofa;

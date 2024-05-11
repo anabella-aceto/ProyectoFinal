@@ -192,7 +192,7 @@ public class MaterialRestController {
 			material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
 			material.setRefMaterialProveedor(materialDto.getRefMaterialProveedor());
 			materialService.updateOne(material);
-			return ResponseEntity.status(200).body("Material modificado exitosamente: " + material);
+			return ResponseEntity.status(200).body("Material modificado exitosamente" + material);
 		} else {
 			return ResponseEntity.status(404).body("No se encuentra el material");
 		}
@@ -216,7 +216,7 @@ public class MaterialRestController {
 			return ResponseEntity.status(200).body(material);
 
 		else
-			return ResponseEntity.status(404).body("Provvedor no encontrado");
+			return ResponseEntity.status(404).body("Proveedor no encontrado");
 
 	}
 
@@ -240,19 +240,31 @@ public class MaterialRestController {
 
 	}
 	
-	@PutMapping("restaurar/{idPedido}/{idSofa}")
-	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
-	    Pedido pedido = pedidoService.buscarPedido(idPedido);
-	    
-	    if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
-	        if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
-	            return ResponseEntity.status(200).body("Pedido restaurado");
-	        } else {
-	            return ResponseEntity.status(404).body("Error al restaurar los materiales");
-	        }
-	    } else {
-	        return ResponseEntity.status(404).body("El pedido no existe o no está en el estado adecuado para restaurar los materiales");
-	    }
-	}
-	
+    /**
+     * Método para restaurar materiales de un pedido.
+     *
+     * @param idPedido ID del pedido a restaurar.
+     * @param idSofa   ID del sofá a restaurar.
+     * @return ResponseEntity con el estado de la operación y un mensaje.
+     */
+    @PutMapping("restaurar/{idPedido}/{idSofa}")
+    public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
+        // Buscar el pedido en la base de datos
+        Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+        // Verificar si el pedido existe y está en un estado adecuado para restaurar materiales
+        if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
+            // Intentar restaurar los materiales
+            if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
+                // Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y un mensaje
+                return ResponseEntity.status(200).body("Pedido restaurado");
+            } else {
+                // Si ocurrió un error al restaurar los materiales, devolver un ResponseEntity con estado 404 y un mensaje de error
+                return ResponseEntity.status(404).body("Error al restaurar los materiales");
+            }
+        } else {
+            // Si el pedido no existe o no está en el estado adecuado para restaurar materiales, devolver un ResponseEntity con estado 404 y un mensaje de error
+            return ResponseEntity.status(404).body("El pedido no existe o no está en el estado adecuado para restaurar los materiales");
+        }
+    }
 }

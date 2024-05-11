@@ -61,7 +61,7 @@ public class TareaRestController {
 	 * correctamente, o un mensaje de error si no se cargó.
 	 */
 
-	@GetMapping({ "", "/" })
+	@GetMapping({ "", "/todas" })
 	public ResponseEntity<?> todos() {
 
 		try {
@@ -86,8 +86,8 @@ public class TareaRestController {
 	 *         error si no existe.
 	 */
 
-	@GetMapping("/{idTarea}")
-	public ResponseEntity<?> uno(@PathVariable int idTarea) {
+	@GetMapping("/una/{idTarea}")
+	public ResponseEntity<?> una(@PathVariable int idTarea) {
 
 		Tarea tarea = tareaService.buscarTarea(idTarea);
 
@@ -97,7 +97,7 @@ public class TareaRestController {
 
 			return ResponseEntity.status(200).body(tareaDto);
 		} else
-			return ResponseEntity.status(400).body("Error, no se encuentra la tarea");
+			return ResponseEntity.status(400).body("No se encuentra la tarea");
 	}
 
 	/*
@@ -150,7 +150,7 @@ public class TareaRestController {
 			tarea.setEstado(estadoService.buscarEstado(tareaDto.getIdEstado()));
 
 			tareaService.modifTarea(tarea);
-			return ResponseEntity.status(200).body("Tarea modificada correctamente");
+			return ResponseEntity.status(200).body("Modificación realizada correctamente");
 		} else
 			return ResponseEntity.status(400).body("No se puede modificar la tarea");
 	}

@@ -15,7 +15,17 @@ import restsofa.modelo.entities.Empleado;
 import restsofa.restcontroller.EmpleadoRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "listarPorPerfil" en EmpleadoRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
+ * 
  */
 @SpringBootTest
 public class EmpleadoRestControllerTestVerPorPerfil {
@@ -25,6 +35,20 @@ public class EmpleadoRestControllerTestVerPorPerfil {
 	
 	/**
 	 * Prueba del método "listarPorPerfil".
+	 *
+	 * @Test
+	 * Anota este método como una prueba JUnit.
+	 *
+	 * Verifica que el código de estado de la respuesta sea OK.
+	 * Obtiene la lista de empleados del cuerpo de la respuesta.
+	 * Verifica que la lista no esté vacía.
+	 * Asegura que el cuerpo de la respuesta sea igual a la lista de muestra.
+	 * Llama al método listarPorPerfil con un ID inválido (99).
+	 * Asegura que el código de estado de la respuesta sea 400.
+	 * Verifica el mensaje del cuerpo de la respuesta cuando la lista está vacía.
+	 *
+	 * @param idPerfil El identificador del perfil para filtrar los empleados.
+	 * @return ResponseEntity con la lista de empleados por perfil.
 	 */
 	@Test
 	public void testBuscarEmpPorPerfil() {

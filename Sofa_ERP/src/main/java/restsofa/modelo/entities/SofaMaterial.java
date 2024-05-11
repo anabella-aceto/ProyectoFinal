@@ -15,6 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @author David Rodriguez Moral
+ * @version 1.0
+ * 
  * Clase que representa los materiales que necesita un sofá.
  */
 
@@ -27,7 +30,6 @@ import lombok.NoArgsConstructor;
 public class SofaMaterial implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_sm")

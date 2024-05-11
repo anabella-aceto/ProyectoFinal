@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 import restsofa.modelo.entities.Pedido;
 import restsofa.repository.PedidoRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Implementación de la interfaz PedidoService.
  */

@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import restsofa.modelo.entities.Empleado;
 
 /**
+ * @author Anabella Aceto
+ * @version 1.0
+ * 
  * Interfaz que define un repositorio para la entidad Empleado. 
  * Extiende de JpaRepository para obtener métodos de acceso a datos comunes.
  *

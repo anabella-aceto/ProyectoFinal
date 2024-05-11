@@ -12,7 +12,17 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.ClienteRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "borrar" en ClienteRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
+ * 
  */
 @SpringBootTest
 public class ClienteRestControllerTestBorrar {
@@ -22,10 +32,20 @@ public class ClienteRestControllerTestBorrar {
 
     /**
      * Prueba del método "borrar".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que la eliminación fue correcta.
+     *
+     * @param clientId El identificador del cliente a borrar.
+     * @return ResponseEntity con el resultado de la operación de borrado.
      */
     @Test
     public void testBorrar() {
-        int clientId = 6; // Reemplaza con un idCliente
+        int clientId = 6; // Reemplaza con un idCliente válido
         ResponseEntity<?> responseEntity = clienteRestController.borrar(clientId);
 
         // Verifica que el código de estado de la respuesta sea OK
@@ -38,3 +58,4 @@ public class ClienteRestControllerTestBorrar {
         assertTrue(mensaje.contains("Eliminación realizada correctamente"), "La eliminación debería ser correcta");
     }
 }
+

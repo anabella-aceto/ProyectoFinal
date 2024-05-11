@@ -47,5 +47,6 @@ public class TareaDto {
     /**
      * La fecha de la tarea.
      */
-    private Date fecha;
+    private Date fecha;    
+
 }

@@ -16,7 +16,17 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "todos" en ClienteRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
+ * 
  */
 @SpringBootTest
 public class ClienteRestControllerTestVerTodos {
@@ -26,6 +36,16 @@ public class ClienteRestControllerTestVerTodos {
 
     /**
      * Prueba del método "todos".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene la lista de clientes del cuerpo de la respuesta.
+     * Verifica que la lista no esté vacía.
+     * Verifica si contiene clientes específicos.
+     *
+     * @return ResponseEntity con la lista de clientes.
      */
     @Test
     public void testTodos() {
@@ -52,3 +72,4 @@ public class ClienteRestControllerTestVerTodos {
         assertTrue(contieneClienteEspecifico, "La lista debe contener clientes específicos");
     }
 }
+

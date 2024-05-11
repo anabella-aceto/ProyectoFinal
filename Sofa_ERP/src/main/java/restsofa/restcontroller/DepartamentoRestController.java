@@ -77,7 +77,7 @@ public class DepartamentoRestController {
      */
 	
 	@PostMapping("/alta")//probado y funcionando
-	public ResponseEntity<?> buscarUno(@RequestBody Departamento departamento){
+	public ResponseEntity<?> alta(@RequestBody Departamento departamento){
 		
 		if(departamentoService.insertOne(departamento) != null)
 			return ResponseEntity.status(200).body(departamento);
@@ -99,7 +99,7 @@ public class DepartamentoRestController {
 		
 		if(departamentoService.buscarUno(departamento.getIdDepartamento())!=null) {
 			departamentoService.updateOne(departamento);
-			return ResponseEntity.status(200).body("Modificación exitosa " +departamento);
+			return ResponseEntity.status(200).body("Modificación realizada correctamente" +departamento);
 		}
 		
 		else

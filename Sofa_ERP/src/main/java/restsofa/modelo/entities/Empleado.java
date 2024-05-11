@@ -15,6 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @author David Rodriguez Moral
+ * @version 1.0
+ * 
  * Clase que representa un empleado.
  */
 
@@ -67,6 +70,11 @@ public class Empleado implements Serializable{
 	    this.fechaBaja = fechaBaja;
 	}
 	
+	/**
+	 * Marca el empleado como activo al establecer el atributo 'estado' en 1 (alta).
+	 *
+	 * @param fechaAlta La fecha de comienzo del contrato del empleado.
+	 */
 	public void darDeAltaEmpAntiguo(Date fechaAlta) {
 	    // Cambia el atributo "estado" a 1 (alta)
 	    this.estado = 1;

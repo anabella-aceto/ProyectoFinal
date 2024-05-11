@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import restsofa.modelo.entities.Tarea;
 
 /**
+ * @author Anabella Aceto
+ * @version 1.0
+ * 
  * Interfaz que define un repositorio para la entidad Tarea.
  * Extiende de JpaRepository para obtener métodos de acceso a datos comunes.
  *
@@ -25,4 +28,5 @@ public interface TareaRepository extends JpaRepository<Tarea, Integer> {
      */
     @Query("select t from Tarea t where t.empleado.idEmpleado = ?1")
     public List<Tarea> buscarPorEmpleado(int idEmpleado);
+
 }

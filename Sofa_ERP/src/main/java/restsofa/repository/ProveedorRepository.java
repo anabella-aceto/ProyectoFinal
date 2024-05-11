@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import restsofa.modelo.entities.Proveedor;
 
 /**
+ * @author Anabella Aceto
+ * @version 1.0
+ * 
  * Interfaz que define un repositorio para la entidad Proveedor.
  * Extiende JpaRepository para obtener métodos de acceso a datos comunes.
  *

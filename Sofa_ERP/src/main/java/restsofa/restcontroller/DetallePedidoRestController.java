@@ -160,7 +160,7 @@ public class DetallePedidoRestController {
 		for (SofaMaterial sofaMaterial : sofaMateriales) {
 		    Material material = sofaMaterial.getMaterial();
             int cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
-            int cantidadDisponible = material.getCantidad();
+            int cantidadDisponible = (int) material.getCantidad();
          
             if (cantidadDisponible < cantidadUtilizada) {
             	return ResponseEntity.status(200).body("Stock insuficiente para el material: " + material.getNombre() + " - " + material.getDescripcion());

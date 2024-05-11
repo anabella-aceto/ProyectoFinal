@@ -13,7 +13,17 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
 /**
+ * @author Alberto Saboya
+ * @version 1.0
+ * 
  * Clase de prueba JUnit para el método "modificar" en ClienteRestController.
+ *
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired
+ * Inyecta la instancia de `ClienteRestController` para realizar las pruebas.
+ * 
  */
 @SpringBootTest
 public class ClienteRestControllerTestModificar {
@@ -23,6 +33,16 @@ public class ClienteRestControllerTestModificar {
 
     /**
      * Prueba del método "modificar".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea OK.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que la modificación fue exitosa.
+     *
+     * @param clienteExistente El cliente con los datos a modificar.
+     * @return ResponseEntity con el resultado de la operación de modificación.
      */
     @Test
     public void testModificar() {
@@ -44,3 +64,4 @@ public class ClienteRestControllerTestModificar {
         assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
     }
 }
+
