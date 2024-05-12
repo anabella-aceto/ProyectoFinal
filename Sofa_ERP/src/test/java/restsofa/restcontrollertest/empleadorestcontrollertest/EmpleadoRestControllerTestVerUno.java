@@ -16,38 +16,36 @@ import restsofa.restcontroller.EmpleadoRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "buscarPorId" en EmpleadoRestController.
+ *          Clase de prueba JUnit para el método "buscarPorId" en
+ *          EmpleadoRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `EmpleadoRestController` para realizar las
+ *            pruebas.
  * 
  */
 @SpringBootTest
 public class EmpleadoRestControllerTestVerUno {
-	
+
 	@Autowired
 	private EmpleadoRestController empleadoRestController;
-	
+
 	/**
 	 * Prueba del método "buscarPorId".
 	 *
-	 * @Test
-	 * Anota este método como una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 *
-	 * Verifica que el código de estado de la respuesta sea HttpStatus.OK (200).
-	 * Obtiene el empleado del cuerpo de la respuesta.
-	 * Verifica que el empleado no sea nulo.
-	 * Verifica que el empleado tenga el idEmpleado correcto.
-	 * Verifica si el nombre del empleado es correcto.
+	 *       Verifica que el código de estado de la respuesta sea HttpStatus.OK
+	 *       (200). Obtiene el empleado del cuerpo de la respuesta. Verifica que el
+	 *       empleado no sea nulo. Verifica que el empleado tenga el idEmpleado
+	 *       correcto. Verifica si el nombre del empleado es correcto.
 	 *
 	 * @param empId El identificador del empleado a buscar.
 	 * @return ResponseEntity con el resultado de la búsqueda.
 	 */
 	@Test
-	public void testbuscarPorId() {
+	public void testbuscarPorId_EmpleadoExistente() {
 		int empId = 3;
 		ResponseEntity<?> responseEntity = empleadoRestController.buscarPorId(empId);
 
@@ -66,5 +64,31 @@ public class EmpleadoRestControllerTestVerUno {
 		// Verifica si el nombre del empleado es correcto
 		assertEquals("Pedro", empleado.getNombre(), "El nombre del empleado no coincide");
 	}
-}
 
+	/**
+	 * Prueba del método "buscarPorId" cuando no se encuentra el empleado.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 *
+	 *       Verifica que el código de estado de la respuesta sea
+	 *       HttpStatus.BAD_REQUEST (400) si no se encuentra el empleado. Verifica
+	 *       que el mensaje de error sea el esperado.
+	 *
+	 * @param empId El identificador del empleado a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
+	 */
+	@Test
+	public void testbuscarPorId_EmpleadoNoExistente() {
+		int empId = 999; // Un id que no exista en la base de datos
+
+		ResponseEntity<?> responseEntity = empleadoRestController.buscarPorId(empId);
+
+		// Asegura que el código de estado de la respuesta sea HttpStatus.NOT_FOUND
+		// (404)
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+		// Verifica que el mensaje de error sea el esperado
+		String mensajeError = (String) responseEntity.getBody();
+		assertEquals("No se encuentra el empleado", mensajeError, "El mensaje de error no coincide");
+	}
+}

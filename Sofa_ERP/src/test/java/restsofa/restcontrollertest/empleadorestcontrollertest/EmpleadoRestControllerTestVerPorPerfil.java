@@ -18,40 +18,37 @@ import restsofa.restcontroller.EmpleadoRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "listarPorPerfil" en EmpleadoRestController.
+ *          Clase de prueba JUnit para el método "listarPorPerfil" en
+ *          EmpleadoRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `EmpleadoRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `EmpleadoRestController` para realizar las
+ *            pruebas.
  * 
  */
 @SpringBootTest
 public class EmpleadoRestControllerTestVerPorPerfil {
-	
+
 	@Autowired
 	private EmpleadoRestController empleadoRestController;
-	
+
 	/**
-	 * Prueba del método "listarPorPerfil".
+	 * Prueba el caso en que se encuentran empleados por perfil.
 	 *
-	 * @Test
-	 * Anota este método como una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 *
-	 * Verifica que el código de estado de la respuesta sea OK.
-	 * Obtiene la lista de empleados del cuerpo de la respuesta.
-	 * Verifica que la lista no esté vacía.
-	 * Asegura que el cuerpo de la respuesta sea igual a la lista de muestra.
-	 * Llama al método listarPorPerfil con un ID inválido (99).
-	 * Asegura que el código de estado de la respuesta sea 400.
-	 * Verifica el mensaje del cuerpo de la respuesta cuando la lista está vacía.
+	 *       Se llama al método listarPorPerfil con un ID válido (1) y se verifica
+	 *       que la respuesta sea exitosa (código de estado 200 OK). Se obtiene la
+	 *       lista de empleados del cuerpo de la respuesta y se verifica que no esté
+	 *       vacía. Se asegura que el cuerpo de la respuesta sea igual a la lista de
+	 *       empleados esperada.
 	 *
-	 * @param idPerfil El identificador del perfil para filtrar los empleados.
+	 * @param empleadoRestController El controlador REST de empleados.
 	 * @return ResponseEntity con la lista de empleados por perfil.
 	 */
 	@Test
-	public void testBuscarEmpPorPerfil() {
+	public void testBuscarEmpPorPerfilExistente() {
 		// Llama al método listarPorPerfil con un idPerfil válido (1)
 		ResponseEntity<?> respuesta = empleadoRestController.listarPorPerfil(1);
 
@@ -66,14 +63,33 @@ public class EmpleadoRestControllerTestVerPorPerfil {
 
 		// Asegura que el cuerpo de la respuesta sea igual a la lista de muestra
 		assertEquals(empPorPerfil, respuesta.getBody());
+	}
 
-		// Llama al método listarPorPerfil con un ID inválido (99)
-		respuesta = empleadoRestController.listarPorPerfil(99);
+	/**
+	 * Prueba el caso en que se proporciona un perfil inválido.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 *
+	 *       Llama al método listarPorPerfil con un ID de perfil inválido (ID -1).
+	 *       Asegura que el código de estado de la respuesta sea 404 (Not Found).
+	 *       Verifica el mensaje del cuerpo de la respuesta cuando se proporciona un
+	 *       perfil inválido.
+	 *
+	 * @param empleadoRestController El controlador REST de empleados.
+	 * @return ResponseEntity con el mensaje de error cuando se proporciona un
+	 *         perfil inválido.
+	 */
+	@Test
+	public void testPerfilInvalido() {
+		// Llama al método listarPorPerfil con un idPerfil inválido (-1)
+		ResponseEntity<?> respuesta = empleadoRestController.listarPorPerfil(-1);
 
-		// Asegura que el código de estado de la respuesta sea 400
-		assertEquals(400, respuesta.getStatusCodeValue());
+		// Asegura que el código de estado de la respuesta sea HttpStatus.NOT_FOUND
+		// (404) ya que se espera que el perfil no se encuentre
+		assertEquals(HttpStatus.NOT_FOUND, respuesta.getStatusCode());
 
-		// Verifica el mensaje del cuerpo de la respuesta cuando la lista está vacía
-		assertEquals("La lista está vacía", respuesta.getBody());
+		// Verifica el mensaje del cuerpo de la respuesta cuando se proporciona un
+		// perfil inválido
+		assertEquals("No se encontró el perfil", respuesta.getBody());
 	}
 }
