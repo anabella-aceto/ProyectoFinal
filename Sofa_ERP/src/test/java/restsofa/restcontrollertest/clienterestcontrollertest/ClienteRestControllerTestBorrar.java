@@ -45,7 +45,7 @@ public class ClienteRestControllerTestBorrar {
      */
     @Test
     public void testBorrarClienteExistente() {
-        int clientId = 6; // Reemplaza con un idCliente válido
+        int clientId = 5; // Reemplaza con un idCliente válido
         ResponseEntity<?> responseEntity = clienteRestController.borrar(clientId);
 
         // Verifica que el código de estado de la respuesta sea OK

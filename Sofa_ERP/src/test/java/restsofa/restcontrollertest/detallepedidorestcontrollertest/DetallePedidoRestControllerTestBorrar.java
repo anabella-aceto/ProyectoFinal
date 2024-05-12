@@ -73,16 +73,17 @@ public class DetallePedidoRestControllerTestBorrar {
     @Test
     public void testBorrarNoExistente() {
         // Define un ID de detalle inexistente para simular el intento de eliminación
-        int idDetalle = 99;
+        int idDePed = -1;
         
         // Llama al método de borrado del controlador de DetallePedidoRestController
-        ResponseEntity<?> responseEntity = detallePedidoRestController.borrar(idDetalle);
+        ResponseEntity<?> responseEntity = detallePedidoRestController.borrar(idDePed);
         
         // Verifica que la respuesta del controlador sea un código de estado HTTP 400 (Bad Request)
         assertEquals(400, responseEntity.getStatusCodeValue());
         
         // Verifica que el mensaje de la respuesta sea "Detalle de pedido no se ha podido eliminar"
-        assertEquals("Detalle de pedido no se ha podido eliminar", responseEntity.getBody());
+        assertEquals("Detalle de pedido no se ha podido eliminar", responseEntity.getBody().toString());
+
     }
 
 }

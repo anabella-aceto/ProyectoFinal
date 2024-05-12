@@ -2,7 +2,6 @@ package restsofa.restcontrollertest.clienterestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,26 +68,29 @@ public class ClienteRestControllerTestVerUno {
     }
     
     /**
-     * Prueba del método "uno" cuando se intenta buscar un cliente que no existe.
+     * Prueba el método "uno" cuando el cliente no existe.
      *
-     * @Test Anota este método como una prueba JUnit.
-     *
-     * Verifica que el código de estado de la respuesta sea NOT_FOUND.
-     * Verifica que el cuerpo de la respuesta esté vacío.
-     *
-     * @param clienteNoExistenteId El identificador del cliente que no existe.
-     * @return ResponseEntity con el resultado de la búsqueda.
+     * Verifica que el código de estado de la respuesta sea Not Found (404).
+     * Verifica que el cuerpo de la respuesta contenga un mensaje de error.
+     * Verifica que el mensaje de error sea el esperado.
+     * 
+     * @throws AssertionError si alguna de las verificaciones falla.
+     * @param idCliente El identificador único del cliente que se espera no exista.
      */
     @Test
     public void testUnoClienteNoExistente() {
-        int clienteNoExistenteId = -1; // idCliente que no existe
-        ResponseEntity<?> responseEntity = clienteRestController.uno(clienteNoExistenteId);
+        // Llama al método "uno" con un ID de cliente que no existe
+        ResponseEntity<?> responseEntity = clienteRestController.uno(-1);
 
-        // Verifica que el código de estado de la respuesta sea NOT_FOUND
+        // Verifica que el código de estado de la respuesta sea Not Found (404)
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 
-        // Verifica que el cuerpo de la respuesta esté vacío
-        assertNull(responseEntity.getBody(), "El cuerpo de la respuesta debería estar vacío");
+        // Verifica que el cuerpo de la respuesta contenga un mensaje de error
+        assertNotNull(responseEntity.getBody(), "El cuerpo de la respuesta no debería ser nulo");
+
+        // Verifica que el cuerpo de la respuesta contenga el mensaje de error esperado
+        String expectedErrorMessage = "Cliente no encontrado con el ID: -1";
+        assertEquals(expectedErrorMessage, responseEntity.getBody(), "El mensaje de error no es el esperado");
     }
 }
 

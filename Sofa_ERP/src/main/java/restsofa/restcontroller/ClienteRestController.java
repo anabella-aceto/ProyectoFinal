@@ -31,109 +31,154 @@ public class ClienteRestController {
 	@Autowired
 	private ClienteService clienteService;
 
-	/*
-	 * Método que devuelve todos los clientes.
-	 * 
+	/**
+	 * Devuelve todos los clientes disponibles.
+	 *
 	 * @return ResponseEntity con la lista de todos los clientes si se obtienen
-	 * correctamente, o un mensaje de error si la lista está vacía.
+	 *         correctamente, o un mensaje si la lista está vacía.
 	 */
-
 	@GetMapping("/todos")
 	public ResponseEntity<?> todos() {
-	    List<Cliente> lista = clienteService.buscarTodosClientes();
-	    
-	    if (!lista.isEmpty()) {
-	        return ResponseEntity.status(200).body(lista);
-	    } else {
-	        return ResponseEntity.status(204).build(); // Lista vacía
-	    }
+		try {
+			// Buscar todos los clientes
+			List<Cliente> lista = clienteService.buscarTodosClientes();
+
+			// Verificar si la lista de clientes no está vacía
+			if (!lista.isEmpty()) {
+				// Si la lista no está vacía, devolver la lista de clientes con un estado OK
+				return ResponseEntity.ok(lista);
+			} else {
+				// Si la lista está vacía, devolver un mensaje indicando que no se encontraron
+				// clientes
+				return ResponseEntity.ok("No se encontraron clientes");
+			}
+		} catch (Exception e) {
+			// Capturar cualquier excepción y devolver un error interno del servidor
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al obtener la lista de clientes: " + e.getMessage());
+		}
 	}
 
-
-
-	/*
-	 * Método que devuelve un cliente.
-	 * 
-	 * @param idCliente. El identificador único del cliente.
-	 * 
+	/**
+	 * Devuelve un cliente por su identificador único.
+	 *
+	 * @param idCliente El identificador único del cliente.
 	 * @return ResponseEntity con el cliente si se obtiene correctamente, o un
-	 * mensaje de error si no existe.
+	 *         mensaje de error si no se encuentra el cliente.
 	 */
-
 	@GetMapping("/uno/{idCliente}")
 	public ResponseEntity<?> uno(@PathVariable int idCliente) {
-	    Cliente cliente = clienteService.buscarCliente(idCliente);
+		try {
+			// Buscar el cliente por su identificador
+			Cliente cliente = clienteService.buscarCliente(idCliente);
 
-	    if (cliente != null) {
-	        return ResponseEntity.status(HttpStatus.OK).body(cliente);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // No se proporciona ningún cuerpo de respuesta
-	    }
+			// Verificar si se encontró el cliente
+			if (cliente != null) {
+				// Si se encontró el cliente, devolver el cliente con un estado OK
+				return ResponseEntity.ok(cliente);
+			} else {
+				// Si no se encontró el cliente, devolver un mensaje de cliente no encontrado
+				// con un estado NOT FOUND
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("Cliente no encontrado con el ID: " + idCliente);
+			}
+		} catch (Exception e) {
+			// Capturar cualquier excepción y devolver un error interno del servidor
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al obtener el cliente: " + e.getMessage());
+		}
 	}
 
-
-
-	/*
-	 * Método que da de alta un cliente.
-	 * 
-	 * @param Cliente. Los datos del cliente.
-	 * 
+	/**
+	 * Da de alta un cliente con los datos proporcionados.
+	 *
+	 * @param cliente Los datos del cliente a dar de alta.
 	 * @return ResponseEntity con el cliente creado si se realizó correctamente, o
-	 * un mensaje de error si no se ha relaizado el alta.
+	 *         un mensaje de error si no se ha realizado el alta.
 	 */
-
-	@PostMapping("/alta") // probado y funcionando
+	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody Cliente cliente) {
+		try {
+			// Intentar dar de alta el cliente
+			Cliente clienteCreado = clienteService.altaCliente(cliente);
 
-		if (clienteService.altaCliente(cliente) != null)
-			return ResponseEntity.status(200).body(cliente);
-
-		else
-			return ResponseEntity.status(400).body("Error al cargar cliente en la base de datos");
+			// Verificar si se creó el cliente correctamente
+			if (clienteCreado != null) {
+				// Si se creó correctamente, devolver el cliente con un estado OK
+				return ResponseEntity.ok(clienteCreado);
+			} else {
+				// Si no se pudo crear el cliente, devolver un mensaje de error con un estado
+				// BAD REQUEST
+				return ResponseEntity.badRequest().body("Error al cargar cliente en la base de datos");
+			}
+		} catch (Exception e) {
+			// Capturar cualquier excepción y devolver un error interno del servidor
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al procesar la solicitud: " + e.getMessage());
+		}
 	}
 
-	/*
-	 * Método que modifica un cliente.
-	 * 
-	 * @param Cliente. Los datos del cliente.
-	 * 
+	/**
+	 * Modifica los datos de un cliente existente.
+	 *
+	 * @param cliente Los nuevos datos del cliente.
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
-	 * modificación.
+	 *         modificación.
 	 */
-
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody Cliente cliente) {
-	    Cliente clienteExistente = clienteService.buscarCliente(cliente.getIdCliente());
+		try {
+			// Buscar el cliente existente por su ID
+			Cliente clienteExistente = clienteService.buscarCliente(cliente.getIdCliente());
 
-	    if (clienteExistente != null) {
-	        clienteService.modifCliente(cliente);
-	        return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente " + cliente);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                             .body("El cliente con el ID " + cliente.getIdCliente() + " no existe");
-	    }
+			// Verificar si el cliente existe
+			if (clienteExistente != null) {
+				// Si el cliente existe, modificarlo
+				clienteService.modifCliente(cliente);
+				// Devolver un mensaje con el cliente modificado y un estado OK
+				return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente: " + cliente);
+			} else {
+				// Si el cliente no existe, devolver un mensaje de error con un estado NOT FOUND
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("El cliente con el ID " + cliente.getIdCliente() + " no existe");
+			}
+		} catch (Exception e) {
+			// Capturar cualquier excepción y devolver un error interno del servidor
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al procesar la solicitud: " + e.getMessage());
+		}
 	}
 
-	/*
-	 * Método que elimina un cliente.
-	 * 
-	 * @param idCliente. El identificador único del cliente.
-	 * 
+	/**
+	 * Elimina un cliente existente.
+	 *
+	 * @param idCliente El identificador único del cliente a eliminar.
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
-	 * eliminación.
+	 *         eliminación.
 	 */
-
 	@DeleteMapping("/eliminar/{idCliente}")
 	public ResponseEntity<?> borrar(@PathVariable int idCliente) {
-	    Cliente cliente = clienteService.buscarCliente(idCliente);
+		try {
+			// Buscar el cliente por su ID
+			Cliente cliente = clienteService.buscarCliente(idCliente);
 
-	    if (cliente != null) {
-	        clienteService.borrarCliente(idCliente);
-	        return ResponseEntity.status(HttpStatus.OK).body("Eliminación realizada correctamente");
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                             .body("El cliente con el ID " + idCliente + " no existe");
-	    }
+			// Verificar si el cliente existe
+			if (cliente != null) {
+				// Si el cliente existe, borrarlo
+				clienteService.borrarCliente(idCliente);
+				// Devolver un mensaje con un estado OK indicando que la eliminación se realizó
+				// correctamente
+				return ResponseEntity.status(HttpStatus.OK).body("Eliminación realizada correctamente");
+			} else {
+				// Si el cliente no existe, devolver un mensaje de error con un estado NOT FOUND
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("El cliente con el ID " + idCliente + " no existe");
+			}
+		} catch (Exception e) {
+			// Capturar cualquier excepción y devolver un error interno del servidor
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al procesar la solicitud: " + e.getMessage());
+		}
 	}
 
 }

@@ -47,7 +47,7 @@ public class DepartamentoRestControllerTestBorrar {
     
     @Test
     public void testBorrarDepartamentoExiste() {
-        int depId = 6; // Reemplaza con un idDepartamento válido
+        int depId = 5; // Reemplaza con un idDepartamento válido
         ResponseEntity<?> responseEntity = departamentoRestController.eliminarDepto(depId);
 
         // Verifica que el código de estado de la respuesta sea OK

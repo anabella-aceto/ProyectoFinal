@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.detallepedidorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class DetallePedidoRestControllerTestVerUno {
 	 * @return ResponseEntity con el resultado de la búsqueda.
 	 */
 	@Test
-	public void testbuscarPorId() {
+	public void testbuscarPorIdDetallePedidoExiste() {
 		int idDetallePedido = 1;
 		ResponseEntity<?> responseEntity = detallePedidoRestController.uno(idDetallePedido);
 
@@ -66,5 +67,31 @@ public class DetallePedidoRestControllerTestVerUno {
 		// Verifica si el pedido asociado es correcto
 		assertEquals(3, detallePedido.getIdPedido(), "El pedido asociado no coincide");
 	}
+	
+	/**
+	 * Prueba del método "uno" cuando el detalle de pedido no existe.
+	 *
+	 * @Test
+	 * Anota este método como una prueba JUnit.
+	 *
+	 * Verifica que el código de estado de la respuesta sea HttpStatus.NOT_FOUND (404).
+	 * Verifica que el cuerpo de la respuesta esté vacío.
+	 *
+	 * @param idDetallePedido El identificador del detalle de pedido a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
+	 */
+	@Test
+	public void testbuscarPorIdDetallePedidoNoExistente() {
+	    int idDetallePedido = -1; // Supongamos que -1 es un ID que no existe
+	    ResponseEntity<?> responseEntity = detallePedidoRestController.uno(idDetallePedido);
+
+	    // Asegura que el código de estado de la respuesta sea HttpStatus.NOT_FOUND (404)
+	    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+	    // Verifica que el cuerpo de la respuesta contenga el mensaje de error apropiado
+	    String errorMessage = (String) responseEntity.getBody();
+	    assertEquals("El detalle de pedido con ID " + idDetallePedido + " no se encontró.", errorMessage);
+	}
+
 
 }

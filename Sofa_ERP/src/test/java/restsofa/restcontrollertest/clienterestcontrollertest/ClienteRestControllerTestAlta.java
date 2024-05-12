@@ -68,6 +68,7 @@ public class ClienteRestControllerTestAlta {
 
         // Verifica que el nombre del cliente guardado coincida con el nombre esperado
         assertEquals("Elisa", clienteGuardado.getNombre(), "El nombre del cliente guardado no coincide");
-    }
+    }    
+
 }
 
