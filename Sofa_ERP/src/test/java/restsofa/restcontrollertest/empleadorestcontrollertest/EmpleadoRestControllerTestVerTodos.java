@@ -57,7 +57,7 @@ public class EmpleadoRestControllerTestVerTodos {
 
 		boolean containsSpecificClient = false;
 		for (Empleado empleado : empleados) {
-			if (empleado.getIdEmpleado() == 4 || empleado.getNombre().equals("Laura")) {
+			if (empleado.getIdEmpleado() == 4 || empleado.getNombre().equals("Ana")) {
 				containsSpecificClient = true;
 				break;
 			}

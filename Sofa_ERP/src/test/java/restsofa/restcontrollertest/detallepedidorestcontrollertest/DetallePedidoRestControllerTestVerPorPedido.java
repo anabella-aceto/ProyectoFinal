@@ -57,7 +57,7 @@ public class DetallePedidoRestControllerTestVerPorPedido {
     @Test
     public void testFiltrarPorPedidoNoExistente() {
         // Define un ID de pedido inexistente
-        int idPedido = 99;
+        int idPedido = -1;
         // Llama al método del controlador para filtrar por pedido
         ResponseEntity<?> responseEntity = detallePedidoRestController.filtrarPorPedido(idPedido);
         // Verifica que el código de estado de la respuesta sea BadRequest (400)

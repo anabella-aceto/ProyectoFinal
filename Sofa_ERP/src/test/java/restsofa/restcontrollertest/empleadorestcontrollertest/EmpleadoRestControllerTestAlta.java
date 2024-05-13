@@ -3,6 +3,8 @@ package restsofa.restcontrollertest.empleadorestcontrollertest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Date;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,6 +53,12 @@ public class EmpleadoRestControllerTestAlta {
         // Crea un empleado de ejemplo
         EmpleadoDto nuevoEmpleado = new EmpleadoDto();
         nuevoEmpleado.setNombre("Elisa"); // Establece el nombre del empleado
+        nuevoEmpleado.setApellidos("Cazorla"); // Establece los apellidos del empleado
+        nuevoEmpleado.setIdDepartamento(2); // Establece el departamento del empleado
+        nuevoEmpleado.setIdPerfil(1); // Establece el perfil del empleado
+        nuevoEmpleado.setFechaIngreso(new Date()); // Establece la fecha de ingreso del empleado
+        nuevoEmpleado.setSalario(26000); // Establece el salario del empleado
+        
 
         // Llama al método "alta"
         ResponseEntity<?> responseEntity = empleadoRestController.alta(nuevoEmpleado);

@@ -45,7 +45,7 @@ public class DepartamentoRestControllerTestModificar {
      * @return ResponseEntity con el resultado de la operación de modificación.
      */
     @Test
-    public void testModificar() {
+    public void testModificarDepartamentoExiste() {
         // Crea un departamento de ejemplo
         Departamento depExistente = new Departamento();
         depExistente.setIdDepartamento(5); // Establece un idDepartamento existente
@@ -62,6 +62,36 @@ public class DepartamentoRestControllerTestModificar {
 
         // Verifica que la modificación fue exitosa
         assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
+    }
+    
+    /**
+     * Prueba del método "modificarDepto" cuando el departamento no existe.
+     * 
+     * Verifica que el código de estado de la respuesta sea 404 (Not Found).
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que el mensaje indica que el departamento no fue encontrado.
+     * 
+     * @param depNoExistente El departamento con los datos a modificar.
+     * @return ResponseEntity con el resultado de la operación de modificación.
+     */
+    @Test
+    public void testModificarDepartamentoNoExiste() {
+        // Crea un departamento de ejemplo que no existe en la base de datos
+        Departamento depNoExistente = new Departamento();
+        depNoExistente.setIdDepartamento(-1); // Establece un idDepartamento que no existe
+        depNoExistente.setNombre("departamentoNoExistente"); // Establece el nombre del departamento
+
+        // Llama al método "modificarDepto" con el departamento no existente
+        ResponseEntity<?> responseEntity = departamentoRestController.modificarDepto(depNoExistente);
+
+        // Verifica que el código de estado de la respuesta sea 404 (Not Found)
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Obtiene el mensaje de la respuesta
+        String mensaje = (String) responseEntity.getBody();
+
+        // Verifica que el mensaje indica que el departamento no fue encontrado
+        assertTrue(mensaje.contains("Departamento no encontrado"), "El mensaje debería indicar que el departamento no existe");
     }
 
 }

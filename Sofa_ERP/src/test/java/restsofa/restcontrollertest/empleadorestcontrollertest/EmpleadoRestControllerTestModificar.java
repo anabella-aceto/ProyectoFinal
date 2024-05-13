@@ -3,6 +3,8 @@ package restsofa.restcontrollertest.empleadorestcontrollertest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Date;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +16,7 @@ import restsofa.restcontroller.EmpleadoRestController;
 
 /**
  * @author Alberto Saboya
- * @version 1.0 * 
- *          Clase de prueba JUnit para el método "modificarEmpleado" en
+ * @version 1.0 * Clase de prueba JUnit para el método "modificarEmpleado" en
  *          EmpleadoRestController.
  *
  * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
@@ -31,13 +32,13 @@ public class EmpleadoRestControllerTestModificar {
 	private EmpleadoRestController empleadoRestController;
 
 	/**
-	 * Prueba del método "modificarEmpleado".
+	 * Prueba el método "modificarEmpleado" cuando el empleado existe.
 	 *
-	 * @Test Anota este método como una prueba JUnit.	 *
-	 *       Verifica que el código de estado de la respuesta sea OK. Obtiene el
-	 *       mensaje de la respuesta. Verifica que la modificación fue exitosa.
+	 * @Test Anota este método como una prueba JUnit. Verifica que el código de
+	 *       estado de la respuesta sea OK y que el mensaje de la respuesta indique
+	 *       una modificación exitosa.
 	 *
-	 * @param empExistente El empleado con los datos a modificar.
+	 * @param empleadoExistente El empleado con los datos a modificar.
 	 * @return ResponseEntity con el resultado de la operación de modificación.
 	 */
 	@Test
@@ -46,6 +47,11 @@ public class EmpleadoRestControllerTestModificar {
 		EmpleadoDto empExistente = new EmpleadoDto();
 		empExistente.setIdEmpleado(6); // Establece un idEmpleado existente
 		empExistente.setNombre("Roberto"); // Establece el nombre del empleado
+		empExistente.setApellidos("Gomez"); // Establece el apellido del empleado
+		empExistente.setIdDepartamento(2); // Establece el departamento del empleado
+		empExistente.setIdPerfil(2); // Establece el perfil del empleado
+		empExistente.setFechaIngreso(new Date());
+		empExistente.setSalario(32000);
 
 		// Llama al método "modificarEmpleado"
 		ResponseEntity<?> responseEntity = empleadoRestController.modificarEmpleado(empExistente);
@@ -59,4 +65,5 @@ public class EmpleadoRestControllerTestModificar {
 		// Verifica que la modificación fue exitosa
 		assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
 	}
+
 }

@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.departamentorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import restsofa.restcontroller.DepartamentoRestController;
  * Inyecta la instancia de `DepartamentoRestController` para realizar las pruebas.
  * 
  */
+@SpringBootTest
 public class DepartamentoRestControllerVerUno {
 
 	@Autowired
@@ -45,7 +47,7 @@ public class DepartamentoRestControllerVerUno {
 	 * @return ResponseEntity con el resultado de la búsqueda.
 	 */
 	@Test
-	public void testUno() {
+	public void testUnoDepartamentoExiste() {
 		int idDepartamento = 3;
 		ResponseEntity<?> responseEntity = departamentoRestController.buscarUno(idDepartamento);
 
@@ -63,6 +65,39 @@ public class DepartamentoRestControllerVerUno {
 
 		// Verifica si el nombre del departamento es correcto
 		assertEquals("tapizado", departamento.getNombre(), "El nombre del departamento no coincide");
+	}
+	
+	/**
+	 * Prueba del método "buscarUno" cuando el departamento no existe.
+	 * 
+	 * @Test
+	 * Verifica que el código de estado de la respuesta sea 404 (Not Found).
+	 * Verifica que el cuerpo de la respuesta contenga un mensaje de error.
+	 *
+	 * @param idDepartamento El identificador del departamento a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
+	 */
+	@Test
+	public void testUnoDepartamentoNoExiste() {
+	    int idDepartamento = -1; // ID de un departamento que no existe
+	    ResponseEntity<?> responseEntity = departamentoRestController.buscarUno(idDepartamento);
+
+	    // Verifica que el código de estado de la respuesta sea 404 (Not Found)
+	    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+	    // Obtiene el cuerpo de la respuesta
+	    Object responseBody = responseEntity.getBody();
+
+	    // Verifica que el cuerpo de la respuesta no sea nulo
+	    assertNotNull(responseBody, "El cuerpo de la respuesta no debería ser nulo");
+
+	    // Verifica que el cuerpo de la respuesta sea un String
+	    assertTrue(responseBody instanceof String, "El cuerpo de la respuesta debería ser un String");
+
+	    // Verifica que el cuerpo de la respuesta contenga el mensaje de error esperado
+	    String errorMessage = (String) responseBody;
+	    assertEquals("No se encontró el departamento con el ID: " + idDepartamento, errorMessage,
+	            "El mensaje de error no es el esperado");
 	}
 
 }
