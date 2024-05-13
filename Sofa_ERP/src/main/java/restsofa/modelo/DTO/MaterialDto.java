@@ -48,6 +48,17 @@ public class MaterialDto {
      * La referencia del material proporcionada por el proveedor.
      */
     private String refMaterialProveedor;
+    
+    /**
+     * La categoria a la que pertenece el material
+     */
+    private String categoria;
+    
+    /**
+     * La unidad de medida de ese material
+     */
+    private String unidadMedida;
+     
 }
 	
 	

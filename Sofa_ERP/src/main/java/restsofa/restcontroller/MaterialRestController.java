@@ -191,6 +191,8 @@ public class MaterialRestController {
 			material.setNombre(materialDto.getNombre());
 			material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
 			material.setRefMaterialProveedor(materialDto.getRefMaterialProveedor());
+			material.setUnidadMedida(materialDto.getUnidadMedida());
+			material.setCategoria(materialDto.getCategoria());
 			materialService.updateOne(material);
 			return ResponseEntity.status(200).body("Material modificado exitosamente" + material);
 		} else {
