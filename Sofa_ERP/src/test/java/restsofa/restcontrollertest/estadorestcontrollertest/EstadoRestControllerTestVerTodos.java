@@ -36,14 +36,15 @@ public class EstadoRestControllerTestVerTodos {
     private EstadoRestController estadoRestController;
 
     /**
-     * Caso de prueba para el método "todos".
-     * Llama al método "todos" y verifica el código de estado de la respuesta,
-     * que la lista no esté vacía y que contenga estados específicos.
+     * Caso de prueba para el método "todos" del controlador de estados.
+     * Se verifica que al llamar al método "todos" del controlador, se reciba un código de estado 200 OK,
+     * que la lista de estados no esté vacía y que contenga estados específicos.
      *
-     * @throws Exception si ocurre algún error durante la prueba.
+     * @test Verifica el correcto funcionamiento del método "todos" del controlador de estados.
+     * @return No devuelve ningún valor, pero lanza una excepción si la prueba falla.
      */
     @Test
-    public void testTodos() throws Exception {
+    public void testTodos() {
         // Llama al método "todos"
         ResponseEntity<?> responseEntity = estadoRestController.todos();
 

@@ -55,14 +55,14 @@ public class EmpleadoRestControllerTestVerTodos {
 		List<Empleado> empleados = (List<Empleado>) responseEntity.getBody();	
 		assertFalse(empleados.isEmpty(), "La lista de empleados no debería estar vacía");
 
-		boolean containsSpecificClient = false;
+		boolean containsSpecificEmp = false;
 		for (Empleado empleado : empleados) {
 			if (empleado.getIdEmpleado() == 4 || empleado.getNombre().equals("Ana")) {
-				containsSpecificClient = true;
+				containsSpecificEmp = true;
 				break;
 			}
 		}				
-		assertTrue(containsSpecificClient, "La lista debe contener empleados");
+		assertTrue(containsSpecificEmp, "La lista debe contener empleados");
 	}
 
 }

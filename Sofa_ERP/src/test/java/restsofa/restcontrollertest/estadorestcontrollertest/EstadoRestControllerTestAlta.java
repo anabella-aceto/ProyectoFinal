@@ -48,7 +48,7 @@ public class EstadoRestControllerTestAlta {
     public void testAlta() {
         // Crear el objeto Estado que se enviará en la solicitud POST
         Estado estado = new Estado();
-        estado.setNombre("Exito");
+        estado.setNombre("Paralizado");
 
         // Invocar el método alta
         ResponseEntity<?> result = estadoRestController.alta(estado);
@@ -61,7 +61,7 @@ public class EstadoRestControllerTestAlta {
         assertTrue(result.getBody().toString().contains(estado.getNombre()));
 
         // Asumiendo que tienes un getter para el nombre en la clase Estado
-        assertEquals("Exito", estado.getNombre());
+        assertEquals("Paralizado", estado.getNombre());
     }
 }
 
