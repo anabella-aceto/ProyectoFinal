@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.detallepedidorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -19,59 +20,118 @@ import restsofa.restcontroller.DetallePedidoRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "todos" en DetallePedidoRestController.
+ *          Clase de prueba JUnit para el método "todos" en
+ *          DetallePedidoRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `DetallePeidoRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `DetallePeidoRestController` para realizar
+ *            las pruebas.
  * 
  */
 @SpringBootTest
 public class DetallePedidoRestControllerTestVerTodos {
-	
+
 	@Autowired
 	private DetallePedidoRestController detallePedidoRestController;
-	
+
 	/**
-	 * Prueba del método "todos".
+	 * Prueba para verificar que la respuesta del método todos() del controlador no
+	 * es nula.
 	 *
-	 * @Test
-	 * Anota este método como una prueba JUnit.
-	 *
-	 * Verifica que el código de estado de la respuesta sea OK.
-	 * Obtiene la lista de detalles de pedido del cuerpo de la respuesta.
-	 * Verifica que la lista no esté vacía.
-	 * Verifica si contiene detalles de pedido específicos.
-	 *
-	 * @return ResponseEntity con la lista de detalles de pedido.
+	 * @Test Anota este método como una prueba JUnit.
 	 */
 	@Test
-	public void testTodos() {
+	public void testTodosRespuestaNoNula() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
 
-        ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		// Verificar que la respuesta no sea nula
+		assertNotNull(responseEntity);
+	}
 
-        // Verificar el tipo de objeto devuelto por el controlador
-        assertTrue(responseEntity.getBody() instanceof List);
+	/**
+	 * Prueba para verificar el código de estado de la respuesta del método todos()
+	 * del controlador.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 */
+	@Test
+	public void testTodosCodigoEstado() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
 
-        // Convertir la lista de DTOs devuelta por el controlador
-        List<DetallePedidoDto> detallesPedidosDto = (List<DetallePedidoDto>) responseEntity.getBody();
+		// Verificar el código de estado de la respuesta
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	}
 
-        // Verificar que la lista no esté vacía
-        assertFalse(detallesPedidosDto.isEmpty(), "La lista de detalles de pedidos no debería estar vacía");
+	/**
+	 * Prueba para verificar que el cuerpo de la respuesta del método todos() del
+	 * controlador no es nulo.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 */
+	@Test
+	public void testTodosCuerpoRespuestaNoNulo() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
 
-        // Verificar que al menos un detalle de pedido tenga ciertos valores específicos
-        boolean containsSpecificDetail = false;
-        for (DetallePedidoDto detallePedidoDto : detallesPedidosDto) {
-            if (detallePedidoDto.getIdDePed() == 1 || detallePedidoDto.getIdPedido() == 3) {
-                containsSpecificDetail = true;
-                break;
-            }
-        }
-        assertTrue(containsSpecificDetail, "La lista debe contener detalles de pedido con ciertos valores específicos");
-    }
+		// Verificar que el cuerpo de la respuesta no sea nulo
+		assertNotNull(responseEntity.getBody());
+	}
 
+	/**
+	 * Prueba para verificar que el cuerpo de la respuesta del método todos() del
+	 * controlador es una lista.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 */
+	@Test
+	public void testTodosRespuestaListaDetallesPedido() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
 
+		// Verificar que el cuerpo de la respuesta sea una lista de detalles de pedido
+		assertTrue(responseEntity.getBody() instanceof List<?>);
+	}
+
+	/**
+	 * Prueba para verificar que la lista de detalles de pedido devuelta por el
+	 * método todos() del controlador no está vacía.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 */
+	@Test
+	public void testTodosNoVacia() {
+	    // Llamar al método todos() del controlador
+	    ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
+
+	    // Verificar que la lista de detalles de pedido no esté vacía
+	    List<DetallePedidoDto> detallesPedidos = (List<DetallePedidoDto>) responseEntity.getBody();
+	    assertFalse(detallesPedidos == null || detallesPedidos.isEmpty(), "La lista de detalles de pedido no debería estar vacía");
+	}
+
+	/**
+	 * Prueba para verificar si la lista de detalles de pedido contiene un detalle
+	 * de pedido específico.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 */
+	@Test
+	public void testTodosContieneDetallePedidoEspecifico() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = detallePedidoRestController.todos();
+
+		// Verificar que la lista de detalles de pedido contenga un detalle de pedido
+		// específico
+		List<DetallePedidoDto> detallesPedidos = (List<DetallePedidoDto>) responseEntity.getBody();
+		boolean contieneDetallePedidoEspecifico = false;
+		for (DetallePedidoDto detallePedido : detallesPedidos) {
+			if (detallePedido.getIdDePed() == 1 || detallePedido.getIdPedido() == 3) {
+				contieneDetallePedidoEspecifico = true;
+				break;
+			}
+		}
+		assertTrue(contieneDetallePedidoEspecifico, "La lista debe contener detalles de pedido específicos");
+	}
 }

@@ -51,60 +51,64 @@ public class PedidoRestController {
 	@Autowired
 	private EstadoService estadoService;
 
-	/*
+	/**
 	 * Método que devuelve todos los pedidos.
 	 *
 	 * @return ResponseEntity con la lista de pedidos si se pudo cargar
-	 * correctamente, o un mensaje de error si no se cargó.
+	 * correctamente, o un mensaje de error con estado 500 (INTERNAL_SERVER_ERROR) si no se cargó.
 	 */
 
-	@GetMapping( "/lista")
+	@GetMapping("/lista")
 	public ResponseEntity<?> lista() {
 		try {
 			List<Pedido> lista = pedidoService.buscarTodosPedidos();
-			
+
 			// Verificar si la lista de clientes no está vacía
-						if (!lista.isEmpty()) {
-							// Si la lista no está vacía, devolver la lista de clientes con un estado OK
-							return ResponseEntity.ok(lista);
-						} else {
-							// Si la lista está vacía, devolver un mensaje indicando que no se encontraron
-							// clientes
-							return ResponseEntity.ok("No se encontraron pedidos");
-						}
-					} catch (Exception e) {
-						// Capturar cualquier excepción y devolver un error interno del servidor
-						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-								.body("Error al obtener la lista de pedidos: " + e.getMessage());
-					}
+			if (!lista.isEmpty()) {
+				// Si la lista no está vacía, devolver la lista de clientes con un estado OK
+				return ResponseEntity.ok(lista);
+			} else {
+				// Si la lista está vacía, devolver un mensaje indicando que no se encontraron
+				// clientes
+				return ResponseEntity.ok("No se encontraron pedidos");
+			}
+		} catch (Exception e) {
+			// Capturar cualquier excepción y devolver un error interno del servidor
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al obtener la lista de pedidos: " + e.getMessage());
+		}
 	}
 	
-	@GetMapping({ "/todos" })
+	/**
+	 * Método que devuelve todos los pedidos.
+	 *
+	 * @return ResponseEntity con la lista de pedidos si se pudo cargar
+	 * correctamente, o un mensaje de error con estado 500 (INTERNAL_SERVER_ERROR) si no se cargó.
+	 */
+
+	@GetMapping("/todos")
 	public ResponseEntity<?> todos() {
+	    try {
+	        List<Pedido> lista = pedidoService.buscarTodosPedidos();
 
-		try {
-			List<Pedido> lista = pedidoService.buscarTodosPedidos();
+	        List<PedidoDto> listaDto = new ArrayList<>();
 
-			List<PedidoDto> listaDto = new ArrayList<>();
+	        for (Pedido pedido : lista) {
+	            PedidoDto pedidoDto = new PedidoDto();
 
-			for (Pedido pedido : lista) {
+	            pedidoDto.setIdPedido(pedido.getIdPedido());
+	            pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
+	            pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
+	            pedidoDto.setFecha(pedido.getFecha());
+	            pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 
-				PedidoDto pedidoDto = new PedidoDto();
+	            listaDto.add(pedidoDto);
+	        }
 
-				pedidoDto.setIdPedido(pedido.getIdPedido());
-				pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
-				pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
-				pedidoDto.setFecha(pedido.getFecha());
-				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
-
-				listaDto.add(pedidoDto);
-
-			}
-
-			return ResponseEntity.ok(listaDto.isEmpty() ? "No hay pedidos disponibles" : listaDto);
-		} catch (Exception e) {
-			return ResponseEntity.status(400).body("Error al cargar la lista de pedidos");
-		}
+	        return ResponseEntity.ok(listaDto.isEmpty() ? "No hay pedidos disponibles" : listaDto);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar la lista de pedidos");
+	    }
 	}
 
 	/**
@@ -148,7 +152,6 @@ public class PedidoRestController {
 	public ResponseEntity<?> alta(@RequestBody PedidoDto pedidoDto) {
 
 		Pedido pedido = new Pedido();
-		
 
 		modelMapper.map(pedidoDto, pedido);
 
@@ -201,7 +204,7 @@ public class PedidoRestController {
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 * cancelación.
 	 */
-	
+
 	@PutMapping("/cancelar/{idPedido}") // probado y funcionando
 
 	public ResponseEntity<?> cancelarPedido(@PathVariable int idPedido) {
@@ -213,7 +216,7 @@ public class PedidoRestController {
 			return ResponseEntity.status(400).body("No se ha podido cancelar el pedido");
 		}
 	}
-	
+
 	/*
 	 * Método que elimina un pedido.
 	 * 

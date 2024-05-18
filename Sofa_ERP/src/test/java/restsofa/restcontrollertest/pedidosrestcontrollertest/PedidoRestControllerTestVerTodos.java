@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.pedidosrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -35,32 +36,76 @@ public class PedidoRestControllerTestVerTodos {
 	private PedidoRestController pedidoRestController;
 
 	/**
-	 * Prueba del método "todos".
-	 *
-	 * @Test Anota este método como una prueba JUnit.
-	 *
-	 *       Verifica que el código de estado de la respuesta sea OK. Obtiene la
-	 *       lista de pedidos del cuerpo de la respuesta. Verifica que la lista no
-	 *       esté vacía. Verifica si contiene pedidos específicos.
-	 *
-	 * @return ResponseEntity con la lista de empleados.
+	 * Prueba para verificar el código de estado de la respuesta del método todos()
+	 * del controlador.
+	 * 
+     * @Test
+     * Anota este método como una prueba JUnit.	 
 	 */
 	@Test
-	public void testTodos() {
+	public void testTodosCodigoEstado() {
+		// Llamar al método todos() del controlador
 		ResponseEntity<?> responseEntity = pedidoRestController.todos();
+
+		// Verificar el código de estado de la respuesta
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	}
 
-		List<PedidoDto> pedidos = (List<PedidoDto>) responseEntity.getBody();
+	/**
+	 * Prueba para verificar que el cuerpo de la respuesta del método todos() del
+	 * controlador no es nulo.
+	 * 
+     * @Test
+     * Anota este método como una prueba JUnit.	 
+	 */
+	@Test
+	public void testTodosCuerpoRespuestaNoNulo() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = pedidoRestController.todos();
+
+		// Verificar que el cuerpo de la respuesta no sea nulo
+		assertNotNull(responseEntity.getBody());
+	}
+
+	/**
+	 * Prueba para verificar que la lista de pedidos devuelta por el método todos()
+	 * del controlador no está vacía.
+	 * 
+     * @Test
+     * Anota este método como una prueba JUnit.	 
+	 */
+	@Test
+	public void testTodosNoVacia() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = pedidoRestController.todos();
+
+		// Verificar que la lista de pedidos no esté vacía
+		List<?> pedidos = (List<?>) responseEntity.getBody();
 		assertFalse(pedidos.isEmpty(), "La lista de pedidos no debería estar vacía");
+	}
 
-		boolean containsSpecificPedido = false;
+	/**
+	 * Prueba para verificar si la lista de pedidos contiene un pedido específico.
+	 * 
+     * @Test
+     * Anota este método como una prueba JUnit.	 
+	 */
+	@Test
+	public void testTodosContienePedidoEspecifico() {
+		// Llamar al método todos() del controlador
+		ResponseEntity<?> responseEntity = pedidoRestController.todos();
+
+		// Verificar que la lista de pedidos contenga un pedido específico
+		List<PedidoDto> pedidos = (List<PedidoDto>) responseEntity.getBody();
+
+		boolean contienePedido = false;
 		for (PedidoDto pedido : pedidos) {
 			if (pedido.getIdPedido() == 4 || pedido.getIdCliente() == 5) {
-				containsSpecificPedido = true;
+				contienePedido = true;
 				break;
 			}
 		}
-		assertTrue(containsSpecificPedido, "La lista debe contener pedidos");
-	}
 
+		assertTrue(contienePedido, "La lista debe contener pedidos específicos");
+	}
 }

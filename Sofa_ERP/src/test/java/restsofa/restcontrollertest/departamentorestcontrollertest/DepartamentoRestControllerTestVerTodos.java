@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.departamentorestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -35,33 +36,88 @@ public class DepartamentoRestControllerTestVerTodos {
     private DepartamentoRestController departamentoRestController;
 
     /**
-     * Prueba del método "listarTodos".
+     * Prueba para verificar que la respuesta del método listarTodos() del controlador no es nula.
      *
-     * @Test
-     * Anota este método como una prueba JUnit.
-     *
-     * Verifica que el código de estado de la respuesta sea OK.
-     * Obtiene la lista de departamentos del cuerpo de la respuesta.
-     * Verifica que la lista no esté vacía.
-     * Verifica si contiene departamentos específicos.
-     *
-     * @return ResponseEntity con la lista de departamentos.
+     * @Test Anota este método como una prueba JUnit.
      */
     @Test
-    public void testTodos() {
-        // Llama al método "listarTodos"
+    public void testListarTodosRespuestaNoNula() {
+        // Llamar al método listarTodos() del controlador
         ResponseEntity<?> responseEntity = departamentoRestController.listarTodos();
 
-        // Verifica que el código de estado de la respuesta sea OK
+        // Verificar que la respuesta no sea nula
+        assertNotNull(responseEntity);
+    }
+
+    /**
+     * Prueba para verificar el código de estado de la respuesta del método listarTodos() del controlador.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosCodigoEstado() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = departamentoRestController.listarTodos();
+
+        // Verificar el código de estado de la respuesta
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
 
-        // Obtiene la lista de departamentos del cuerpo de la respuesta
-        List<Departamento> departamentos = (List<Departamento>) responseEntity.getBody();
+    /**
+     * Prueba para verificar que el cuerpo de la respuesta del método listarTodos() del controlador no es nulo.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosCuerpoRespuestaNoNulo() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = departamentoRestController.listarTodos();
 
-        // Verifica que la lista no esté vacía
+        // Verificar que el cuerpo de la respuesta no sea nulo
+        assertNotNull(responseEntity.getBody());
+    }
+
+    /**
+     * Prueba para verificar que el cuerpo de la respuesta del método listarTodos() del controlador es una lista.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosRespuestaListaDepartamentos() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = departamentoRestController.listarTodos();
+
+        // Verificar que el cuerpo de la respuesta sea una lista de departamentos
+        assertTrue(responseEntity.getBody() instanceof List<?>);
+    }
+
+    /**
+     * Prueba para verificar que la lista de departamentos devuelta por el método listarTodos() del controlador no está vacía.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosListaNoVacia() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = departamentoRestController.listarTodos();
+
+        // Verificar que la lista de departamentos no esté vacía
+        List<?> departamentos = (List<?>) responseEntity.getBody();
         assertFalse(departamentos.isEmpty(), "La lista de departamentos no debería estar vacía");
+    }
 
-        // Verifica si contiene departamentos específicos
+    /**
+     * Prueba para verificar si la lista de departamentos contiene un departamento específico.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosContieneDepartamentoEspecifico() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = departamentoRestController.listarTodos();
+
+        // Verificar que la lista de departamentos contenga un departamento específico
+        List<Departamento> departamentos = (List<Departamento>) responseEntity.getBody();
         boolean contieneDptoEspecifico = false;
         for (Departamento departamento : departamentos) {
             if (departamento.getIdDepartamento() == 4 || departamento.getNombre().equals("enfundado")) {
