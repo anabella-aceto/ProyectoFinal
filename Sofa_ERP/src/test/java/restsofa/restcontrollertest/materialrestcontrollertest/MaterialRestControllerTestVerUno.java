@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import restsofa.modelo.entities.Cliente;
 import restsofa.modelo.entities.Material;
 import restsofa.restcontroller.MaterialRestController;
 
@@ -67,5 +66,20 @@ public class MaterialRestControllerTestVerUno {
 		// Verifica si el nombre del material es correcto
 		assertEquals("Hilo", material.getNombre(), "El nombre del material no coincide");
 	}
+	
+    /**
+     * Caso de prueba para el método "buscarUno" cuando el material no se encuentra.
+     * Llama al método "buscarUno" con un ID de material que no existe y verifica que se devuelva un código de estado 404 Not Found.
+     */
+    @Test
+    public void testBuscarUnoMaterialNoEncontrado() {
+        // ID de material que no existe
+        int idMaterialNoExistente = -1;
 
+        // Llama al método "buscarUno" del controlador
+        ResponseEntity<?> responseEntity = materialRestController.buscarUno(idMaterialNoExistente);
+
+        // Verifica que el código de estado de la respuesta sea Not Found (404)
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
 }

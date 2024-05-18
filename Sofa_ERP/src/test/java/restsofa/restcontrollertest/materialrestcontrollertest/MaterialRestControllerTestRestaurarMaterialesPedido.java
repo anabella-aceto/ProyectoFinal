@@ -60,7 +60,7 @@ public class MaterialRestControllerTestRestaurarMaterialesPedido {
     @Test
     void restaurarMateriales_PedidoNoExiste_Devuelve404() {
         // Probamos un pedido que no existe y un idSofa que exista
-        int idPedido = 789;
+        int idPedido = 999;
         int idSofa = 1;
 
         // Llama al método "restaurarMateriales"

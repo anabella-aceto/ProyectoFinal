@@ -46,7 +46,7 @@ public class Material implements Serializable{
 	private Proveedor proveedor; 
 	
 	@Column(name="ref_material_prov")
-	private String refMaterialProveedor;
+	private int refMaterialProveedor;
 	
 	private String categoria;
 	

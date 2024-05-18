@@ -2,12 +2,14 @@ package restsofa.restcontrollertest.materialrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import restsofa.restcontroller.MaterialRestController;
@@ -32,7 +34,10 @@ public class MaterialRestControllerTestVerPorCategoria {
     
     /**
      * Prueba la búsqueda de materiales por una categoría existente en la base de datos.
-     * Verifica que la respuesta tenga un estado HTTP 200 y que el cuerpo contenga una lista de materiales.
+     *
+     * @test Verifica que la respuesta tenga un estado HTTP 200 y que el cuerpo contenga una lista de materiales.
+     * 
+     * @param categoria La categoría existente en la base de datos.
      */
     @Test
     public void buscarMaterialPorCategoriaExistenteTest() {
@@ -40,16 +45,22 @@ public class MaterialRestControllerTestVerPorCategoria {
         String categoria = "textil";
         
         // Ejecutar la acción a probar
-        ResponseEntity<?> respuesta = materialRestController.buscarMaterialPorProveedor(categoria);
+        ResponseEntity<?> respuesta = materialRestController.buscarMaterialPorCategoria(categoria);
        
         // Verifica el estado de la respuesta y que el cuerpo no esté vacío
-        assertEquals(200, respuesta.getStatusCodeValue());
+        assertEquals(HttpStatus.OK.value(), respuesta.getStatusCodeValue());
+        assertTrue(respuesta.getBody() instanceof List);
         assertFalse(((List<?>) respuesta.getBody()).isEmpty());
     }
 
     /**
      * Prueba la búsqueda de materiales por una categoría que no existe en la base de datos.
-     * Verifica que la respuesta tenga un estado HTTP 404 y que el cuerpo contenga el mensaje de error "Categoría no encontrada".
+     *
+     * @test Verifica que la respuesta tenga un estado HTTP 404 y que el cuerpo contenga el mensaje de error adecuado.
+     * 
+     * @param categoriaInexistente La categoría que no existe en la base de datos.
+     * 
+     * @return El resultado de la prueba.
      */
     @Test
     public void buscarMaterialPorCategoriaNoExistenteTest() {
@@ -57,10 +68,10 @@ public class MaterialRestControllerTestVerPorCategoria {
         String categoriaInexistente = "categoriaInexistente";
         
         // Ejecutar la acción a probar
-        ResponseEntity<?> respuesta = materialRestController.buscarMaterialPorProveedor(categoriaInexistente);
+        ResponseEntity<?> respuesta = materialRestController.buscarMaterialPorCategoria(categoriaInexistente);
         
         // Verifica el estado de la respuesta y que el mensaje de error sea el esperado
-        assertEquals(404, respuesta.getStatusCodeValue());
-        assertEquals("Categoría no encontrada", respuesta.getBody());
+        assertEquals(HttpStatus.NOT_FOUND.value(), respuesta.getStatusCodeValue());
+        assertEquals("No se encontraron materiales para la categoría proporcionada", respuesta.getBody());
     }
 }

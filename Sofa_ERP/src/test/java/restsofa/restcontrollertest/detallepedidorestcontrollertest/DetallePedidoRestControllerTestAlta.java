@@ -54,7 +54,7 @@ public class DetallePedidoRestControllerTestAlta {
 		DetallePedidoDto nuevoDetalle = new DetallePedidoDto();
 		nuevoDetalle.setIdPedido(6); // Establece el pedido del detalle de pedido
 		nuevoDetalle.setIdSofa(1); // Establece el sofa del detalle de pedido
-		nuevoDetalle.setCantidad(1); // Establece la cantidad del detalle de pedido
+		nuevoDetalle.setCantidad(3); // Establece la cantidad del detalle de pedido
 		nuevoDetalle.setDensCojin(20); // Establece la densidad del cojín del detalle de pedido
 		nuevoDetalle.setFecha(new Date()); // Establece la fecha del detalle de pedido
 		nuevoDetalle.setPlazas(3); // Establece el número de plazas de detalle e pedido

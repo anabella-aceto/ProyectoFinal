@@ -10,6 +10,7 @@ import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.SofaMaterial;
+import restsofa.repository.DetallePedidoRepository;
 import restsofa.repository.MaterialRepository;
 
 /**
@@ -31,10 +32,12 @@ public class MaterialServiceImplMy8 implements MaterialService {
 
 	@Autowired
 	private EstadoService estadoService;
-	
+
 	@Autowired
 	private DetallePedidoService detallePedidoService;
 
+	@Autowired
+	private DetallePedidoRepository detPedRepo;
 
 	/**
 	 * Método que permite crear un material
@@ -141,7 +144,7 @@ public class MaterialServiceImplMy8 implements MaterialService {
 	 * @return material que se corresponde con el parámetro ingresado.
 	 */
 	@Override
-	public Material findByProveedor(String refMaterialProveedor) {
+	public Material findByProveedor(int refMaterialProveedor) {
 
 		return mrepo.buscarPorProvedor(refMaterialProveedor);
 	}
@@ -184,46 +187,43 @@ public class MaterialServiceImplMy8 implements MaterialService {
 	}
 
 	/**
-	 * Método que restaura los materiales asociados a un pedido y un sofá específicos.
+	 * Método que restaura los materiales asociados a un pedido y un sofá
+	 * específicos.
 	 * 
 	 * @param idPedido El identificador único del pedido.
-	 * @param idSofa El identificador único del sofá.
+	 * @param idSofa   El identificador único del sofá.
 	 * @return 1 si los materiales se restauran correctamente, 0 en caso contrario.
 	 */
-	
+
 	@Override
 	public int restaurarMateriales(int idPedido, int idSofa) {
-
 		Pedido pedido = pedidoService.buscarPedido(idPedido);
-		
-		Estado estado = estadoService.buscarEstado(4);
+		Estado estado = estadoService.buscarEstado(4); // Estado de "Restaurado" (deberías ajustar según tu modelo)
 
-		if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
-			pedido.setEstado(estado);
-			
+		if (pedido != null && pedido.getEstado().getIdEstado() == 1) { // Si el pedido existe y está pendiente
+			pedido.setEstado(estado); // Actualiza el estado del pedido a "Restaurado"
+
 			List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(idSofa);
 
 			for (SofaMaterial sm : sofaMaterial) {
-				
 				int materialId = sm.getMaterial().getIdMaterial();
 				Material material = buscarUno(materialId);
 
+				double cantidad = sm.getCantidadUtilizada() + material.getCantidad();
 
-	            double cantidad = sm.getCantidadUtilizada() + material.getCantidad();
+				material.setCantidad(cantidad);
 
-	            material.setCantidad(cantidad);
-	            
-	            DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
-	            
-	            detallePedido.setEstado(estado);
-	            mrepo.save(material);
-	           
-	            
-	            return 1;
-		}
+				DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
+				detallePedido.setEstado(estado);
+
+				mrepo.save(material);
+				detPedRepo.save(detallePedido); // Guarda el estado del detalle del pedido
+			}
+			return 1; // Indica que la restauración fue exitosa
 		}
 
-		return 0;
+		return 0; // Si el pedido no está en el estado adecuado o no existe, indica que la
+					// restauración falló
 	}
 
 }

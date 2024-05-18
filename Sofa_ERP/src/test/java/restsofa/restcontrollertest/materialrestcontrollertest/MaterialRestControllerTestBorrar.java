@@ -44,9 +44,9 @@ public class MaterialRestControllerTestBorrar {
      * @return ResponseEntity con el resultado de la operación de borrado.
      */
     @Test
-    public void testBorrar() {
-        int materialId = 12; // Reemplaza con un idMaterial válido
-        ResponseEntity<?> responseEntity = materialRestController.elimnarMaterial(materialId);
+    public void testBorrarMaterialExistente() {
+        int materialId = 13; // Reemplaza con un idMaterial válido
+        ResponseEntity<?> responseEntity = materialRestController.eliminarMaterial(materialId);
 
         // Verifica que el código de estado de la respuesta sea OK
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -56,5 +56,33 @@ public class MaterialRestControllerTestBorrar {
 
         // Verifica que la eliminación fue correcta
         assertTrue(mensaje.contains("Material eliminado correctamente"), "La eliminación debería ser correcta");
+    }
+    
+    /**
+     * Prueba del método "eliminarMaterial".
+     *
+     * @Test
+     * Anota este método como una prueba JUnit.
+     *
+     * Verifica que el código de estado de la respuesta sea NOT_FOUND.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que se informe que el material no existe.
+     *
+     * @param materialId El identificador del material a borrar.
+     * @return ResponseEntity con el resultado de la operación de borrado.
+     */
+    @Test
+    public void testBorrarMaterialNoExistente() {
+        int materialId = -1; // Reemplaza con un idMaterial que no exista
+        ResponseEntity<?> responseEntity = materialRestController.eliminarMaterial(materialId);
+
+        // Verifica que el código de estado de la respuesta sea NOT_FOUND
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Obtiene el mensaje de la respuesta
+        String mensaje = (String) responseEntity.getBody();
+
+        // Verifica que se informe que el material no existe
+        assertTrue(mensaje.contains("El material no existe"), "El material no debería existir");
     }
 }

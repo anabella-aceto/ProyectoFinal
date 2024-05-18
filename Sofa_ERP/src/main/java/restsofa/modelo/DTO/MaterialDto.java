@@ -47,7 +47,7 @@ public class MaterialDto {
     /**
      * La referencia del material proporcionada por el proveedor.
      */
-    private String refMaterialProveedor;
+    private int refMaterialProveedor;
     
     /**
      * La categoria a la que pertenece el material

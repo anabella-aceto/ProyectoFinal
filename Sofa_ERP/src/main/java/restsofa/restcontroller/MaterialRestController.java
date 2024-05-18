@@ -2,7 +2,6 @@ package restsofa.restcontroller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import restsofa.service.MaterialService;
 import restsofa.service.PedidoService;
 import restsofa.service.ProveedorService;
 
-
 /**
  * Controlador para la gestión de los materiales.
  */
@@ -38,14 +36,10 @@ public class MaterialRestController {
 
 	@Autowired
 	private ProveedorService proveedorService;
-	
+
 	@Autowired
 	private PedidoService pedidoService;
 
-	@Autowired
-	private ModelMapper modelMapper;
-	
-	
 	/*
 	 * Método que devuelve todos los materiales.
 	 *
@@ -54,20 +48,19 @@ public class MaterialRestController {
 	 */
 
 	@GetMapping("/todos") // Probado y funcionando
-
 	public ResponseEntity<?> listarTodos() {
+		try {
+			List<Material> material = materialService.findAll();
 
-		List<Material> material = materialService.findAll();
-
-		if (!material.isEmpty())
-			return ResponseEntity.ok().body(material);
-
-		else if (material.isEmpty())
-			return ResponseEntity.ok().body("No hay materiales en la lista");
-
-		else
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar los materiales");
-
+			if (!material.isEmpty()) {
+				return ResponseEntity.ok().body(material);
+			} else {
+				return ResponseEntity.ok().body("No hay materiales en la lista");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al cargar los materiales: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -80,14 +73,17 @@ public class MaterialRestController {
 
 	@GetMapping("/uno/{idMaterial}") // Probado y funcionando
 	public ResponseEntity<?> buscarUno(@PathVariable("idMaterial") int idMaterial) {
-
-		Material material = materialService.findById(idMaterial);
-		if (material != null)
-			return ResponseEntity.ok().body(material);
-
-		else
+		try {
+			Material material = materialService.findById(idMaterial);
+			if (material != null) {
+				return ResponseEntity.ok().body(material);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El identificador del material no existe");
+			}
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("El identificador del material no existe");
+					.body("Error al buscar el material: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -100,13 +96,17 @@ public class MaterialRestController {
 
 	@GetMapping("/porNombre/{nombre}") // Probado y funcionando
 	public ResponseEntity<?> buscarPorNombre(@PathVariable("nombre") String nombre) {
-
-		List<Material> material = materialService.buscarPorNombre(nombre);
-		if (material != null)
-			return ResponseEntity.ok().body(material);
-
-		else
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se encuentra el material");
+		try {
+			List<Material> material = materialService.buscarPorNombre(nombre);
+			if (material != null && !material.isEmpty()) {
+				return ResponseEntity.ok().body(material);
+			} else {
+				return ResponseEntity.ok().body("No se encuentran materiales con el nombre proporcionado");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al buscar el material: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -119,37 +119,53 @@ public class MaterialRestController {
 	 */
 
 	@GetMapping("/porRefProveedor/{refMaterialProveedor}") // Probado y funcionando
-	public ResponseEntity<?> buscarPorRefProveedor(@PathVariable("refMaterialProveedor") String refMaterialProveedor) {
-
-		Material material = materialService.findByProveedor(refMaterialProveedor);
-		if (material != null)
-			return ResponseEntity.ok().body(material);
-
-		else
-			return ResponseEntity.status(500).body("No se encuentra el material");
+	public ResponseEntity<?> buscarPorRefProveedor(@PathVariable("refMaterialProveedor") int refMaterialProveedor) {
+		try {
+			Material material = materialService.findByProveedor(refMaterialProveedor);
+			if (material != null) {
+				return ResponseEntity.ok().body(material);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encuentra el material");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al buscar el material: " + e.getMessage());
+		}
 	}
 
 	/*
 	 * Método que permite crear un material.
 	 * 
-	 * @param material El material a dar de alta.
+	 * @param materialDto El objeto MaterialDto que contiene los detalles del
+	 * material a dar de alta.
 	 * 
-	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * alta.
+	 * @return ResponseEntity con el material creado en caso de éxito, o un mensaje
+	 * de error en caso de fallo.
 	 */
-
-	@PostMapping("/alta") // probado y funcionando
+	@PostMapping("/alta")
 	public ResponseEntity<?> altaMaterial(@RequestBody MaterialDto materialDto) {
+		try {
+			// Intentar dar de alta el material
+			Material material = new Material();
+			material.setNombre(materialDto.getNombre());
+			material.setDescripcion(materialDto.getDescripcion());
+			material.setCantidad(materialDto.getCantidad());
+			material.setRefMaterialProveedor(materialDto.getRefMaterialProveedor());
+			material.setCategoria(materialDto.getCategoria());
+			material.setUnidadMedida(materialDto.getUnidadMedida());
+			material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
 
-		Material material = new Material();
-		modelMapper.map(materialDto, material);
-		material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
+			Material materialNuevo = materialService.insertOne(material);
 
-		if (materialService.insertOne(material) != null)
-			return ResponseEntity.status(200).body(material);
-
-		else
-			return ResponseEntity.status(500).body("Error al ingresar el material");
+			// Verificar si se creó el material correctamente
+			if (materialNuevo != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(materialNuevo);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al insertar datos de material");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud");
+		}
 	}
 
 	/*
@@ -161,42 +177,52 @@ public class MaterialRestController {
 	 * eliminación.
 	 */
 
-	@DeleteMapping("/eliminar/{idMaterial}") // probado y funcionando
-	public ResponseEntity<?> elimnarMaterial(@PathVariable("idMaterial") int idMaterial) {
-
-		if (materialService.findById(idMaterial) != null) {
-			materialService.deleteOne(idMaterial);
-			return ResponseEntity.status(200).body("Material eliminado correctamente");
-		} else
-			return ResponseEntity.status(500).body("No es posible eliminar el material");
+	@DeleteMapping("/eliminar/{idMaterial}") // Probado y funcionando
+	public ResponseEntity<?> eliminarMaterial(@PathVariable("idMaterial") int idMaterial) {
+		try {
+			Material material = materialService.findById(idMaterial);
+			if (material != null) {
+				materialService.deleteOne(idMaterial);
+				return ResponseEntity.status(HttpStatus.OK).body("Material eliminado correctamente");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El material no existe");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al eliminar el material: " + e.getMessage());
+		}
 	}
 
 	/*
 	 * Método que modifica un material.
 	 * 
-	 * @param material El material con la información actualizada.
+	 * @param materialDto El material con la información actualizada.
 	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 * modificación.
 	 */
 
-	@PutMapping("/modificar") // probado y funcionando
+	@PutMapping("/modificar") // Probado y funcionando
 	public ResponseEntity<?> modificarMaterial(@RequestBody MaterialDto materialDto) {
+		try {
+			Material material = materialService.findById(materialDto.getIdMaterial());
 
-		Material material = materialService.findById(materialDto.getIdMaterial());
-
-		if (material != null) {
-			material.setCantidad(materialDto.getCantidad());
-			material.setDescripcion(materialDto.getDescripcion());
-			material.setNombre(materialDto.getNombre());
-			material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
-			material.setRefMaterialProveedor(materialDto.getRefMaterialProveedor());
-			material.setUnidadMedida(materialDto.getUnidadMedida());
-			material.setCategoria(materialDto.getCategoria());
-			materialService.updateOne(material);
-			return ResponseEntity.status(200).body("Material modificado exitosamente" + material);
-		} else {
-			return ResponseEntity.status(404).body("No se encuentra el material");
+			if (material != null) {
+				material.setCantidad(materialDto.getCantidad());
+				material.setDescripcion(materialDto.getDescripcion());
+				material.setNombre(materialDto.getNombre());
+				material.setProveedor(proveedorService.buscarUno(materialDto.getIdProveedor()));
+				material.setRefMaterialProveedor(materialDto.getRefMaterialProveedor());
+				material.setUnidadMedida(materialDto.getUnidadMedida());
+				material.setCategoria(materialDto.getCategoria());
+				materialService.updateOne(material);
+				return ResponseEntity.status(HttpStatus.OK).body("Material modificado exitosamente: " + material);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encuentra el material");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al modificar el material: " + e.getMessage());
 		}
 	}
 
@@ -208,18 +234,21 @@ public class MaterialRestController {
 	 * @return ResponseEntity con la lista de materiales encontrados si existen, o
 	 *         un mensaje de error si no existen.
 	 */
-	@GetMapping("/porProveedor/{idProveedor}") // probado y funcionando
-
+	@GetMapping("/porProveedor/{idProveedor}") // Probado y funcionando
 	public ResponseEntity<?> buscarMaterialPorProveedor(@PathVariable("idProveedor") int idProveedor) {
+		try {
+			List<Material> material = materialService.buscarPorProveedor(idProveedor);
 
-		List<Material> material = materialService.buscarPorProveedor(idProveedor);
-
-		if (material != null)
-			return ResponseEntity.status(200).body(material);
-
-		else
-			return ResponseEntity.status(404).body("Proveedor no encontrado");
-
+			if (material != null && !material.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.OK).body(material);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("No se encontraron materiales para el proveedor proporcionado");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al buscar los materiales: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -229,44 +258,61 @@ public class MaterialRestController {
 	 * @return ResponseEntity con la lista de materiales encontrados si existen, o
 	 *         un mensaje de error si no.
 	 */
-	@GetMapping("/porCategoria")
-	public ResponseEntity<?> buscarMaterialPorProveedor(@RequestParam(name = "categoria") String categoria) {
+	@GetMapping("/porCategoria") // Probado y funcionando
+	public ResponseEntity<?> buscarMaterialPorCategoria(@RequestParam(name = "categoria") String categoria) {
+		try {
+			List<Material> material = materialService.buscarPorCategoria(categoria);
 
-		List<Material> material = materialService.buscarPorCategoria(categoria);
-
-		if (!material.isEmpty())
-			return ResponseEntity.status(200).body(material);
-
-		else
-			return ResponseEntity.status(404).body("Categoría no encontrada");
-
+			if (material != null && !material.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.OK).body(material);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("No se encontraron materiales para la categoría proporcionada");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al buscar los materiales: " + e.getMessage());
+		}
 	}
-	
-    /**
-     * Método para restaurar materiales de un pedido.
-     *
-     * @param idPedido ID del pedido a restaurar.
-     * @param idSofa   ID del sofá a restaurar.
-     * @return ResponseEntity con el estado de la operación y un mensaje.
-     */
-    @PutMapping("restaurar/{idPedido}/{idSofa}")
-    public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
-        // Buscar el pedido en la base de datos
-        Pedido pedido = pedidoService.buscarPedido(idPedido);
 
-        // Verificar si el pedido existe y está en un estado adecuado para restaurar materiales
-        if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
-            // Intentar restaurar los materiales
-            if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
-                // Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y un mensaje
-                return ResponseEntity.status(200).body("Pedido restaurado");
-            } else {
-                // Si ocurrió un error al restaurar los materiales, devolver un ResponseEntity con estado 404 y un mensaje de error
-                return ResponseEntity.status(404).body("Error al restaurar los materiales");
-            }
-        } else {
-            // Si el pedido no existe o no está en el estado adecuado para restaurar materiales, devolver un ResponseEntity con estado 404 y un mensaje de error
-            return ResponseEntity.status(404).body("El pedido no existe o no está en el estado adecuado para restaurar los materiales");
-        }
-    }
+	/**
+	 * Método para restaurar materiales de un pedido.
+	 *
+	 * @param idPedido ID del pedido a restaurar.
+	 * @param idSofa   ID del sofá a restaurar.
+	 * @return ResponseEntity con el estado de la operación y un mensaje.
+	 */
+	@PutMapping("restaurar/{idPedido}/{idSofa}")
+	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
+		try {
+			// Buscar el pedido en la base de datos
+			Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+			// Verificar si el pedido existe y está en un estado adecuado para restaurar
+			// materiales
+			if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
+				// Intentar restaurar los materiales
+				if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
+					// Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y
+					// un mensaje
+					return ResponseEntity.status(HttpStatus.OK).body("Pedido restaurado");
+				} else {
+					// Si ocurrió un error al restaurar los materiales, devolver un ResponseEntity
+					// con estado 404 y un mensaje de error
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al restaurar los materiales");
+				}
+			} else {
+				// Si el pedido no existe o no está en el estado adecuado para restaurar
+				// materiales, devolver un ResponseEntity con estado 404 y un mensaje de error
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("El pedido no existe o no está en el estado adecuado para restaurar los materiales");
+			}
+		} catch (Exception e) {
+			// Si ocurre una excepción, devolver un ResponseEntity con estado 500 y el
+			// mensaje de la excepción
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al restaurar los materiales: " + e.getMessage());
+		}
+	}
+
 }
