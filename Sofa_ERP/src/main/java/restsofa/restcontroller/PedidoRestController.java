@@ -95,14 +95,8 @@ public class PedidoRestController {
 
 	        for (Pedido pedido : lista) {
 	            PedidoDto pedidoDto = new PedidoDto();
-
-	            pedidoDto.setIdPedido(pedido.getIdPedido());
-	            pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
-	            pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
-	            pedidoDto.setFecha(pedido.getFecha());
-	            pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
-
-	            listaDto.add(pedidoDto);
+	            
+	            listaDto.add(modelMapper.map(pedidoDto,  PedidoDto.class));
 	        }
 
 	        return ResponseEntity.ok(listaDto.isEmpty() ? "No hay pedidos disponibles" : listaDto);

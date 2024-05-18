@@ -3,6 +3,7 @@ package restsofa.restcontroller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,9 @@ public class DetallePedidoRestController {
 
 	@Autowired
 	private MaterialService materialService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	/**
 	 * Método que obtiene todos los detalles de pedido.
@@ -71,20 +75,8 @@ public class DetallePedidoRestController {
 
 			List<DetallePedidoDto> listaDto = new ArrayList<>();
 
-			for (DetallePedido detalle : lista) {
-				DetallePedidoDto detalleDto = new DetallePedidoDto();
-
-				detalleDto.setIdDePed(detalle.getIdDePed());
-				detalleDto.setIdPedido(detalle.getPedido().getIdPedido());
-				detalleDto.setIdSofa(detalle.getSofa().getIdSofa());
-				detalleDto.setCantidad(detalle.getCantidad());
-				detalleDto.setPlazas(detalle.getPlazas());
-				detalleDto.setDensCojin(detalle.getDensCojin());
-				detalleDto.setFecha(detalle.getFecha());
-				detalleDto.setPrecio(detalle.getPrecio());
-				detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
-
-				listaDto.add(detalleDto);
+			for (DetallePedido detalle : lista) {				
+				listaDto.add(modelMapper.map(detalle, DetallePedidoDto.class));
 			}
 
 			return ResponseEntity.ok(listaDto);
