@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,6 +58,27 @@ public class PedidoRestController {
 	 * correctamente, o un mensaje de error si no se cargó.
 	 */
 
+	@GetMapping( "/lista")
+	public ResponseEntity<?> lista() {
+		try {
+			List<Pedido> lista = pedidoService.buscarTodosPedidos();
+			
+			// Verificar si la lista de clientes no está vacía
+						if (!lista.isEmpty()) {
+							// Si la lista no está vacía, devolver la lista de clientes con un estado OK
+							return ResponseEntity.ok(lista);
+						} else {
+							// Si la lista está vacía, devolver un mensaje indicando que no se encontraron
+							// clientes
+							return ResponseEntity.ok("No se encontraron pedidos");
+						}
+					} catch (Exception e) {
+						// Capturar cualquier excepción y devolver un error interno del servidor
+						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+								.body("Error al obtener la lista de pedidos: " + e.getMessage());
+					}
+	}
+	
 	@GetMapping({ "/todos" })
 	public ResponseEntity<?> todos() {
 
