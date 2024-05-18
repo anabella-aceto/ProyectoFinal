@@ -55,182 +55,181 @@ public class PedidoRestController {
 	 * Método que devuelve todos los pedidos.
 	 *
 	 * @return ResponseEntity con la lista de pedidos si se pudo cargar
-	 * correctamente, o un mensaje de error con estado 500 (INTERNAL_SERVER_ERROR) si no se cargó.
+	 *         correctamente, o un mensaje de error con estado 500
+	 *         (INTERNAL_SERVER_ERROR) si no se cargó.
 	 */
-
 	@GetMapping("/lista")
 	public ResponseEntity<?> lista() {
 		try {
 			List<Pedido> lista = pedidoService.buscarTodosPedidos();
 
-			// Verificar si la lista de clientes no está vacía
 			if (!lista.isEmpty()) {
-				// Si la lista no está vacía, devolver la lista de clientes con un estado OK
 				return ResponseEntity.ok(lista);
 			} else {
-				// Si la lista está vacía, devolver un mensaje indicando que no se encontraron
-				// clientes
 				return ResponseEntity.ok("No se encontraron pedidos");
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al obtener la lista de pedidos: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Método que devuelve todos los pedidos.
 	 *
 	 * @return ResponseEntity con la lista de pedidos si se pudo cargar
-	 * correctamente, o un mensaje de error con estado 500 (INTERNAL_SERVER_ERROR) si no se cargó.
+	 *         correctamente, o un mensaje de error con estado 500
+	 *         (INTERNAL_SERVER_ERROR) si no se cargó.
 	 */
-
 	@GetMapping("/todos")
 	public ResponseEntity<?> todos() {
-	    try {
-	        List<Pedido> lista = pedidoService.buscarTodosPedidos();
+		try {
+			List<Pedido> lista = pedidoService.buscarTodosPedidos();
+			List<PedidoDto> listaDto = new ArrayList<>();
 
-	        List<PedidoDto> listaDto = new ArrayList<>();
+			for (Pedido pedido : lista) {
+				PedidoDto pedidoDto = new PedidoDto();
+				listaDto.add(modelMapper.map(pedido, PedidoDto.class));
+			}
 
-	        for (Pedido pedido : lista) {
-	            PedidoDto pedidoDto = new PedidoDto();
-	            
-	            listaDto.add(modelMapper.map(pedidoDto,  PedidoDto.class));
-	        }
-
-	        return ResponseEntity.ok(listaDto.isEmpty() ? "No hay pedidos disponibles" : listaDto);
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar la lista de pedidos");
-	    }
+			return ResponseEntity.ok(listaDto.isEmpty() ? "No hay pedidos disponibles" : listaDto);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar la lista de pedidos");
+		}
 	}
 
 	/**
-	 * Método que permite obtener un pedido por su identififcador.
+	 * Método que permite obtener un pedido por su identificador.
 	 *
 	 * @param idPedido El identificador único del pedido a buscar.
 	 * @return ResponseEntity con el pedido encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
-
 	@GetMapping("/uno/{idPedido}")
 	public ResponseEntity<?> uno(@PathVariable int idPedido) {
+		try {
+			Pedido pedido = pedidoService.buscarPedido(idPedido);
 
-		Pedido pedido = pedidoService.buscarPedido(idPedido);
+			if (pedido != null) {
+				PedidoDto pedidoDto = new PedidoDto();
+				pedidoDto.setIdPedido(pedido.getIdPedido());
+				pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
+				pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
+				pedidoDto.setFecha(pedido.getFecha());
+				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 
-		if (pedido != null) {
-
-			PedidoDto pedidoDto = new PedidoDto();
-
-			pedidoDto.setIdPedido(pedido.getIdPedido());
-			pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
-			pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
-			pedidoDto.setFecha(pedido.getFecha());
-			pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
-
-			return ResponseEntity.status(200).body(pedidoDto);
-		} else
-			return ResponseEntity.status(400).body("Error, no se encuentra el pedido");
+				return ResponseEntity.status(HttpStatus.OK).body(pedidoDto);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, no se encuentra el pedido");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al obtener el pedido: " + e.getMessage());
+		}
 	}
 
-	/*
+	/**
 	 * Método que permite crear un pedido.
-	 * 
-	 * @param pedido El pedido a dar de alta.
-	 * 
+	 *
+	 * @param pedidoDto El pedido a dar de alta.
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * alta.
+	 *         alta.
 	 */
-
 	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody PedidoDto pedidoDto) {
-
-		Pedido pedido = new Pedido();
-
-		modelMapper.map(pedidoDto, pedido);
-
-		pedido.setIdPedido(pedidoDto.getIdPedido());
-		pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
-		pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
-		pedido.setEstado(estadoService.porDefecto("Pendiente"));
-		pedido.setFecha(pedidoDto.getFecha());
-
-		if (pedidoService.altaPedido(pedido) != null) {
-
-			return ResponseEntity.status(200).body("Pedido procesado correctamente " + pedido);
-		} else
-			return ResponseEntity.status(400).body("Error al procesar el pedido");
-	}
-
-	/*
-	 * Método que modifica un pedido.
-	 * 
-	 * @param pedido El pedido con la información actualizada.
-	 * 
-	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * modificación.
-	 */
-
-	@PutMapping("/modificar")
-	public ResponseEntity<?> modificar(@RequestBody PedidoDto pedidoDto) {
-
-		Pedido pedido = pedidoService.buscarPedido(pedidoDto.getIdPedido());
-
-		if (pedido != null) {
-
+		try {
+			Pedido pedido = new Pedido();
+			modelMapper.map(pedidoDto, pedido);
 			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
-			pedido.setEstado(estadoService.buscarEstado(pedidoDto.getIdEstado()));
+			pedido.setEstado(estadoService.porDefecto("Pendiente"));
 			pedido.setFecha(pedidoDto.getFecha());
-			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getIdCliente()));
 
-			pedidoService.modifPedido(pedido);
-			return ResponseEntity.status(200).body("Pedido modificado correctamente");
-		} else
-			return ResponseEntity.status(400).body("No se puede modificar el pedido");
+			Pedido resultado = pedidoService.altaPedido(pedido);
+
+			if (resultado != null) {
+				return ResponseEntity.status(HttpStatus.OK).body("Pedido procesado correctamente " + pedido);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al procesar el pedido");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al dar de alta el pedido: " + e.getMessage());
+		}
 	}
 
-	/*
-	 * Método que modifica el estado de un pedido a cancelado, por identificador.
-	 * 
-	 * @param idPedido El identificador único del pedido a cancelar.
-	 * 
+	/**
+	 * Método que modifica un pedido.
+	 *
+	 * @param pedidoDto El pedido con la información actualizada.
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * cancelación.
+	 *         modificación.
 	 */
+	@PutMapping("/modificar")
+	public ResponseEntity<?> modificar(@RequestBody PedidoDto pedidoDto) {
+		try {
+			Pedido pedido = pedidoService.buscarPedido(pedidoDto.getIdPedido());
 
-	@PutMapping("/cancelar/{idPedido}") // probado y funcionando
+			if (pedido != null) {
+				pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
+				pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
+				pedido.setEstado(estadoService.buscarEstado(pedidoDto.getIdEstado()));
+				pedido.setFecha(pedidoDto.getFecha());
 
-	public ResponseEntity<?> cancelarPedido(@PathVariable int idPedido) {
-
-		if (pedidoService.cancelarPedido(idPedido)) {
-
-			return ResponseEntity.status(200).body("Pedido cancelado correctamente");
-		} else {
-			return ResponseEntity.status(400).body("No se ha podido cancelar el pedido");
+				pedidoService.modifPedido(pedido);
+				return ResponseEntity.status(HttpStatus.OK).body("Pedido modificado correctamente");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se puede modificar el pedido");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al modificar el pedido: " + e.getMessage());
 		}
 	}
 
-	/*
-	 * Método que elimina un pedido.
-	 * 
-	 * @param idPedido El identificador único del pedido a eliminar. *
-	 * 
-	 * @return ResponseEntity con un mensaje indicando el resultado de la
-	 * eliminación.
+	/**
+	 * Método que modifica el estado de un pedido a cancelado, por identificador.
+	 *
+	 * @param idPedido El identificador único del pedido a cancelar.
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
+	 *         cancelación.
 	 */
-	@DeleteMapping("/eliminar/{idPedido}") // probado y funcionando
-
-	public ResponseEntity<?> borrar(@PathVariable("idPedido") int idPedido) {
-
-		Pedido pedido = pedidoService.buscarPedido(idPedido);
-
-		if (pedido != null) {
-			pedidoService.borrarPedido(idPedido);
-			return ResponseEntity.status(200).body("Pedido eliminado correctamente");
+	@PutMapping("/cancelar/{idPedido}")
+	public ResponseEntity<?> cancelarPedido(@PathVariable int idPedido) {
+		try {
+			if (pedidoService.cancelarPedido(idPedido)) {
+				return ResponseEntity.status(HttpStatus.OK).body("Pedido cancelado correctamente");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha podido cancelar el pedido");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al cancelar el pedido: " + e.getMessage());
 		}
+	}
 
-		return ResponseEntity.status(400).body("Error al borrar pedido");
+	/**
+	 * Método que elimina un pedido.
+	 *
+	 * @param idPedido El identificador único del pedido a eliminar.
+	 * @return ResponseEntity con un mensaje indicando el resultado de la
+	 *         eliminación.
+	 */
+	@DeleteMapping("/eliminar/{idPedido}")
+	public ResponseEntity<?> borrar(@PathVariable("idPedido") int idPedido) {
+		try {
+			Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+			if (pedido != null) {
+				pedidoService.borrarPedido(idPedido);
+				return ResponseEntity.status(HttpStatus.OK).body("Pedido eliminado correctamente");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al borrar pedido");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al eliminar el pedido: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -240,16 +239,21 @@ public class PedidoRestController {
 	 * @return ResponseEntity con la lista de pedidos encontrados si existen, o un
 	 *         mensaje de error si no existen.
 	 */
-
-	@GetMapping("/porEstado/{idEstado}") // probado y funcionando
+	@GetMapping("/porEstado/{idEstado}")
 	public ResponseEntity<?> listarPorEstado(@PathVariable(name = "idEstado") int idEstado) {
-		List<Pedido> lista = pedidoService.buscarPorEstado(idEstado);
+		try {
+			List<Pedido> lista = pedidoService.buscarPorEstado(idEstado);
 
-		if (!lista.isEmpty())
-			return ResponseEntity.status(200).body(lista);
-
-		else
-			return ResponseEntity.status(400).body("No se encuentran elementos con el estado indicado");
+			if (!lista.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.OK).body(lista);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body("No se encuentran elementos con el estado indicado");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al listar los pedidos por estado: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -263,13 +267,18 @@ public class PedidoRestController {
 	@GetMapping("/porFecha")
 	public ResponseEntity<?> filtrarPorFecha(@RequestParam(name = "fechaInicio") Date fechaInicio,
 			@RequestParam(name = "fechaFin") Date fechaFin) {
+		try {
+			List<Pedido> lista = pedidoService.filtrarPorFecha(fechaInicio, fechaFin);
 
-		List<Pedido> lista = pedidoService.filtrarPorFecha(fechaInicio, fechaFin);
-
-		if (!lista.isEmpty())
-			return ResponseEntity.status(200).body(lista);
-		else
-			return ResponseEntity.status(400).body("No se encuentran elementos en el intervalod de fechas indicado");
+			if (!lista.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.OK).body(lista);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body("No se encuentran elementos en el intervalo de fechas indicado");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al filtrar los pedidos por fecha: " + e.getMessage());
+		}
 	}
-
 }

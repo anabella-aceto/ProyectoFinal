@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.sofamaterialrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -34,43 +35,97 @@ public class SofaMaterialRestControllerTestVerTodos {
 	@Autowired
 	private SofaMaterialRestController sofaMaterialRestController;
 
-	/**
-	 * Prueba del método "listarTodos".
-	 *
-	 * @Test
-	 * Anota este método como una prueba JUnit.
-	 *
-	 * Verifica que el código de estado de la respuesta sea OK.
-	 * Obtiene la lista de materiales de sofá del cuerpo de la respuesta.
-	 * Verifica que la lista no esté vacía.
-	 * Verifica si contiene materiales de sofá específicos.
-	 *
-	 * @return ResponseEntity con la lista de materiales de sofá.
-	 */
-	@Test
-	public void testTodos() {
-        // Obtiene la respuesta del controlador para listar todos los materiales
+    /**
+     * Prueba para verificar que la respuesta del método listarTodos() del controlador no es nula.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosRespuestaNoNula() {
+        // Llamar al método listarTodos() del controlador
         ResponseEntity<?> responseEntity = sofaMaterialRestController.listarTodos();
 
-        // Verifica que la respuesta sea un estado HTTP 200 (OK)
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Verificar que la respuesta no sea nula
+        assertNotNull(responseEntity);
+    }
 
-        // Obtiene la lista de materiales de sofás del cuerpo de la respuesta
+    /**
+     * Prueba para verificar el código de estado de la respuesta del método listarTodos() del controlador.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosCodigoEstado() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = sofaMaterialRestController.listarTodos();
+
+        // Verificar el código de estado de la respuesta
+        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());
+    }
+
+    /**
+     * Prueba para verificar que el cuerpo de la respuesta del método listarTodos() del controlador no es nulo.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosCuerpoRespuestaNoNulo() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = sofaMaterialRestController.listarTodos();
+
+        // Verificar que el cuerpo de la respuesta no sea nulo
+        assertNotNull(responseEntity.getBody());
+    }
+
+    /**
+     * Prueba para verificar que el cuerpo de la respuesta del método listarTodos() del controlador es una lista.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosRespuestaListaSofaMateriales() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = sofaMaterialRestController.listarTodos();
+
+        // Verificar que el cuerpo de la respuesta sea una lista de materiales de sofá
+        assertTrue(responseEntity.getBody() instanceof List<?>);
+    }
+
+    /**
+     * Prueba para verificar que la lista de materiales de sofá devuelta por el método listarTodos() del controlador no está vacía.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosNoVacia() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = sofaMaterialRestController.listarTodos();
+
+        // Verificar que la lista de materiales de sofá no esté vacía
+        List<?> listaSofaMateriales = (List<?>) responseEntity.getBody();
+        assertFalse(listaSofaMateriales.isEmpty());
+    }
+
+    /**
+     * Prueba para verificar si la lista de materiales de sofá contiene un material específico.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     */
+    @Test
+    public void testListarTodosContieneMaterialEspecifico() {
+        // Llamar al método listarTodos() del controlador
+        ResponseEntity<?> responseEntity = sofaMaterialRestController.listarTodos();
+
+        // Verificar si la lista de materiales de sofá contiene un material específico
         List<SofaMaterial> sofaMateriales = (List<SofaMaterial>) responseEntity.getBody();
-
-        // Verifica que la lista no esté vacía
-        assertFalse(sofaMateriales.isEmpty(), "La lista de materiales del sofá no debería estar vacía");
-
-        // Verifica si la lista contiene un material específico de sofá
-        boolean containsSpecificSofaMaterial = false;
+        boolean contieneMaterialEspecifico = false;
         for (SofaMaterial sofaMaterial : sofaMateriales) {
             if (sofaMaterial.getIdSofaMateriales() == 1 || sofaMaterial.getIdSofaMateriales() == 1
                     || sofaMaterial.getMaterial().getIdMaterial() == 1 || sofaMaterial.getCantidadUtilizada() == 20) {
-                containsSpecificSofaMaterial = true;
+                contieneMaterialEspecifico = true;
                 break;
             }
         }
-        assertTrue(containsSpecificSofaMaterial, "La lista debe contener materiales de sofás");
+        assertTrue(contieneMaterialEspecifico, "La lista debe contener materiales de sofá específicos");
     }
-
 }

@@ -3,6 +3,7 @@ package restsofa.restcontroller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,23 +31,21 @@ public class SofaRestController {
 	@Autowired
 	private SofaService sofaService;
 
-	/*
-	 * Método que devuelve todos los sofás .
+	/**
+	 * Método que devuelve todos los sofás.
 	 *
 	 * @return ResponseEntity con la lista de sofás si se pudo cargar correctamente,
-	 * o un mensaje de error si no se cargó.
+	 *         o un mensaje de error si no se cargó.
 	 */
-
 	@GetMapping("/todos")
 	public ResponseEntity<?> todos() {
-
-		List<Sofa> lista = sofaService.buscarTodosSofas();
-
-		if (lista != null)
-
-			return ResponseEntity.status(200).body(lista);
-		else
-			return ResponseEntity.status(400).body("Error al cargar la lista de sofás");
+		try {
+			List<Sofa> lista = sofaService.buscarTodosSofas();
+			return ResponseEntity.status(HttpStatus.OK).body(lista);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al cargar la lista de sofás: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -56,76 +55,85 @@ public class SofaRestController {
 	 * @return ResponseEntity con el sofá si existe, o un mensaje de error si no
 	 *         existe.
 	 */
-
 	@GetMapping("/uno/{idSofa}")
 	public ResponseEntity<?> uno(@PathVariable int idSofa) {
-
-		Sofa sofa = sofaService.buscarSofa(idSofa);
-
-		if (sofa != null)
-			return ResponseEntity.status(200).body(sofa);
-
-		else
-			return ResponseEntity.status(400).body("No se encuentra el sofá");
-
+		try {
+			Sofa sofa = sofaService.buscarSofa(idSofa);
+			if (sofa != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(sofa);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encuentra el sofá");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al buscar el sofá: " + e.getMessage());
+		}
 	}
 
-	/*
+	/**
 	 * Método que permite dar de alta un sofá.
 	 * 
-	 * @param sofa El sofa a dar de alta.
-	 * 
-	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * alta.
+	 * @param sofa El sofá a dar de alta.
+	 * @return ResponseEntity con el sofá dado de alta si el proceso fue exitoso, o
+	 *         un mensaje de error si no.
 	 */
-
 	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody Sofa sofa) {
-
-		if (sofaService.altaSofa(sofa) != null)
-			return ResponseEntity.status(200).body(sofa);
-		else
-			return ResponseEntity.status(400).body("Error al cargar el sofá en la BBDD");
+		try {
+			Sofa sofaGuardado = sofaService.altaSofa(sofa);
+			if (sofaGuardado != null) {
+				return ResponseEntity.status(HttpStatus.OK).body(sofaGuardado);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al cargar el sofá en la BBDD");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al dar de alta el sofá: " + e.getMessage());
+		}
 	}
 
-	/*
-	 * Método que modifica los datos de un sofa.
+	/**
+	 * Método que modifica los datos de un sofá.
 	 * 
-	 * @param sofa El sofa con la información actualizada.
-	 * 
+	 * @param sofa El sofá con la información actualizada.
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * modificación.
+	 *         modificación.
 	 */
-
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody Sofa sofa) {
-
-		if (sofaService.buscarSofa(sofa.getIdSofa()) != null) {
-			sofaService.modifSofa(sofa);
-			return ResponseEntity.status(200).body("Modificación de sofá realizada correctamente");
-		} else
-			return ResponseEntity.status(200).body("Error al modificar el sofá en la BBDD");
+		try {
+			if (sofaService.buscarSofa(sofa.getIdSofa()) != null) {
+				sofaService.modifSofa(sofa);
+				return ResponseEntity.status(HttpStatus.OK).body("Modificación de sofá realizada correctamente");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al modificar el sofá en la BBDD");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al modificar el sofá: " + e.getMessage());
+		}
 	}
 
-	/*
+	/**
 	 * Método que elimina un sofá.
 	 * 
-	 * @param idSofa. El identificador único del sofá.
-	 * 
+	 * @param idSofa El identificador único del sofá.
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
-	 * eliminación.
+	 *         eliminación.
 	 */
-
 	@DeleteMapping("/borrar/{idSofa}")
 	public ResponseEntity<?> borrar(@PathVariable int idSofa) {
-
-		Sofa sofa = sofaService.buscarSofa(idSofa);
-
-		if (sofa != null) {
-			sofaService.borrarSofa(idSofa);
-			return ResponseEntity.status(200).body("Sofá eliminado correctamente");
-		} else
-			return ResponseEntity.status(400).body("Error al eliminar el sofá en la BBDD");
+		try {
+			Sofa sofa = sofaService.buscarSofa(idSofa);
+			if (sofa != null) {
+				sofaService.borrarSofa(idSofa);
+				return ResponseEntity.status(HttpStatus.OK).body("Sofá eliminado correctamente");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar el sofá en la BBDD");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al eliminar el sofá: " + e.getMessage());
+		}
 	}
-
 }

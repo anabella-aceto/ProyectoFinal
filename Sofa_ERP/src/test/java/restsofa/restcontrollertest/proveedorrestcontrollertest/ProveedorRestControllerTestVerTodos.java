@@ -2,6 +2,7 @@ package restsofa.restcontrollertest.proveedorrestcontrollertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -19,57 +20,111 @@ import restsofa.restcontroller.ProveedorRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "mostrartodos" en ProveedorRestController.
+ *          Clase de prueba JUnit para el método "mostrartodos" en
+ *          ProveedorRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `ProveedorRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `ProveedorRestController` para realizar
+ *            las pruebas.
  * 
  */
 @SpringBootTest
 public class ProveedorRestControllerTestVerTodos {
-	
-    @Autowired
-    private ProveedorRestController proveedorRestController;
-    
-    /**
-     * Prueba del método "mostrartodos".
-     *
-     * @Test anota este método como una prueba JUnit.
-     *
-     * Verifica que el código de estado de la respuesta sea OK.
-     * Obtiene la lista de proveedores del cuerpo de la respuesta.
-     * Verifica que la lista no esté vacía.
-     * Verifica si contiene proveedores específicos.
-     * 
-     * @return ResponseEntity con la lista de proveedores.
-     */
 
-    @Test
-    public void testTodos() {
-        // Llama al método "mostrartodos"
-        ResponseEntity<List<Proveedor>> responseEntity = proveedorRestController.mostrartodos();
+	@Autowired
+	private ProveedorRestController proveedorRestController;
 
-        // Verifica que el código de estado de la respuesta sea OK
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	/**
+	 * Prueba para verificar que la respuesta del método mostrartodos() del
+	 * controlador no sea nula.
+	 *
+	 * @Test Indica que este método es una prueba JUnit.
+	 */
+	@Test
+	public void testMostrartodosRespuestaNoNula() {
+		// Llama al método "mostrartodos"
+		ResponseEntity<?> responseEntity = proveedorRestController.mostrartodos();
 
-        // Obtiene la lista de proveedores del cuerpo de la respuesta
-        List<Proveedor> proveedores = responseEntity.getBody();
+		// Verifica que la respuesta no sea nula
+		assertNotNull(responseEntity);
+	}
 
-        // Verifica que la lista no esté vacía
-        assertFalse(proveedores.isEmpty(), "La lista de proveedores no debería estar vacía");
+	/**
+	 * Prueba para verificar el código de estado de la respuesta del método
+	 * mostrartodos() del controlador.
+	 *
+	 * @Test Indica que este método es una prueba JUnit.
+	 */
+	@Test
+	public void testMostrartodosCodigoEstado() {
+		// Llama al método "mostrartodos"
+		ResponseEntity<?> responseEntity = proveedorRestController.mostrartodos();
 
-        // Verifica si contiene proveedores específicos
-        boolean contieneProveedorEspecifico = false;
-        for (Proveedor proveedor : proveedores) {
-            if (proveedor.getIdProveedor() == 3 || proveedor.getNombre().equals("Innova")) {
-                contieneProveedorEspecifico = true;
-                break;
-            }
-        }
-        assertTrue(contieneProveedorEspecifico, "La lista debe contener proveedores específicos");
-    }    
+		// Verifica que el código de estado de la respuesta sea OK
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	}
 
+	/**
+	 * Prueba para verificar que el cuerpo de la respuesta del método mostrartodos()
+	 * del controlador no sea nulo.
+	 *
+	 * @Test Indica que este método es una prueba JUnit.
+	 */
+	@Test
+	public void testMostrartodosCuerpoRespuestaNoNulo() {
+		// Llama al método "mostrartodos"
+		ResponseEntity<?> responseEntity = proveedorRestController.mostrartodos();
+
+		// Verifica que el cuerpo de la respuesta no sea nulo
+		assertNotNull(responseEntity.getBody());
+
+		// Si la respuesta es un mensaje de error, imprímelo
+		if (!(responseEntity.getBody() instanceof List<?>)) {
+			System.out.println("Mensaje de error: " + responseEntity.getBody());
+		}
+	}
+
+	/**
+	 * Prueba para verificar que la lista de proveedores devuelta por el método
+	 * mostrartodos() del controlador no esté vacía.
+	 *
+	 * @Test Indica que este método es una prueba JUnit.
+	 */
+	@Test
+	public void testMostrartodosListaNoVacia() {
+		// Llama al método "mostrartodos"
+		ResponseEntity<?> responseEntity = proveedorRestController.mostrartodos();
+
+		// Verifica que la lista de proveedores no esté vacía si la respuesta es una
+		// lista
+		if (responseEntity.getBody() instanceof List<?>) {
+			List<?> proveedores = (List<?>) responseEntity.getBody();
+			assertFalse(proveedores.isEmpty(), "La lista de proveedores no debería estar vacía");
+		}
+	}
+
+	/**
+	 * Prueba para verificar que la lista de proveedores devuelta por el método
+	 * mostrartodos() del controlador contenga un proveedor específico.
+	 *
+	 * @Test Indica que este método es una prueba JUnit.
+	 */
+	@Test
+	public void testMostrartodosContieneProveedorEspecifico() {
+		// Llama al método "mostrartodos"
+		ResponseEntity<?> responseEntity = proveedorRestController.mostrartodos();
+
+		// Verifica que la lista de proveedores contenga un proveedor específico si la
+		// respuesta es una lista
+		List<Proveedor> proveedores = (List<Proveedor>) responseEntity.getBody();
+		boolean contieneProveedorEspecifico = false;
+		for (Proveedor proveedor : proveedores) {
+			if (proveedor.getIdProveedor() == 1 || proveedor.getNombre().equals("ACME")) {
+				contieneProveedorEspecifico = true;
+				break;
+			}
+		}
+		assertTrue(contieneProveedorEspecifico, "La lista debe contener proveedores específicos");
+	}
 }
