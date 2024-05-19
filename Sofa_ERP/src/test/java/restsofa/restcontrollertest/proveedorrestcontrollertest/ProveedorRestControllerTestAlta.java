@@ -51,6 +51,8 @@ public class ProveedorRestControllerTestAlta {
         // Crea un proveedor de ejemplo
         Proveedor nuevoProveedor = new Proveedor();
         nuevoProveedor.setNombre("Integra");; // Establece el nombre del proveedor
+        nuevoProveedor.setDescripcion("Logistica"); // Establece una descripcion del proveedor
+        nuevoProveedor.setTelefono(625487123); // Establece un telefono del proveedor
 
         // Llama al método "alta"
         ResponseEntity<?> responseEntity = proveedorRestController.alta(nuevoProveedor);

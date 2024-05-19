@@ -83,16 +83,16 @@ public class ProveedorRestController {
 	 */
 	@GetMapping("/uno/{idProveedor}") // probado y funcionando
 	public ResponseEntity<?> uno(@PathVariable int idProveedor) {
-		try {
-			Proveedor proveedor = proveedorService.buscarUno(idProveedor);
-			if (proveedor != null)
-				return ResponseEntity.status(HttpStatus.OK).body(proveedor);
-			else
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encuentra el proveedor");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al obtener el proveedor: " + e.getMessage());
-		}
+	    try {
+	        Proveedor proveedor = proveedorService.buscarUno(idProveedor);
+	        if (proveedor != null)
+	            return ResponseEntity.status(HttpStatus.OK).body(proveedor);
+	        else
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encuentra el proveedor");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al obtener el proveedor: " + e.getMessage());
+	    }
 	}
 
 	/**

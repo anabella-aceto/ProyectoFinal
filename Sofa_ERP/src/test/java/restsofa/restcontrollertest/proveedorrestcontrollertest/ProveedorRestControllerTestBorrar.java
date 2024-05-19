@@ -31,7 +31,7 @@ public class ProveedorRestControllerTestBorrar {
     private ProveedorRestController proveedorRestController;
     
     /**
-     * Prueba del método "borrar".
+     * Prueba del método "borrar" cuando el proveedor existe.
      *
      * @Test
      * Anota este método como una prueba JUnit.
@@ -45,7 +45,7 @@ public class ProveedorRestControllerTestBorrar {
      */
     
     @Test
-    public void testBorrar() {
+    public void testBorrarProveedorExiste() {
         int proveedorId = 7; // Reemplaza con un idCliente válido
         ResponseEntity<?> responseEntity = proveedorRestController.borrar(proveedorId);
 
@@ -58,5 +58,30 @@ public class ProveedorRestControllerTestBorrar {
         // Verifica que la eliminación fue correcta
         assertTrue(mensaje.contains("Proveedor eliminado"), "La eliminación debería ser correcta");
     }
+    
+    /**
+     * Prueba del método "borrar" cuando el proveedor no existe.
+     *
+     * @Test Anota este método como una prueba JUnit.
+     *
+     *       Verifica que el código de estado de la respuesta sea BAD_REQUEST (400).
+     *       Verifica que el mensaje de la respuesta indique que el proveedor no existe.
+     *
+     * @param proveedorIdNoExistente El identificador del proveedor que se intenta borrar y no existe en el sistema.
+     * @return ResponseEntity con el resultado de la operación de borrado.
+     */
+    @Test
+    public void testBorrarProveedorNoExiste() {
+        int proveedorIdNoExistente = -1; // ID que probablemente no exista
 
+        // Llama al método "borrar"
+        ResponseEntity<?> responseEntity = proveedorRestController.borrar(proveedorIdNoExistente);
+
+        // Verifica que el código de estado de la respuesta sea BAD_REQUEST (400)
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+        // Verifica que el mensaje de la respuesta indique que el proveedor no existe
+        String mensaje = (String) responseEntity.getBody();
+        assertTrue(mensaje.contains("Proveedor no eliminado"), "El proveedor no debería existir");
+    }
 }
