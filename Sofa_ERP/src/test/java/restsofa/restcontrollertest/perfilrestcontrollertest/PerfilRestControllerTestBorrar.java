@@ -15,48 +15,59 @@ import restsofa.restcontroller.PerfilRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "borrar" en PerfilRestController.
+ *          Clase de prueba JUnit para el método "borrar" en
+ *          PerfilRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `PerfilRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `PerfilRestController` para realizar las
+ *            pruebas.
  * 
  */
 @SpringBootTest
 public class PerfilRestControllerTestBorrar {
-	
+
 	@Autowired
 	private PerfilRestController perfilRestController;
-	
-    /**
-     * Prueba del método "borrar".
-     *
-     * @Test
-     * Anota este método como una prueba JUnit.
-     *
-     * Verifica que el código de estado de la respuesta sea OK.
-     * Obtiene el mensaje de la respuesta.
-     * Verifica que la eliminación fue correcta.
-     *
-     * @param perfilId El identificador del perfil a borrar.
-     * @return ResponseEntity con el resultado de la operación de borrado.
-     */
-	
-    @Test
-    public void testBorrar() {
-        int perfilId = 4; // Reemplaza con un idPerfil válido
-        ResponseEntity<?> responseEntity = perfilRestController.borrar(perfilId);
 
-        // Verifica que el código de estado de la respuesta sea OK
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	/**
+	 * Prueba del método "borrar" cuando el perfil existe.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 *
+	 *       Verifica que el código de estado de la respuesta sea OK. Obtiene el
+	 *       mensaje de la respuesta. Verifica que la eliminación fue correcta.
+	 */
+	@Test
+	public void testBorrarPerfilExistente() {
+		int perfilId = 4; // Reemplaza con un idPerfil válido
 
-        // Obtiene el mensaje de la respuesta
-        String mensaje = (String) responseEntity.getBody();
+		ResponseEntity<?> responseEntity = perfilRestController.borrar(perfilId);
 
-        // Verifica que la eliminación fue correcta
-        assertTrue(mensaje.contains("Perfil eliminado correctamente"), "La eliminación debería ser correcta");
-    }
+		// Verifica que el código de estado de la respuesta sea OK
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
+		// Obtiene el mensaje de la respuesta
+		String mensaje = (String) responseEntity.getBody();
+
+		// Verifica que la eliminación fue correcta
+		assertTrue(mensaje.contains("Perfil eliminado correctamente"), "La eliminación debería ser correcta");
+	}
+
+	/**
+	 * Prueba del método "borrar" cuando el perfil no existe.
+	 *
+	 * @Test Anota este método como una prueba JUnit.
+	 *
+	 *       Verifica que el código de estado de la respuesta sea NOT_FOUND.
+	 */
+	@Test
+	public void testBorrarPerfilNoExistente() {
+		int perfilId = -1; // Reemplaza con un idPerfil que no exista
+
+		ResponseEntity<?> responseEntity = perfilRestController.borrar(perfilId);
+
+		// Verifica que el código de estado de la respuesta sea NOT_FOUND
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+	}
 }

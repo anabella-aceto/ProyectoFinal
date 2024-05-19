@@ -34,9 +34,6 @@ public class PerfilRestControllerTestModificar {
     /**
      * Prueba del método "modificar".
      *
-     * @Test
-     * Anota este método como una prueba JUnit.
-     *
      * Verifica que el código de estado de la respuesta sea OK.
      * Obtiene el mensaje de la respuesta.
      * Verifica que la modificación fue exitosa.
@@ -44,13 +41,12 @@ public class PerfilRestControllerTestModificar {
      * @param perfilExistente El perfil con los datos a modificar.
      * @return ResponseEntity con el resultado de la operación de modificación.
      */
-	
     @Test
-    public void testModificar() {
+    public void testModificarPerfilExiste() {
         // Crea un perfil de ejemplo
         Perfil perfilExistente = new Perfil();
-        perfilExistente.setIdPerfil(4);; // Establece un idPerfil existente
-        perfilExistente.setRol("viajante");; // Establece el rol del perfil
+        perfilExistente.setIdPerfil(4); // Establece un idPerfil existente
+        perfilExistente.setRol("viajante"); // Establece el rol del perfil
 
         // Llama al método "modificar"
         ResponseEntity<?> responseEntity = perfilRestController.modificar(perfilExistente);
@@ -65,4 +61,33 @@ public class PerfilRestControllerTestModificar {
         assertTrue(mensaje.contains("Modificación realizada correctamente"), "La modificación debería ser correcta");
     }
 
+    /**
+     * Prueba del método "modificar" cuando el perfil a modificar no se encuentra.
+     *
+     * Verifica que el código de estado de la respuesta sea NOT_FOUND.
+     * Obtiene el mensaje de la respuesta.
+     * Verifica que se reciba el mensaje adecuado.
+     *
+     * @param perfilNoExistente El perfil que no se encuentra en el sistema.
+     * @return ResponseEntity con el resultado de la operación de modificación.
+     */
+    @Test
+    public void testModificarPerfilNoExiste() {
+        // Crea un perfil con un idPerfil que no existe
+        Perfil perfilNoExistente = new Perfil();
+        perfilNoExistente.setIdPerfil(-1); // Establece un idPerfil inexistente
+        perfilNoExistente.setRol("viajante"); // Establece el rol del perfil
+
+        // Llama al método "modificar" con un perfil que no existe
+        ResponseEntity<?> responseEntity = perfilRestController.modificar(perfilNoExistente);
+
+        // Verifica que el código de estado de la respuesta sea NOT_FOUND (404)
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        // Obtiene el mensaje de la respuesta
+        String mensaje = (String) responseEntity.getBody();
+
+        // Verifica que se reciba el mensaje adecuado
+        assertTrue(mensaje.contains("Perfil no encontrado"), "Debería recibir un mensaje indicando que el perfil no fue encontrado");
+    }
 }

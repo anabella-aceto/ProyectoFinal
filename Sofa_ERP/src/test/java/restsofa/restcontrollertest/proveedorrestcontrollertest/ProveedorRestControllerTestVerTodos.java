@@ -39,7 +39,7 @@ public class ProveedorRestControllerTestVerTodos {
 	 * Prueba para verificar que la respuesta del método mostrartodos() del
 	 * controlador no sea nula.
 	 *
-	 * @Test Indica que este método es una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 */
 	@Test
 	public void testMostrartodosRespuestaNoNula() {
@@ -54,7 +54,7 @@ public class ProveedorRestControllerTestVerTodos {
 	 * Prueba para verificar el código de estado de la respuesta del método
 	 * mostrartodos() del controlador.
 	 *
-	 * @Test Indica que este método es una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 */
 	@Test
 	public void testMostrartodosCodigoEstado() {
@@ -69,7 +69,7 @@ public class ProveedorRestControllerTestVerTodos {
 	 * Prueba para verificar que el cuerpo de la respuesta del método mostrartodos()
 	 * del controlador no sea nulo.
 	 *
-	 * @Test Indica que este método es una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 */
 	@Test
 	public void testMostrartodosCuerpoRespuestaNoNulo() {
@@ -89,7 +89,7 @@ public class ProveedorRestControllerTestVerTodos {
 	 * Prueba para verificar que la lista de proveedores devuelta por el método
 	 * mostrartodos() del controlador no esté vacía.
 	 *
-	 * @Test Indica que este método es una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 */
 	@Test
 	public void testMostrartodosListaNoVacia() {
@@ -108,7 +108,7 @@ public class ProveedorRestControllerTestVerTodos {
 	 * Prueba para verificar que la lista de proveedores devuelta por el método
 	 * mostrartodos() del controlador contenga un proveedor específico.
 	 *
-	 * @Test Indica que este método es una prueba JUnit.
+	 * @Test Anota este método como una prueba JUnit.
 	 */
 	@Test
 	public void testMostrartodosContieneProveedorEspecifico() {
@@ -120,7 +120,7 @@ public class ProveedorRestControllerTestVerTodos {
 		List<Proveedor> proveedores = (List<Proveedor>) responseEntity.getBody();
 		boolean contieneProveedorEspecifico = false;
 		for (Proveedor proveedor : proveedores) {
-			if (proveedor.getIdProveedor() == 1 || proveedor.getNombre().equals("ACME")) {
+			if (proveedor.getIdProveedor() == 1 || "ACME".equals(proveedor.getNombre())) {
 				contieneProveedorEspecifico = true;
 				break;
 			}

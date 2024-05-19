@@ -66,7 +66,8 @@ public class PerfilRestController {
 			if (perfil != null)
 				return ResponseEntity.status(HttpStatus.OK).body(perfil);
 			else
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al cargar el perfil");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("No se encontró ningún perfil con el identificador: " + idPerfil);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al obtener el perfil: " + e.getMessage());
@@ -105,13 +106,18 @@ public class PerfilRestController {
 	@PutMapping("/modificar") // probado y funcionando
 	public ResponseEntity<?> modificar(@RequestBody Perfil perfil) {
 		try {
-			if (perfilService.buscarUno(perfil.getIdPerfil()) != null) {
-				perfilService.insertOne(perfil);
+			// Verifica si el perfil existe antes de intentar modificarlo
+			Perfil perfilExistente = perfilService.buscarUno(perfil.getIdPerfil());
+			if (perfilExistente != null) {
+				// Actualiza el perfil existente con la nueva información
+				perfilService.modificarPerfil(perfilExistente);
 				return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente " + perfil);
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al cargar el perfil");
+				// Si el perfil no existe, devuelve un error
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Perfil no encontrado");
 			}
 		} catch (Exception e) {
+			// Manejo de excepciones
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al modificar el perfil: " + e.getMessage());
 		}
@@ -131,7 +137,7 @@ public class PerfilRestController {
 				perfilService.deleteOne(idPerfil);
 				return ResponseEntity.status(HttpStatus.OK).body("Perfil eliminado correctamente");
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se puede eliminar el perfil");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El perfil no se pudo encontrar");
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

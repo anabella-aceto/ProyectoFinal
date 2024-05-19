@@ -16,55 +16,69 @@ import restsofa.restcontroller.PerfilRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "uno" en PerfilRestController.
+ *          Clase de prueba JUnit para el método "uno" en PerfilRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `PerfilRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `PerfilRestController` para realizar las
+ *            pruebas.
  * 
  */
 @SpringBootTest
 public class PerfilRestControllerTestVerUno {
-	
+
 	@Autowired
 	private PerfilRestController perfilRestController;
-	
-    /**
-     * Prueba del método "uno".
-     *
-     * @Test
-     * Anota este método como una prueba JUnit.
-     *
-     * Verifica que el código de estado de la respuesta sea OK.
-     * Obtiene el perfil del cuerpo de la respuesta.
-     * Verifica que el perfil no sea nulo.
-     * Verifica que el perfil tenga el idPerfil correcto.
-     * Verifica si el nombre del perfil es correcto.
-     *
-     * @param perfilId El identificador del perfil a buscar.
-     * @return ResponseEntity con el resultado de la búsqueda.
-     */
-    @Test
-    public void testUno() {
-        int perfilId = 2;
-        ResponseEntity<?> responseEntity = perfilRestController.uno(perfilId);
 
-        // Verifica que el código de estado de la respuesta sea OK
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	/**
+	 * Prueba del método "uno" que busca un perfil existente por su identificador.
+	 *
+	 * @param perfilId El identificador del perfil a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
+	 */
+	@Test
+	public void test_VerUnoPerfilExistente() {
 
-        // Obtiene el perfil del cuerpo de la respuesta
-        Perfil perfil = (Perfil) responseEntity.getBody();
+		int perfilId = 2;
 
-        // Verifica que el perfil no sea nulo
-        assertNotNull(perfil, "El perfil no debería ser nulo");
+		// Llama al método "uno"
+		ResponseEntity<?> responseEntity = perfilRestController.uno(perfilId);
 
-        // Verifica que el perfil tenga el idPerfil correcto
-        assertEquals(perfilId, perfil.getIdPerfil(), "El idPerfil no coincide");
+		// Verifica que el código de estado de la respuesta sea OK
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        // Verifica si el nombre del cliente es correcto
-        assertEquals("comercial", perfil.getRol(), "El nombre del perfil no coincide");
-    }
+		// Obtiene el perfil del cuerpo de la respuesta
+		Perfil perfil = (Perfil) responseEntity.getBody();
 
+		// Verifica que el perfil no sea nulo
+		assertNotNull(perfil, "El perfil no debería ser nulo");
+
+		// Verifica que el perfil tenga el idPerfil correcto
+		assertEquals(perfilId, perfil.getIdPerfil(), "El idPerfil no coincide");
+
+		// Verifica si el nombre del perfil es correcto
+		assertEquals("comercial", perfil.getRol(), "El nombre del perfil no coincide");
+	}
+
+	/**
+	 * Prueba del método "uno" cuando el perfil no existe.
+	 *
+	 * @param perfilId El identificador del perfil a buscar.
+	 * @return ResponseEntity con el resultado de la búsqueda.
+	 */
+	@Test
+	public void test_VerUnoPerfilNoExistente() {
+
+		int perfilIdNoExistente = -1; // Se asume que este perfil no existe
+
+		// Llama al método "uno"
+		ResponseEntity<?> responseEntity = perfilRestController.uno(perfilIdNoExistente);
+
+		// Verifica que el código de estado de la respuesta sea NOT_FOUND
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+		// Verifica que el cuerpo de la respuesta contenga el mensaje de error esperado
+		String expectedErrorMessage = "No se encontró ningún perfil con el identificador: " + perfilIdNoExistente;
+		assertEquals(expectedErrorMessage, responseEntity.getBody(), "El mensaje de error no coincide");
+	}
 }
