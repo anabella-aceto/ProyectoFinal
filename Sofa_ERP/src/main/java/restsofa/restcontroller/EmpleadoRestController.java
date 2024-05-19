@@ -76,7 +76,7 @@ public class EmpleadoRestController {
 			empleado.setPerfil(perfilService.buscarUno(empleadoDto.getIdPerfil()));
 			empleado.setNombre(empleadoDto.getNombre());
 			empleado.setApellidos(empleadoDto.getApellidos());
-			empleado.setEstado(1);
+			empleado.setEstado("activo");
 			empleado.setFechaIngreso(empleadoDto.getFechaIngreso());
 			empleado.setSalario(empleadoDto.getSalario());
 
