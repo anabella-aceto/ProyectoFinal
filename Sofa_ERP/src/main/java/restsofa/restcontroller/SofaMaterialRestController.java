@@ -2,7 +2,6 @@ package restsofa.restcontroller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import restsofa.modelo.DTO.EmpleadoDto;
 import restsofa.modelo.DTO.SofaMaterialDto;
-import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.SofaMaterial;
 import restsofa.service.MaterialService;
 import restsofa.service.SofaMaterialService;
