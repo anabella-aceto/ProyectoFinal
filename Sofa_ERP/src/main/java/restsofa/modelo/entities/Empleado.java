@@ -54,7 +54,7 @@ public class Empleado implements Serializable{
 	@Column(name="fecha_baja")
 	private Date fechaBaja;
 	
-	private int estado;
+	private String estado;
 	
 	private double salario;
 	
@@ -65,7 +65,7 @@ public class Empleado implements Serializable{
 	 */
 	public void darDeBaja(Date fechaBaja) {
 	    // Cambia el atributo "estado" a 0 (baja)
-	    this.estado = 0;
+	    this.estado ="inactivo";
 	    // Cambia el atributo "fechaBaja" a la fecha que se le introduce por parámetro
 	    this.fechaBaja = fechaBaja;
 	}
@@ -77,7 +77,7 @@ public class Empleado implements Serializable{
 	 */
 	public void darDeAltaEmpAntiguo(Date fechaAlta) {
 	    // Cambia el atributo "estado" a 1 (alta)
-	    this.estado = 1;
+	    this.estado = "activo";
 	    // Cambia el atributo "fechaIngreso" a la fecha que se le introduce por parámetro
 	    this.fechaIngreso = fechaAlta;
 	}
