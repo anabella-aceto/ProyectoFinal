@@ -264,6 +264,13 @@ INSERT INTO empleado_departamento (id_empleado, id_depto) VALUES
 INSERT INTO tareas (id_empleado, id_depto, id_estado, fecha, id_deped) VALUES 
 (1, 1, 1, '2024-01-01', 1),(2, 2, 2, '2024-02-01', 2),(3, 3, 3, '2024-03-01', 3),(4, 1, 4, '2024-04-01', 4),(5, 2, 1, '2024-05-01', 5),(6, 3, 2, '2024-06-01', 1),(7, 1, 3, '2024-07-01', 2),(8, 2, 4, '2024-08-01', 3),(9, 3, 1, '2024-09-01', 4),(10, 1, 2, '2024-10-01', 5);
 
+INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('1', '1', '1');
+INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('2', '2', '2');
+INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('3', '3', '3');
+INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('4', '4', '4');
+INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('5', '5', '5');
+INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('6', '6', '6');
+
 
 -- End of file.
 
