@@ -110,7 +110,6 @@ public class DetallePedidoRestController {
 				detalleDto.setDensCojin(detalle.getDensCojin());
 				detalleDto.setFecha(detalle.getFecha());
 				detalleDto.setPrecio(detalle.getPrecio());
-				detalleDto.setIdEstado(detalle.getEstado().getIdEstado());
 
 				// Devolver el detalle de pedido mapeado en el DTO con estado OK
 				return ResponseEntity.status(HttpStatus.OK).body(detalleDto);
@@ -160,7 +159,6 @@ public class DetallePedidoRestController {
 
 			// Crear el detalle de pedido y dar de alta
 			DetallePedido detallePedido = new DetallePedido();
-			detallePedido.setEstado(pedido.getEstado());
 			detallePedido.setPedido(pedido);
 			detallePedido.setSofa(sofa);
 			detallePedido.setFecha(pedido.getFecha());

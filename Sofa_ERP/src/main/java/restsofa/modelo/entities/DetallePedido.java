@@ -54,12 +54,6 @@ public class DetallePedido implements Serializable{
 		
 		private Date fecha;
 		
-		private Double precio;
-		
-		@ManyToOne
-		@JoinColumn(name="id_estado")
-		private Estado estado;
-		
-	
+		private Double precio;	
 
 }

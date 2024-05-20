@@ -35,11 +35,6 @@ public class PedidoDto {
     private Date fecha;
 
     /**
-     * El identificador del estado del pedido.
-     */
-    private int idEstado;
-
-    /**
      * El identificador del vendedor asociado al pedido.
      */
     private int vendedor;

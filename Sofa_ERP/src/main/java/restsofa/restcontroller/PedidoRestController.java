@@ -114,7 +114,6 @@ public class PedidoRestController {
 				PedidoDto pedidoDto = new PedidoDto();
 				pedidoDto.setIdPedido(pedido.getIdPedido());
 				pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
-				pedidoDto.setIdEstado(pedido.getEstado().getIdEstado());
 				pedidoDto.setFecha(pedido.getFecha());
 				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import restsofa.modelo.entities.DetallePedido;
 
 /**
  * Clase que representa un DTO (Data Transfer Object) para una tarea.
@@ -48,5 +49,10 @@ public class TareaDto {
      * La fecha de la tarea.
      */
     private Date fecha;    
+    
+    /**
+     * El detalle de pedido de la tarea.
+     */
+    private DetallePedido detalle;  
 
 }

@@ -44,10 +44,6 @@ public class Pedido implements Serializable{
 	private Date fecha;
 	
 	@ManyToOne
-	@JoinColumn(name="id_estado")
-	private Estado estado;
-	
-	@ManyToOne
 	@JoinColumn(name="vendedor")
 	private Empleado vendedor;
 

@@ -54,4 +54,8 @@ public class Tarea implements Serializable{
 	private Estado estado;
 
 	private Date fecha; 
+	
+	@ManyToOne
+	@JoinColumn(name="id_deped")
+	private DetallePedido detalle;
 }
