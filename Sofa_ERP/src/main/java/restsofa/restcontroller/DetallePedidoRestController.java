@@ -1,7 +1,6 @@
 package restsofa.restcontroller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -156,6 +155,10 @@ public class DetallePedidoRestController {
 	    try {
 	        // Buscar el sofá
 	        Sofa sofa = sofaService.buscarSofa(detalleDto.getIdSofa());
+	        if (sofa == null) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body("Sofá no encontrado con ID: " + detalleDto.getIdSofa());
+	        }
 
 	        // Obtener la lista de materiales del sofá
 	        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
@@ -176,6 +179,10 @@ public class DetallePedidoRestController {
 
 	        // Buscar el pedido existente
 	        Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
+	        if (pedido == null) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body("Pedido no encontrado con ID: " + detalleDto.getIdPedido());
+	        }
 
 	        // Crear el detalle de pedido
 	        DetallePedido detallePedido = new DetallePedido();
@@ -187,11 +194,33 @@ public class DetallePedidoRestController {
 	        detallePedido.setPrecio(detalleDto.getPrecio());
 	        detallePedido.setDensCojin(detalleDto.getDensCojin());
 
-	        boolean detalle = detPedService.alta(detallePedido);
-	      
-	        
+	        DetallePedido detalleGuardado = detPedService.altaDetPed(detallePedido);
+
+	        if (detalleGuardado!= null) {
+	            List<Departamento> departamentos = departamentoService.listarTodos();
+	            Random random = new Random();
+	            List<Tarea> tareasCreadas = new ArrayList<>();
+
+	            for (Departamento departamento : departamentos) {
+	                if (departamento != null) {
+	                    List<Empleado> empleados = empleadoService.buscarPorDepto(departamento.getIdDepartamento());
+	                    if (!empleados.isEmpty()) {
+	                        Empleado empleadoAleatorio = empleados.get(random.nextInt(empleados.size()));
+	                        Tarea tarea = new Tarea();
+	                        tarea.setDetalle(detPedService.buscarDetPed(detalleGuardado.getIdDePed()));
+	                        tarea.setDepartamento(departamento);
+	                        tarea.setEstado(estadoService.buscarEstado(0));
+	                        tarea.setEmpleado(empleadoAleatorio);
+	                        tarea.setFecha(detalleDto.getFecha());
+	                        Tarea tareaGuardada = tareaService.altaTarea(tarea);
+	                        tareasCreadas.add(tareaGuardada);
+	                    }
+	                }
+	            }
+	        }
+
 	        return ResponseEntity.status(HttpStatus.CREATED)
-	                .body("Detalle de pedido procesado correctamente " + detallePedido);
+	                .body("Detalle de pedido procesado correctamente: " + detallePedido);
 	    } catch (Exception e) {
 	        // Capturar cualquier excepción y devolver un error interno del servidor
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

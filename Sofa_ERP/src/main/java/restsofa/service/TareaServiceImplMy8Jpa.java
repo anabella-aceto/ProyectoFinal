@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import restsofa.modelo.entities.Departamento;
+import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Tarea;
 import restsofa.repository.TareaRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 /**
  * Implementación de la interfaz TareaService.
@@ -26,9 +24,6 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 
 	@Autowired
 	private TareaRepository tarepo;
-
-	@Autowired
-	private PedidoService pedidoService;
 
 	@Autowired
 	private EstadoService estadoService;
@@ -136,8 +131,8 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	 *         se encuentra el pedido o el estado del pedido no es 1 o 2.
 	 */
 	@Override
-	public int altaEstadoTarea(int idPedido, int idEmpleado, int idDepartamento) {
-		Pedido pedido = pedidoService.buscarPedido(idPedido);
+	public int altaEstadoTarea(int idDeped, int idEmpleado, int idDepartamento) {
+		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
 		Tarea tarea1 = tarepo.buscarPorestado(1);
 		Estado estado1 = estadoService.buscarEstado(2);
 		Estado estado2 = estadoService.buscarEstado(3);
@@ -146,7 +141,7 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 
 		if (pedido != null && tarea1 == null ) {
 			Tarea tarea = new Tarea();
-			tarea.setPedido(pedidoService.buscarPedido(idPedido));
+			tarea.setDetalle(pedido);
 			tarea.setEmpleado(empleado);
 			tarea.setEstado(estado1);
 			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
@@ -158,7 +153,7 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 
 		if (pedido != null && tarea1!=null) {
 			Tarea tarea = new Tarea();
-			tarea.setPedido(pedidoService.buscarPedido(idPedido));
+			tarea.setDetalle(pedido);
 			tarea.setEstado(estado2);
 			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
 			tarea.setFecha(new Date());
