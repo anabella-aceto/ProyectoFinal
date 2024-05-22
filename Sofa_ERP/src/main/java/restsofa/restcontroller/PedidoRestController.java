@@ -48,8 +48,6 @@ public class PedidoRestController {
 	@Autowired
 	private ClienteService clienteService;
 
-	@Autowired
-	private EstadoService estadoService;
 
 	/**
 	 * Método que devuelve todos los pedidos.
@@ -141,7 +139,6 @@ public class PedidoRestController {
 			modelMapper.map(pedidoDto, pedido);
 			pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 			pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
-			pedido.setEstado(estadoService.porDefecto("Pendiente"));
 			pedido.setFecha(pedidoDto.getFecha());
 
 			Pedido resultado = pedidoService.altaPedido(pedido);
@@ -172,7 +169,6 @@ public class PedidoRestController {
 			if (pedido != null) {
 				pedido.setCliente(clienteService.buscarCliente(pedidoDto.getIdCliente()));
 				pedido.setVendedor(empleadoService.buscarUno(pedidoDto.getVendedor()));
-				pedido.setEstado(estadoService.buscarEstado(pedidoDto.getIdEstado()));
 				pedido.setFecha(pedidoDto.getFecha());
 
 				pedidoService.modifPedido(pedido);
@@ -228,30 +224,6 @@ public class PedidoRestController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al eliminar el pedido: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Método que lista los pedidos por estado.
-	 *
-	 * @param idEstado El identificador único del estado de los pedidos a listar.
-	 * @return ResponseEntity con la lista de pedidos encontrados si existen, o un
-	 *         mensaje de error si no existen.
-	 */
-	@GetMapping("/porEstado/{idEstado}")
-	public ResponseEntity<?> listarPorEstado(@PathVariable(name = "idEstado") int idEstado) {
-		try {
-			List<Pedido> lista = pedidoService.buscarPorEstado(idEstado);
-
-			if (!lista.isEmpty()) {
-				return ResponseEntity.status(HttpStatus.OK).body(lista);
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body("No se encuentran elementos con el estado indicado");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al listar los pedidos por estado: " + e.getMessage());
 		}
 	}
 

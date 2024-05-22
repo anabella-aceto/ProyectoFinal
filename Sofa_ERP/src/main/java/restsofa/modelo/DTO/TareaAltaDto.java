@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import restsofa.modelo.entities.DetallePedido;
+
 
 /**
  * Clase que representa un DTO (Data Transfer Object) para una tarea.
@@ -17,30 +17,9 @@ import restsofa.modelo.entities.DetallePedido;
 @NoArgsConstructor // Genera un constructor sin argumentos usando Lombok.
 @AllArgsConstructor // Genera un constructor con todos los argumentos usando Lombok.
 @Data // Genera getters, setters, toString, equals y hashCode automáticamente usando Lombok.
+public class TareaAltaDto {
 
-public class TareaDto {
-
-    /**
-     * El identificador de la tarea.
-     */
-    private int idTarea;
-
-    /**
-     * El identificador del empleado asignado a la tarea.
-     */
-    private int idEmpleado;
-
-    /**
-     * El identificador del departamento al que pertenece la tarea.
-     */
-    private int idDepartamento;
-
-    /**
-     * El identificador del estado de la tarea.
-     */
-    private int idEstado;
-
-    /**
+	  /**
      * La fecha de la tarea.
      */
     private Date fecha;    

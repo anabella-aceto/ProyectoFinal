@@ -1,7 +1,9 @@
 package restsofa.restcontroller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +20,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.DetallePedidoDto;
+import restsofa.modelo.entities.Departamento;
 import restsofa.modelo.entities.DetallePedido;
+import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Sofa;
 import restsofa.modelo.entities.SofaMaterial;
+import restsofa.modelo.entities.Tarea;
+import restsofa.service.DepartamentoService;
 import restsofa.service.DetallePedidoService;
+import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoService;
 import restsofa.service.MaterialService;
 import restsofa.service.PedidoService;
 import restsofa.service.SofaMaterialService;
 import restsofa.service.SofaService;
+import restsofa.service.TareaService;
 
 /**
  * Controlador para la gestión de detallePedido.
@@ -50,13 +58,22 @@ public class DetallePedidoRestController {
 	private SofaService sofaService;
 
 	@Autowired
-	private EstadoService estadoService;
-
-	@Autowired
 	private SofaMaterialService sofaMaterialService;
 
 	@Autowired
 	private MaterialService materialService;
+	
+	@Autowired
+	private DepartamentoService departamentoService;
+	
+	@Autowired
+	private TareaService tareaService;
+	
+	@Autowired
+	private EstadoService estadoService;
+	
+	@Autowired
+	private EmpleadoService empleadoService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -136,47 +153,52 @@ public class DetallePedidoRestController {
 	 */
 	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody DetallePedidoDto detalleDto) {
-		try {
-			Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
-			Sofa sofa = sofaService.buscarSofa(detalleDto.getIdSofa());
+	    try {
+	        // Buscar el sofá
+	        Sofa sofa = sofaService.buscarSofa(detalleDto.getIdSofa());
 
-			// Obtener la lista de materiales del sofá
-			List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
+	        // Obtener la lista de materiales del sofá
+	        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
 
-			for (SofaMaterial sofaMaterial : sofaMateriales) {
-				Material material = sofaMaterial.getMaterial();
-				int cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
-				int cantidadDisponible = (int) material.getCantidad();
+	        for (SofaMaterial sofaMaterial : sofaMateriales) {
+	            Material material = sofaMaterial.getMaterial();
+	            double cantidadDisponible = material.getCantidad();
+	            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
 
-				if (cantidadDisponible < cantidadUtilizada) {
-					return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-							.body("Stock insuficiente para el material: " + material.getNombre());
-				}
-				// Actualizar la cantidad disponible del material en el almacén
-				material.setCantidad(cantidadDisponible - cantidadUtilizada);
-				materialService.updateOne(material);
-			}
+	            if (cantidadDisponible < cantidadUtilizada) {
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                        .body("Stock insuficiente para el material: " + material.getNombre());
+	            }
+	            // Actualizar la cantidad disponible del material en el almacén
+	            material.setCantidad(cantidadDisponible - cantidadUtilizada);
+	            materialService.updateOne(material);
+	        }
 
-			// Crear el detalle de pedido y dar de alta
-			DetallePedido detallePedido = new DetallePedido();
-			detallePedido.setPedido(pedido);
-			detallePedido.setSofa(sofa);
-			detallePedido.setFecha(pedido.getFecha());
-			detallePedido.setCantidad(detalleDto.getCantidad());
-			detallePedido.setPlazas(detalleDto.getPlazas());
-			detallePedido.setPrecio(detalleDto.getPrecio());
-			detallePedido.setDensCojin(detalleDto.getDensCojin());
+	        // Buscar el pedido existente
+	        Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
 
-			detPedService.altaDetPed(detallePedido);
+	        // Crear el detalle de pedido
+	        DetallePedido detallePedido = new DetallePedido();
+	        detallePedido.setPedido(pedido);
+	        detallePedido.setSofa(sofa);
+	        detallePedido.setFecha(detalleDto.getFecha());
+	        detallePedido.setCantidad(detalleDto.getCantidad());
+	        detallePedido.setPlazas(detalleDto.getPlazas());
+	        detallePedido.setPrecio(detalleDto.getPrecio());
+	        detallePedido.setDensCojin(detalleDto.getDensCojin());
 
-			return ResponseEntity.status(HttpStatus.CREATED)
-					.body("Detalle de pedido procesado correctamente " + detallePedido);
-		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al procesar el detalle de pedido: " + e.getMessage());
-		}
+	        boolean detalle = detPedService.alta(detallePedido);
+	      
+	        
+	        return ResponseEntity.status(HttpStatus.CREATED)
+	                .body("Detalle de pedido procesado correctamente " + detallePedido);
+	    } catch (Exception e) {
+	        // Capturar cualquier excepción y devolver un error interno del servidor
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al procesar el detalle de pedido: " + e.getMessage());
+	    }
 	}
+
 
 	/**
 	 * Modifica un detalle de pedido con los datos proporcionados en el DTO.
@@ -194,7 +216,6 @@ public class DetallePedidoRestController {
 			// Verificar si el detalle de pedido existe
 			if (detalle != null) {
 				// Actualizar los datos del detalle de pedido con los datos del DTO
-				detalle.setEstado(estadoService.buscarEstado(detalleDto.getIdEstado()));
 				detalle.setPedido(pedidoService.buscarPedido(detalleDto.getIdPedido()));
 				detalle.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
 				detalle.setFecha(detalleDto.getFecha());

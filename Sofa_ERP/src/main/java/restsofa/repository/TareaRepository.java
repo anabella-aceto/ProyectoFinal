@@ -29,4 +29,8 @@ public interface TareaRepository extends JpaRepository<Tarea, Integer> {
     @Query("select t from Tarea t where t.empleado.idEmpleado = ?1")
     public List<Tarea> buscarPorEmpleado(int idEmpleado);
 
+    @Query("select t from Tarea t where t.estado.idEstado=?1")
+    public Tarea buscarPorestado(int idEstado);
+    
+ 
 }

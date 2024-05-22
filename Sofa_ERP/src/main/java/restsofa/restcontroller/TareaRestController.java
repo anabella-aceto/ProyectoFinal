@@ -2,6 +2,7 @@ package restsofa.restcontroller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import restsofa.modelo.DTO.TareaAltaDto;
 import restsofa.modelo.DTO.TareaDto;
-import restsofa.modelo.entities.Pedido;
+import restsofa.modelo.entities.Departamento;
+import restsofa.modelo.entities.DetallePedido;
+import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Tarea;
 import restsofa.service.DepartamentoService;
+import restsofa.service.DetallePedidoService;
 import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoService;
-import restsofa.service.PedidoService;
 import restsofa.service.TareaService;
 
 /**
@@ -47,7 +51,7 @@ public class TareaRestController {
 	private DepartamentoService depService;
 
 	@Autowired
-	private PedidoService pedidoService;
+	private DetallePedidoService detallePedidoService;
 
 	@Autowired
 	private EstadoService estadoService;
@@ -100,33 +104,41 @@ public class TareaRestController {
 	}
 
 	/**
-	 * Método que permite crear una tarea.
+	 * Método que permite crear la tarea para cada departamento.
 	 * 
 	 * @param tareaDto El DTO de la tarea a dar de alta.
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         alta.
 	 */
 	@PostMapping("/alta")
-	public ResponseEntity<?> alta(@RequestBody TareaDto tareaDto) {
-		try {
-			Tarea tarea = new Tarea();
-			modelMapper.map(tareaDto, tarea);
-			tarea.setEmpleado(empleadoService.buscarUno(tareaDto.getIdEmpleado()));
-			tarea.setDepartamento(depService.buscarUno(tareaDto.getIdDepartamento()));
-			tarea.setPedido(pedidoService.buscarPedido(tareaDto.getIdPedido()));
-			tarea.setEstado(estadoService.buscarEstado(tareaDto.getIdEstado()));
+	public ResponseEntity<?> alta(@RequestBody TareaAltaDto tareaAltaDto) {
+	    List<Departamento> departamentos = depService.listarTodos();
+	    Random random = new Random();
+	    List<Tarea> tareasCreadas = new ArrayList<>();
 
-			Tarea tareaGuardada = tareaService.altaTarea(tarea);
-			if (tareaGuardada != null) {
-				tareaDto.setIdTarea(tareaGuardada.getIdTarea());
-				return ResponseEntity.status(HttpStatus.OK).body("Tarea procesada correctamente " + tareaGuardada);
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al procesar la tarea");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al dar de alta la tarea: " + e.getMessage());
-		}
+	    for (Departamento departamento : departamentos) {
+	        try {
+	            if (departamento != null) {
+	                List<Empleado> empleados = empleadoService.buscarPorDepto(departamento.getIdDepartamento());
+	                if (!empleados.isEmpty()) {
+	                    Empleado empleadoAleatorio = empleados.get(random.nextInt(empleados.size()));
+	                    Tarea tarea = new Tarea();
+	                    tarea.setDetalle(detallePedidoService.buscarDetPed(tareaAltaDto.getIdDetalle()));
+	                    tarea.setDepartamento(departamento);
+	                    tarea.setEstado(estadoService.buscarEstado(0));
+	                    tarea.setEmpleado(empleadoAleatorio);
+	                    tarea.setFecha(tareaAltaDto.getFecha());
+	                    Tarea tareaGuardada = tareaService.altaTarea(tarea);
+	                    tareasCreadas.add(tareaGuardada);
+	                }
+	            }
+	        } catch (Exception e) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                    .body("Error al dar de alta la tarea para el departamento: " + e.getMessage());
+	        }
+	    }
+
+	    return ResponseEntity.status(HttpStatus.OK).body("Tareas creadas correctamente: " + tareasCreadas);
 	}
 
 	/**
@@ -144,7 +156,7 @@ public class TareaRestController {
 				modelMapper.map(tareaDto, tarea);
 				tarea.setEmpleado(empleadoService.buscarUno(tareaDto.getIdEmpleado()));
 				tarea.setDepartamento(depService.buscarUno(tareaDto.getIdDepartamento()));
-				tarea.setPedido(pedidoService.buscarPedido(tareaDto.getIdPedido()));
+				tarea.setDetalle(detallePedidoService.buscarDetPed(tareaDto.getIdDetalle()));
 				tarea.setEstado(estadoService.buscarEstado(tareaDto.getIdEstado()));
 
 				tareaService.modifTarea(tarea);
@@ -216,13 +228,13 @@ public class TareaRestController {
 	 *         realizó correctamente o si hubo algún error.
 	 */
 	@PutMapping("/estadoTarea")
-	public ResponseEntity<?> cambiarEstado(@RequestParam(name = "idPedido") int idPedido,
+	public ResponseEntity<?> cambiarEstado(@RequestParam(name = "idDeped") int idDeped,
 			@RequestParam(name = "idEmpleado") int idEmpleado,
 			@RequestParam(name = "idDepartamento") int idDepartamento) {
 		try {
-			Pedido pedido = pedidoService.buscarPedido(idPedido);
-			if (pedido != null) {
-				int tarea = tareaService.altaEstadoTarea(idPedido, idEmpleado, idDepartamento);
+			DetallePedido detallePedido = detallePedidoService.buscarDetPed(idDeped);
+			if (detallePedido != null) {
+				int tarea = tareaService.altaEstadoTarea(idDeped, idEmpleado, idDepartamento);
 				if (tarea == 1) {
 					return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
 				} else if (tarea == 2) {

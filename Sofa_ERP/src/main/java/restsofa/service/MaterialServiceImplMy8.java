@@ -5,12 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.SofaMaterial;
-import restsofa.repository.DetallePedidoRepository;
 import restsofa.repository.MaterialRepository;
 
 /**
@@ -32,12 +30,6 @@ public class MaterialServiceImplMy8 implements MaterialService {
 
 	@Autowired
 	private EstadoService estadoService;
-
-	@Autowired
-	private DetallePedidoService detallePedidoService;
-
-	@Autowired
-	private DetallePedidoRepository detPedRepo;
 
 	/**
 	 * Método que permite crear un material
@@ -198,10 +190,8 @@ public class MaterialServiceImplMy8 implements MaterialService {
 	@Override
 	public int restaurarMateriales(int idPedido, int idSofa) {
 		Pedido pedido = pedidoService.buscarPedido(idPedido);
-		Estado estado = estadoService.buscarEstado(4); // Estado de "Restaurado" (deberías ajustar según tu modelo)
+		Estado estado = estadoService.buscarEstado(4); 
 
-		if (pedido != null && pedido.getEstado().getIdEstado() == 1) { // Si el pedido existe y está pendiente
-			pedido.setEstado(estado); // Actualiza el estado del pedido a "Restaurado"
 
 			List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(idSofa);
 
@@ -213,12 +203,8 @@ public class MaterialServiceImplMy8 implements MaterialService {
 
 				material.setCantidad(cantidad);
 
-				DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
-				detallePedido.setEstado(estado);
-
 				mrepo.save(material);
-				detPedRepo.save(detallePedido); // Guarda el estado del detalle del pedido
-			}
+		
 			return 1; // Indica que la restauración fue exitosa
 		}
 

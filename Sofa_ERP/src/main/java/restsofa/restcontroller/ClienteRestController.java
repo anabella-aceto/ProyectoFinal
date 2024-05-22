@@ -105,7 +105,7 @@ public class ClienteRestController {
 			// Verificar si se creó el cliente correctamente
 			if (clienteCreado != null) {
 				// Si se creó correctamente, devolver el cliente con un estado OK
-				return ResponseEntity.ok(clienteCreado);
+				return ResponseEntity.ok("Cliente agregado correctamente"+clienteCreado);
 			} else {
 				// Si no se pudo crear el cliente, devolver un mensaje de error con un estado
 				// BAD REQUEST

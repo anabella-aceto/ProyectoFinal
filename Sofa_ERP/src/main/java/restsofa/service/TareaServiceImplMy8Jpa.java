@@ -2,10 +2,12 @@ package restsofa.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import restsofa.modelo.entities.Departamento;
 import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Pedido;
@@ -36,6 +38,9 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	
 	@Autowired
 	private EmpleadoService empleadoService;
+	
+	@Autowired
+	private DetallePedidoService detallePedidoService;
 
 	/**
 	 * Método que busca una tarea por su identificador.
@@ -66,9 +71,8 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	 */
 	@Override
 	public Tarea altaTarea(Tarea tarea) {
-		return tarepo.save(tarea);
+         return tarepo.save(tarea);
 	}
-
 	/**
 	 * Método que modifica una tarea existente.
 	 *
@@ -134,12 +138,13 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	@Override
 	public int altaEstadoTarea(int idPedido, int idEmpleado, int idDepartamento) {
 		Pedido pedido = pedidoService.buscarPedido(idPedido);
+		Tarea tarea1 = tarepo.buscarPorestado(1);
 		Estado estado1 = estadoService.buscarEstado(2);
 		Estado estado2 = estadoService.buscarEstado(3);
 		
 		Empleado empleado = empleadoService.buscarUno(idEmpleado);
 
-		if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
+		if (pedido != null && tarea1 == null ) {
 			Tarea tarea = new Tarea();
 			tarea.setPedido(pedidoService.buscarPedido(idPedido));
 			tarea.setEmpleado(empleado);
@@ -148,12 +153,10 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 			tarea.setFecha(new Date());
 			tarepo.save(tarea);
 			
-			pedido.setEstado(estado1);
-			pedidoService.modifPedido(pedido);
 			return 1;
 		}
 
-		if (pedido != null && pedido.getEstado().getIdEstado() == 2) {
+		if (pedido != null && tarea1!=null) {
 			Tarea tarea = new Tarea();
 			tarea.setPedido(pedidoService.buscarPedido(idPedido));
 			tarea.setEstado(estado2);
@@ -161,12 +164,16 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 			tarea.setFecha(new Date());
 			tarepo.save(tarea);
 			
-			pedido.setEstado(estado2);
-			pedidoService.modifPedido(pedido);
 			return 2;
 			
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public Tarea buscarPorEstado(int idEstado) {
+		// TODO Auto-generated method stub
+		return tarepo.buscarPorestado(idEstado);
 	}
 }

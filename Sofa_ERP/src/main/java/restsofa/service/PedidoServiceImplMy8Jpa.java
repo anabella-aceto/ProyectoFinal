@@ -99,22 +99,10 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
     public boolean cancelarPedido(int idPedido) {
         Pedido pedido = buscarPedido(idPedido);
         if (pedido != null) {
-            pedido.setEstado(estadoService.buscarEstado(4));
             pedrepo.save(pedido);
             return true;
         }
         return false;
-    }
-
-    /**
-     *Métood que busca todos los pedidos por estado.
-     *
-     * @param idEstado El identificador único del estado del pedido.
-     * @return Una lista de pedidos con el estado especificado.
-     */
-    @Override
-    public List<Pedido> buscarPorEstado(int idEstado) {
-        return pedrepo.buscarPorestado(idEstado);
     }
 
     /**

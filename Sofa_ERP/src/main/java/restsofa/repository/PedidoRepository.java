@@ -21,15 +21,6 @@ import restsofa.modelo.entities.Pedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
 	/**
-	 * Busca una lista de pedidos por el identificador del estado.
-	 *
-	 * @param idEstado El identificador del estado.
-	 * @return Una lista de pedidos que tienen el estado con el ID dado.
-	 */
-	@Query("select p from Pedido p where p.estado.idEstado=?1")
-	public List<Pedido> buscarPorestado(int idEstado);
-
-	/**
 	 * Busca una lista de pedidos por rango de fecha.
 	 *
 	 * @param fechaInicio La fecha de inicio del rango.

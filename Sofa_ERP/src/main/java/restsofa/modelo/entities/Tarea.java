@@ -38,10 +38,6 @@ public class Tarea implements Serializable{
 	private int idTarea;
 
 	@ManyToOne
-	@JoinColumn(name = "id_pedido")
-	private Pedido pedido;
-	
-	@ManyToOne
 	@JoinColumn(name = "id_empleado")
 	private Empleado empleado;
 

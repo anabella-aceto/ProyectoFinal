@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.DTO.MaterialDto;
+import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
+import restsofa.modelo.entities.Tarea;
+import restsofa.service.DetallePedidoService;
 import restsofa.service.MaterialService;
 import restsofa.service.PedidoService;
 import restsofa.service.ProveedorService;
+import restsofa.service.TareaService;
 
 /**
  * Controlador para la gestión de los materiales.
@@ -38,7 +42,10 @@ public class MaterialRestController {
 	private ProveedorService proveedorService;
 
 	@Autowired
-	private PedidoService pedidoService;
+	private DetallePedidoService detallePedidoService;
+	
+	@Autowired
+	private TareaService tareaService;
 
 	/*
 	 * Método que devuelve todos los materiales.
@@ -286,11 +293,11 @@ public class MaterialRestController {
 	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
 		try {
 			// Buscar el pedido en la base de datos
-			Pedido pedido = pedidoService.buscarPedido(idPedido);
+			DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
 
 			// Verificar si el pedido existe y está en un estado adecuado para restaurar
 			// materiales
-			if (pedido != null && pedido.getEstado().getIdEstado() == 1) {
+			if (detallePedido != null && tareaService.buscarPorEstado(1) !=null) {
 				// Intentar restaurar los materiales
 				if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
 					// Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y

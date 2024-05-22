@@ -18,6 +18,5 @@ public interface PedidoService {
 	Pedido modifPedido (Pedido pedido);
 	boolean borrarPedido (int idPedido);
 	boolean cancelarPedido(int idPedido);
-	List<Pedido> buscarPorEstado(int idEstado);
 	List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin);
 }
