@@ -89,26 +89,30 @@ public class TareaRestController {
 	 */
 	@GetMapping("/una/{idTarea}")
 	public ResponseEntity<?> una(@PathVariable int idTarea) {
-		try {
-			Tarea tarea = tareaService.buscarTarea(idTarea);
-			if (tarea != null) {
-				TareaDto tareaDto = modelMapper.map(tarea, TareaDto.class);
-				return ResponseEntity.status(HttpStatus.OK).body(tareaDto);
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encuentra la tarea");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al buscar la tarea: " + e.getMessage());
-		}
+	    try {
+	        Tarea tarea = tareaService.buscarTarea(idTarea);
+	        if (tarea != null) {
+	            TareaDto tareaDto = modelMapper.map(tarea, TareaDto.class);
+	            return ResponseEntity.status(HttpStatus.OK).body(tareaDto);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Devuelve un cuerpo de respuesta nulo
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al buscar la tarea: " + e.getMessage());
+	    }
 	}
 
 	/**
 	 * Método que permite crear la tarea para cada departamento.
-	 * 
-	 * @param tareaDto El DTO de la tarea a dar de alta.
-	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 *         alta.
+	 *
+	 * Este método recibe un objeto DTO con los detalles de la tarea a crear. Luego, para cada 
+	 * departamento, asigna la tarea a un empleado seleccionado aleatoriamente dentro del 
+	 * departamento y guarda la tarea en la base de datos.
+	 *
+	 * @param tareaAltaDto El DTO de la tarea a dar de alta.
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de alta, incluyendo
+	 *         las tareas creadas o un mensaje de error si ocurre algún problema.
 	 */
 	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody TareaAltaDto tareaAltaDto) {
@@ -142,11 +146,19 @@ public class TareaRestController {
 	}
 
 	/**
-	 * Método que modifica una tarea.
+	 * Modifica una tarea existente en el sistema.
 	 * 
-	 * @param tareaDto El DTO de la tarea con la información actualizada.
-	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 *         modificación.
+	 * Este método recibe un DTO con la información actualizada de una tarea y
+	 * actualiza la tarea correspondiente en la base de datos. Se validan las 
+	 * relaciones con empleado, departamento, detalle de pedido y estado.
+	 * 
+	 * @param tareaDto El DTO de la tarea con la información actualizada. Debe 
+	 *                 contener el ID de la tarea a modificar y los nuevos datos.
+	 * @return ResponseEntity con un mensaje indicando el resultado del proceso 
+	 *         de modificación. Retorna:
+	 *         - 200 OK si la modificación se realizó correctamente.
+	 *         - 400 BAD REQUEST si no se encontró la tarea a modificar.
+	 *         - 500 INTERNAL SERVER ERROR si ocurrió un error en el servidor durante la modificación.
 	 */
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody TareaDto tareaDto) {
@@ -162,7 +174,7 @@ public class TareaRestController {
 				tareaService.modifTarea(tarea);
 				return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente");
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se puede modificar la tarea");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarea no encontrada");
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -174,23 +186,22 @@ public class TareaRestController {
 	 * Método que elimina una tarea.
 	 * 
 	 * @param idTarea El identificador único de la tarea.
-	 * @return ResponseEntity con un mensaje indicando el resultado de la
-	 *         eliminación.
+	 * @return ResponseEntity con un mensaje indicando el resultado de la eliminación.
 	 */
 	@DeleteMapping("/borrar/{idTarea}")
 	public ResponseEntity<?> borrar(@PathVariable int idTarea) {
-		try {
-			Tarea tarea = tareaService.buscarTarea(idTarea);
-			if (tarea != null) {
-				tareaService.borrarTarea(idTarea);
-				return ResponseEntity.status(HttpStatus.OK).body("Tarea eliminada correctamente");
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tarea no se ha podido eliminar");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al eliminar la tarea: " + e.getMessage());
-		}
+	    try {
+	        Tarea tarea = tareaService.buscarTarea(idTarea);
+	        if (tarea != null) {
+	            tareaService.borrarTarea(idTarea);
+	            return ResponseEntity.status(HttpStatus.OK).body("Tarea eliminada correctamente");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró la tarea especificada");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al eliminar la tarea: " + e.getMessage());
+	    }
 	}
 
 	/**

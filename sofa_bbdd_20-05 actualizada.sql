@@ -1,7 +1,5 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-05-19 20:17:13.793
-
-CREATE DATABASE sofa_bbdd;
+-- Database: sofa_bbdd
+CREATE DATABASE IF NOT EXISTS sofa_bbdd;
 use sofa_bbdd;
 
 -- tables
@@ -236,40 +234,61 @@ ALTER TABLE tareas ADD CONSTRAINT tareas_detalle_pedido FOREIGN KEY tareas_detal
 
 -- Poblamos la tabla de datos
 
-INSERT INTO `proveedores` VALUES (1,'ACME',682659477,'Telas importadas he hilos'),(2,'Suministros Vanguardia',926548733,'Tornilleria y ferreteria'),(3,'Innova',957487611,'Patas'),(4,'Avanza Global',978574776,'Cinchas'),(5,'Excelencia',678479523,'Guata y cojines'),(6,'Maderas Moral',759845221,'Madera'),(8,'Tapitel',987654321,'Hilos negros importados');
+-- Proveedores
+INSERT INTO `proveedores` VALUES 
+(1,'ACME',682659477,'Telas importadas he hilos'),(2,'Suministros Vanguardia',926548733,'Tornilleria y ferreteria'),(3,'Innova',957487611,'Patas'),(4,'Avanza Global',978574776,'Cinchas'),(5,'Excelencia',678479523,'Guata y cojines'),(6,'Maderas Moral',759845221,'Madera'),(8,'Tapitel',987654321,'Hilos negros importados');
 
-INSERT INTO `perfiles` VALUES (1,'administrador'),(2,'comercial'),(3,'operario');
+-- Perfiles
+INSERT INTO `perfiles` VALUES 
+(1,'administrador'),(2,'comercial'),(3,'operario');
 
-INSERT INTO `clientes` VALUES (1,'Juan','Pérez','Calle 123','juan@example.com','123-456-7890'),(2,'María','Gómez','Avenida 456','maria@example.com','987-654-3210'),(3,'Carlos','López','Carrera 789','carlos@example.com','456-789-0123'),(4,'Laura','Martínez','Plaza 789','laura@example.com','789-012-3456'),(5,'Pedro','Sánchez','Calle 456','pedro@example.com','012-345-6789'),(7,'Gloria','Torres','Madrid 1254','gtorres@mail.com','661665664');
+-- Clientes
+INSERT INTO `clientes` VALUES 
+(1,'Juan','Pérez','Calle 123','juan@example.com','123-456-7890'),(2,'María','Gómez','Avenida 456','maria@example.com','987-654-3210'),(3,'Carlos','López','Carrera 789','carlos@example.com','456-789-0123'),(4,'Laura','Martínez','Plaza 789','laura@example.com','789-012-3456'),(5,'Pedro','Sánchez','Calle 456','pedro@example.com','012-345-6789'),(7,'Gloria','Torres','Madrid 1254','gtorres@mail.com','661665664');
 
-INSERT INTO `departamentos` VALUES (1,'carpinteria'),(2,'costura'),(3,'tapizado'),(4,'enfundado');
+-- Departamentos
+INSERT INTO `departamentos` VALUES 
+(1,'carpinteria'),(2,'costura'),(3,'tapizado'),(4,'enfundado');
 
-INSERT INTO `empleados` VALUES (1,'Juan','Pérez','juan',1,1,'2023-05-10',NULL,'activo',30000.00),(2,'María','García','maria',2,2,'2022-08-20',NULL,'activo',35000.00),(3,'Pedro','Martínez','pedro',3,3,'2024-01-15','2024-04-30','inactivo',28000.00),(4,'Ana','López','ana',1,2,'2023-11-03',NULL,'activo',32000.00),(5,'Carlos','Sánchez','carlos',2,1,'2021-10-05',NULL,'activo',38000.00),(6,'Laura','Gómez','laura',3,3,'2024-02-28',NULL,'activo',27000.00),(7,'Luis','Hernández','luis',1,3,'2022-04-12',NULL,'activo',31000.00),(8,'Sofía','Díaz','sofia',2,2,'2023-09-08',NULL,'activo',33000.00),(9,'Javier','Ruiz','javier',3,1,'2021-12-20',NULL,'activo',36000.00),(10,'Paco','Hidalgo Flores',NULL,NULL,3,'2024-05-17',NULL,'activo',300000.00);
+-- Empleados
+INSERT INTO `empleados` VALUES (1,'Juan','Pérez','juan',1,1,'2023-05-10',NULL,'activo',30000.00),(2,'María','García','maria',2,2,'2022-08-20',NULL,'activo',35000.00),(3,'Pedro','Martínez','pedro',3,3,'2024-01-15','2024-04-30','inactivo',28000.00),(4,'Ana','López','ana',1,2,'2023-11-03',NULL,'activo',32000.00),(5,'Carlos','Sánchez','carlos',2,1,'2021-10-05',NULL,'activo',38000.00),(6,'Laura','Gómez','laura',3,3,'2024-02-28',NULL,'activo',27000.00),(7,'Luis','Hernández','luis',1,3,'2022-04-12',NULL,'activo',31000.00),(8,'Sofía','Díaz','sofia',2,2,'2023-09-08',NULL,'activo',33000.00),(9,'Javier','Ruiz','javier',3,1,'2021-12-20',NULL,'activo',36000.00),(10,'Paco','Hidalgo Flores',NULL,NULL,3,'2024-05-17',NULL,'activo',300000.00),
+(11, 'Miguel', 'Núñez', 'miguel', 4, 3, '2024-05-19', NULL, 'activo', 29000.00),
+(12, 'Lucía', 'Pérez', 'lucia', 4, 3, '2024-05-20', NULL, 'activo', 31000.00);
 
-INSERT INTO `materiales` VALUES (1,'Tornillos','Tornillos madera 7cm',6.00,2,456,'ferreteria','caja'),(2,'Guata','Guata blanca 50cm ancho',276.00,5,357,'textil',''),(3,'Hilo','Hilo costura',18.00,1,100,'textil','bobina'),(4,'Tela','Rivera beige',16.00,1,757,'textil','m2'),(5,'Tela','Rivera negro',2.00,1,48,'textil','m2'),(6,'Madera','Madera pino esqueleto',33.00,6,112,'madera','ml'),(7,'Cojines','Cojines sofas',16.00,5,654,'textil','unidad'),(8,'Cinchas','Cinchas duras',4.00,4,1795,'ferreteria','ml'),(9,'Cinchas','Cinchas blandas',7.00,4,548,'ferreteria','ml'),(10,'Patas','Patas de madera negras básicas',24.00,3,468,'patas','unidad'),(11,'Patas','Patas acero inox rectas',6.00,3,489,'patas','unidad');
+-- Materiales
+INSERT INTO `materiales` VALUES 
+(1,'Tornillos','Tornillos madera 7cm',6.00,2,456,'ferreteria','caja'),(2,'Guata','Guata blanca 50cm ancho',276.00,5,357,'textil',''),(3,'Hilo','Hilo costura',18.00,1,100,'textil','bobina'),(4,'Tela','Rivera beige',16.00,1,757,'textil','m2'),(5,'Tela','Rivera negro',2.00,1,48,'textil','m2'),(6,'Madera','Madera pino esqueleto',33.00,6,112,'madera','ml'),(7,'Cojines','Cojines sofas',16.00,5,654,'textil','unidad'),(8,'Cinchas','Cinchas duras',4.00,4,1795,'ferreteria','ml'),(9,'Cinchas','Cinchas blandas',7.00,4,548,'ferreteria','ml'),(10,'Patas','Patas de madera negras básicas',24.00,3,468,'patas','unidad'),(11,'Patas','Patas acero inox rectas',6.00,3,489,'patas','unidad');
 
-INSERT INTO `pedidos` VALUES (1,1,'2024-04-01',1),(2,5,'2024-03-24',5),(3,2,'2024-03-24',2),(4,2,'2024-03-27',2),(5,3,'2024-04-01',3),(6,2,'2024-04-01',1);
+-- Pedidos
+INSERT INTO `pedidos` VALUES 
+(1,1,'2024-04-01',1),(2,5,'2024-03-24',5),(3,2,'2024-03-24',2),(4,2,'2024-03-27',2),(5,3,'2024-04-01',3),(6,2,'2024-04-01',1);
 
-INSERT INTO `sofas` VALUES (1,'Aithara','Sofá de estilo clásico con tapicería de cuero',4,'50.00',500.00),(2,'Lucia','Chaise longue izquierdo',4,'45.00',700.00),(3,'Luna','Chaise longue derecho',4,'48.00',600.00),(4,'Sevilla','Simple 2 y 3 plazas',6,'55.00',800.00),(5,'Iris','Respaldo reclinable en 2 y 3 plazas',4,'60.00',900.00),(6,'Benedetta','sofá Chesterfield',4,'30',1200.00);
+-- Sofas
+INSERT INTO `sofas` VALUES 
+(1,'Aithara','Sofá de estilo clásico con tapicería de cuero',4,'50.00',500.00),(2,'Lucia','Chaise longue izquierdo',4,'45.00',700.00),(3,'Luna','Chaise longue derecho',4,'48.00',600.00),(4,'Sevilla','Simple 2 y 3 plazas',6,'55.00',800.00),(5,'Iris','Respaldo reclinable en 2 y 3 plazas',4,'60.00',900.00),(6,'Benedetta','sofá Chesterfield',4,'30',1200.00);
 
+-- Sofa_materiales
 INSERT INTO `sofa_materiales` VALUES (1,1,1,20),(2,1,2,5),(3,1,3,2),(4,1,4,14),(5,1,6,5),(6,1,7,5),(7,1,8,5),(8,1,11,4),(9,2,1,25),(10,2,2,8),(11,2,3,3),(12,2,5,14),(13,2,6,6),(14,2,7,6),(15,2,8,12),(16,2,11,4),(17,3,1,22),(18,3,2,7),(19,3,3,2),(20,3,5,14),(21,3,6,5),(22,3,7,6),(23,3,8,11),(24,3,11,4),(25,4,1,28),(26,4,2,10),(27,4,3,3),(28,4,4,14),(29,4,6,7),(30,4,7,7),(31,4,8,6),(32,4,11,6),(33,5,1,30),(34,5,2,12),(35,5,3,4),(36,5,4,16),(37,5,6,8),(38,5,7,8),(39,5,8,9),(40,5,11,4);
 
-INSERT INTO `estados` VALUES (0,'Sin asignar'),(1,'Pendiente'),(2,'Procesando'),(3,'Finalizado'),(4,'Cancelado');
+-- Estados
+INSERT INTO `estados` VALUES 
+(0,'Sin asignar'),(1,'Pendiente'),(2,'Procesando'),(3,'Finalizado'),(4,'Cancelado');
 
-INSERT INTO `detalle_pedido` VALUES (1,3,1,1,3,20.00,'2024-04-05',1200.00),(2,4,3,1,3,20.00,'2024-03-23',1200.00),(3,5,2,1,2,15.00,'2024-03-23',1800.00),(4,6,5,1,3,25.00,'2024-03-31',1500.00),(5,4,4,1,3,50.00,'2024-03-23',0.00);
+-- Detalle_pedido
+INSERT INTO `detalle_pedido` VALUES 
+(1,1,1,1,3,20.00,'2024-04-05',1200.00),(2,2,3,1,3,20.00,'2024-03-23',1200.00),(3,3,2,1,2,15.00,'2024-03-23',1800.00),(4,4,5,1,3,25.00,'2024-03-31',1500.00),(5,5,4,1,3,50.00,'2024-03-23',0.00);
 
+-- Empleado_departamento
 INSERT INTO empleado_departamento (id_empleado, id_depto) VALUES 
-(1, 1),(2, 2),(3, 3),(4, 1),(5, 2),(6, 3),(7, 1),(8, 2),(9, 3),(10, 1);
+(1, 1),(2, 2),(3, 3),(4, 1),(5, 2),(6, 3),(7, 1),(8, 2),(9, 3),(10, 1),(11, 4),(12, 4);
 
-INSERT INTO tareas (id_empleado, id_depto, id_estado, fecha, id_deped) VALUES 
-(1, 1, 1, '2024-01-01', 1),(2, 2, 2, '2024-02-01', 2),(3, 3, 3, '2024-03-01', 3),(4, 1, 4, '2024-04-01', 4),(5, 2, 1, '2024-05-01', 5),(6, 3, 2, '2024-06-01', 1),(7, 1, 3, '2024-07-01', 2),(8, 2, 4, '2024-08-01', 3),(9, 3, 1, '2024-09-01', 4),(10, 1, 2, '2024-10-01', 5);
+-- Tareas
+INSERT INTO `tareas` VALUES 
+(1,1, 1, 1, '2024-01-01', 1),(2,2, 2, 2, '2024-02-01', 2),(3,3, 3, 3, '2024-03-01', 3),(4,4, 1, 4, '2024-04-01', 4),(5,5, 2, 1, '2024-05-01', 5),(6,6, 3, 2, '2024-06-01', 1),(7,7, 1, 3, '2024-07-01', 2),(8,8, 2, 4, '2024-08-01', 3),(9,9, 3, 1, '2024-09-01', 4),(10,10, 1, 2, '2024-10-01', 5),(11,11, 4, 1, '2024-05-21', 1),(12,12, 4, 2, '2024-05-22', 2),(13,11, 4, 3, '2024-05-23', 3),(14,12, 4, 1, '2024-05-24', 4),(15,11, 4, 2, '2024-05-25', 5);
 
-INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('1', '1', '1');
-INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('2', '2', '2');
-INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('3', '3', '3');
-INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('4', '4', '4');
-INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('5', '5', '5');
-INSERT INTO `sofa_bbdd`.`material_proveedor` (`id_mat_prov`, `id_proveedor`, `id_material`) VALUES ('6', '6', '6');
+-- Materiales por proveedor
+INSERT INTO `material_proveedor` VALUES 
+(1, 1, 1),(2, 2, 2),(3, 3, 3),(4, 4, 4),(5, 5, 5),(6, 6, 6);
 
 
 -- End of file.

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import restsofa.modelo.DTO.TareaAltaDto;
 import restsofa.modelo.DTO.TareaDto;
 import restsofa.restcontroller.TareaRestController;
 
@@ -37,36 +38,31 @@ public class TareaRestControllerTestAlta {
     /**
      * Prueba del método "alta".
      *
-     * @Test
-     * Anota este método como una prueba JUnit.
+     * Este método prueba que el método para dar de alta una tarea funciona correctamente.
+     * Se crea una nueva tarea y se verifica que la respuesta sea la esperada.
      *
-     * Verifica que el código de estado de la respuesta sea OK.
-     * Verifica que el cuerpo de la respuesta contenga el mensaje esperado
+     * @Test Anota este método como una prueba JUnit.
      *
-     * @param nuevaTarea La tarea a dar de alta.
+     * @param nuevaTarea El DTO de la tarea a dar de alta.
+     * 
      * @return ResponseEntity con el resultado de la operación de alta.
      */
-	@Test
-	public void testAlta() {
-	    // Crear tarea de ejemplo
-	    TareaDto nuevaTarea = new TareaDto();
-	    nuevaTarea.setIdPedido(3);
-	    nuevaTarea.setIdDepartamento(1);
-	    nuevaTarea.setIdEmpleado(1);
-	    nuevaTarea.setIdEstado(1);
-	    nuevaTarea.setFecha(new Date());
-	    
-	    // Llamar al método "alta"
-	    ResponseEntity<?> responseEntity = tareaRestController.alta(nuevaTarea);
+    @Test
+    public void testAlta() {
+        // Crear datos de ejemplo
+        TareaAltaDto nuevaTarea = new TareaAltaDto();
+        nuevaTarea.setIdDetalle(2);
+        nuevaTarea.setFecha(new Date());
+        
+        // Llamar al método "alta"
+        ResponseEntity<?> responseEntity = tareaRestController.alta(nuevaTarea);
 
-	    // Verificar que el código de estado de la respuesta sea OK
-	    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // Verificar que el código de estado de la respuesta sea OK
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-	    // Verificar que el cuerpo de la respuesta contenga el mensaje esperado
-	    String mensaje = (String) responseEntity.getBody();
-	    assertNotNull(mensaje, "El mensaje no debería ser nulo");
-	    assertTrue(mensaje.contains("Tarea procesada correctamente"), "El mensaje debe indicar que la tarea se procesó correctamente");
-	}
-
-
+        // Verificar que el cuerpo de la respuesta contenga el mensaje esperado
+        String mensaje = (String) responseEntity.getBody();
+        assertNotNull(mensaje, "El mensaje no debería ser nulo");
+        assertTrue(mensaje.contains("Tareas creadas correctamente"), "El mensaje debe indicar que las tareas se crearon correctamente");
+    }
 }

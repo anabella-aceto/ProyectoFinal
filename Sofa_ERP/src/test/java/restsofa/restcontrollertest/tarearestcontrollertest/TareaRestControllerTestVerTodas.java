@@ -125,7 +125,7 @@ public class TareaRestControllerTestVerTodas {
 		List<TareaDto> tareas = (List<TareaDto>) responseEntity.getBody();
 		boolean contieneTareaEspecifica = false;
 		for (TareaDto tarea : tareas) {
-			if (tarea.getIdTarea() == 1 || tarea.getIdPedido() == 3) {
+			if (tarea.getIdTarea() == 1 || tarea.getIdEmpleado() == 1) {
 				contieneTareaEspecifica = true;
 				break;
 			}
