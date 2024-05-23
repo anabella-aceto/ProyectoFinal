@@ -1,7 +1,9 @@
 package restsofa.restcontroller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.modelmapper.ModelMapper;
@@ -24,6 +26,7 @@ import restsofa.modelo.DTO.TareaDto;
 import restsofa.modelo.entities.Departamento;
 import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Empleado;
+import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Tarea;
 import restsofa.service.DepartamentoService;
 import restsofa.service.DetallePedidoService;
@@ -52,7 +55,7 @@ public class TareaRestController {
 
 	@Autowired
 	private DetallePedidoService detallePedidoService;
-
+	
 	@Autowired
 	private EstadoService estadoService;
 
@@ -269,6 +272,7 @@ public class TareaRestController {
 	 *                   filtrar las tareas.
 	 * @return ResponseEntity con una lista de tareas si se encuentran tareas para
 	 *         el departamento especificado, o un mensaje de error si no.
+	 * @return ResponseEntity donde se muestra la información del estado del detalle solicitado.
 	 */
 	@GetMapping("/departamento/{idDepartamento}")
 	public ResponseEntity<?> filtrarPorDepartamento(@PathVariable(name = "idDepartamento") int idDepartamento) {
@@ -285,4 +289,80 @@ public class TareaRestController {
 					.body("Error al filtrar las tareas: " + e.getMessage());
 		}
 	}
+	
+	
+	/**
+	 * Método que toma el ID de un detalle de pedido, recupera las tareas asociadas
+	 * y determina su estado basado en los estados de las tareas en diferentes departamentos. El estado
+	 * se determina usando reglas de prioridad
+	 * @param idDeped El identificador único del detalle de pedido.
+	 *                   
+	 */
+	@GetMapping("/porEstadoYDetalle/{idDeped}")
+	public ResponseEntity<?> listarporDetalle(@PathVariable int idDeped) {
+	    DetallePedido detalle = detallePedidoService.buscarDetPed(idDeped);
+	    if (detalle == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("DetallePedido no encontrado");
+	    }
+	    
+	    List<Estado> estados = estadoService.buscarTodosEstado();
+	    List<Departamento> deptos = depService.listarTodos();
+	    List<Tarea> tareas = tareaService.buscarTodasTareas();
+	    
+	    List<Map<String, Object>> resultado = new ArrayList<>();
+
+	    Map<String, Object> tareaInfo = new HashMap<>();
+	    tareaInfo.put("detallePedidoId", detalle.getIdDePed());
+
+	    boolean pendiente = false;
+	    boolean procesando = false;
+	    boolean sinAsignar = false;
+	    boolean finalizada = false;
+
+	    for (Tarea tarea : tareas) {
+	        if (tarea.getDetalle().getIdDePed() == detalle.getIdDePed()) {
+	            for (Departamento depto : deptos) {
+	                if (tarea.getDepartamento().getIdDepartamento() == depto.getIdDepartamento()) {
+	                    Estado estado = tarea.getEstado();
+	                    switch (estado.getIdEstado()) {
+	                        case 1:
+	                            pendiente = true;
+	                            break;
+	                        case 2:
+	                            procesando = true;
+	                            break;
+	                        case 3:
+	                            finalizada = true;
+	                            break;
+	                        case 5:
+	                            sinAsignar = true;
+	                            break;
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    if (finalizada) {
+	        tareaInfo.put("estado", "finalizada");
+	    } else if (procesando) {
+	        tareaInfo.put("estado", "procesando");
+	    } else if (sinAsignar && pendiente) {
+	        tareaInfo.put("estado", "pendiente");
+	    } else if (pendiente) {
+	        tareaInfo.put("estado", "pendiente");
+	    } else if (sinAsignar) {
+	        tareaInfo.put("estado", "sin asignar");
+	    } else {
+	        tareaInfo.put("estado", "desconocido");
+	    }
+
+	    resultado.add(tareaInfo);
+
+	    return ResponseEntity.status(HttpStatus.OK).body(resultado);
+	}
+
+
 }
+	
+

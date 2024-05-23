@@ -24,5 +24,5 @@ public interface DetallePedidoRepository extends JpaRepository<DetallePedido, In
 
 	@Query("select dp from DetallePedido dp where dp.pedido.idPedido=?1")
 	public DetallePedido buscarPorPedido(int idPedido);
-	
+		
 }
