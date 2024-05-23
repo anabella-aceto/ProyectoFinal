@@ -198,26 +198,21 @@ public class DetallePedidoRestController {
 
 	        if (detalleGuardado!= null) {
 	            List<Departamento> departamentos = departamentoService.listarTodos();
-	            Random random = new Random();
 	            List<Tarea> tareasCreadas = new ArrayList<>();
 
 	            for (Departamento departamento : departamentos) {
 	                if (departamento != null) {
-	                    List<Empleado> empleados = empleadoService.buscarPorDepto(departamento.getIdDepartamento());
-	                    if (!empleados.isEmpty()) {
-	                        Empleado empleadoAleatorio = empleados.get(random.nextInt(empleados.size()));
 	                        Tarea tarea = new Tarea();
 	                        tarea.setDetalle(detPedService.buscarDetPed(detalleGuardado.getIdDePed()));
 	                        tarea.setDepartamento(departamento);
-	                        tarea.setEstado(estadoService.buscarEstado(0));
-	                        tarea.setEmpleado(empleadoAleatorio);
+	                        tarea.setEstado(estadoService.buscarEstado(5));
+	                        tarea.setEmpleado(null);
 	                        tarea.setFecha(detalleDto.getFecha());
 	                        Tarea tareaGuardada = tareaService.altaTarea(tarea);
 	                        tareasCreadas.add(tareaGuardada);
 	                    }
 	                }
 	            }
-	        }
 
 	        return ResponseEntity.status(HttpStatus.CREATED)
 	                .body("Detalle de pedido procesado correctamente: " + detallePedido);
