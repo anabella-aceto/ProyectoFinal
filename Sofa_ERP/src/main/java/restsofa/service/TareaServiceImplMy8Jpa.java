@@ -185,4 +185,5 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 
 		return tarepo.buscarPorDepartamento(idDepartamento);
 	}
+
 }
