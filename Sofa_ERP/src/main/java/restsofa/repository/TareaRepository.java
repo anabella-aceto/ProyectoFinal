@@ -28,9 +28,23 @@ public interface TareaRepository extends JpaRepository<Tarea, Integer> {
      */
     @Query("select t from Tarea t where t.empleado.idEmpleado = ?1")
     public List<Tarea> buscarPorEmpleado(int idEmpleado);
-
+   
+    /**
+     * Busca una tarea por el identificador de estado.
+     *
+     * @param idEstado El identificador del estado.
+     * @return La tarea asociada al estado con el identificador dado, si existe; de lo contrario, null.
+     */
     @Query("select t from Tarea t where t.estado.idEstado=?1")
-    public Tarea buscarPorestado(int idEstado);
+    public Tarea buscarPorEstado(int idEstado);    
     
+    /**
+     * Busca una lista de tareas por el identificador del departamento.
+     *
+     * @param idDepartamento El identificador del departamento.
+     * @return Una lista de tareas asignadas al departamento con el identificador dado.
+     */
+    @Query("select t from Tarea t where t.departamento.idDepartamento = ?1")
+    public List<Tarea> buscarPorDepartamento(int idDepartamento);
  
 }

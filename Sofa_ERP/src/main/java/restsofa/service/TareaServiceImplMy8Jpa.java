@@ -117,23 +117,19 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	}
 
 	/**
-	 * Método que actualiza el estado de una tarea basado en el identificador de
-	 * pedido, identificador de empleado y identificador de departamento
-	 * proporcionados.
+	 * Actualiza el estado de una tarea basado en el identificador de pedido, identificador de empleado y
+	 * identificador de departamento proporcionados.
 	 * 
 	 * @param idPedido       El identificador único del pedido (tarea) a actualizar.
-	 * @param idEmpleado     El identificador único del empleado asociado con la
-	 *                       tarea.
-	 * @param idDepartamento El identificador único del departamento asociado con la
-	 *                       tarea.
-	 * @return Devuelve 1 si el estado de la tarea se actualiza a estado1, devuelve
-	 *         2 si el estado de la tarea se actualiza a estado2, devuelve 0 si no
-	 *         se encuentra el pedido o el estado del pedido no es 1 o 2.
+	 * @param idEmpleado     El identificador único del empleado asociado con la tarea.
+	 * @param idDepartamento El identificador único del departamento asociado con la tarea.
+	 * @return 1 si el estado de la tarea se actualiza a estado1, 2 si el estado de la tarea se actualiza a estado2,
+	 *         0 si no se encuentra el pedido o el estado del pedido no es 1 o 2.
 	 */
 	@Override
 	public int altaEstadoTarea(int idDeped, int idEmpleado, int idDepartamento) {
 		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
-		Tarea tarea1 = tarepo.buscarPorestado(1);
+		Tarea tarea1 = tarepo.buscarPorEstado(1);
 		Estado estado1 = estadoService.buscarEstado(2);
 		Estado estado2 = estadoService.buscarEstado(3);
 		
@@ -166,9 +162,27 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 		}
 	}
 
+	/**
+	 * Método que busca una tarea por el identificador de estado.
+	 *
+	 * @param idEstado El identificador del estado.
+	 * @return La tarea asociada al estado con el identificador dado, si existe; de lo contrario, null.
+	 */
 	@Override
 	public Tarea buscarPorEstado(int idEstado) {
-		// TODO Auto-generated method stub
-		return tarepo.buscarPorestado(idEstado);
+
+		return tarepo.buscarPorEstado(idEstado);
+	}
+
+	/**
+	 * Método que busca todas las tareas asociadas a un departamento por su identificador.
+	 *
+	 * @param idDepartamento El identificador único del departamento.
+	 * @return Una lista de todas las tareas asociadas al departamento con el identificador dado.
+	 */
+	@Override
+	public List<Tarea> buscarPorIdDepartamento(int idDepartamento) {
+
+		return tarepo.buscarPorDepartamento(idDepartamento);
 	}
 }

@@ -261,4 +261,28 @@ public class TareaRestController {
 					.body("Error al cambiar el estado de la tarea: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Método que filtra las tareas asociadas a un departamento por su identificador.
+	 *
+	 * @param idDepartamento El identificador único del departamento del cual se desean
+	 *                   filtrar las tareas.
+	 * @return ResponseEntity con una lista de tareas si se encuentran tareas para
+	 *         el departamento especificado, o un mensaje de error si no.
+	 */
+	@GetMapping("/departamento/{idDepartamento}")
+	public ResponseEntity<?> filtrarPorDepartamento(@PathVariable(name = "idDepartamento") int idDepartamento) {
+		try {
+			List<Tarea> lista = tareaService.buscarPorIdDepartamento(idDepartamento);
+			if (!lista.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.OK).body(lista);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body("No se encuentran tareas para el departamento ingresado");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al filtrar las tareas: " + e.getMessage());
+		}
+	}
 }
