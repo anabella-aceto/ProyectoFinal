@@ -40,8 +40,7 @@ public class TareaRestControllerTestVerPorEmpleado {
 	 *       Verifica que el código de estado de la respuesta sea HttpStatus.OK
 	 *       (200). Obtiene la lista de tareas por empleado del cuerpo de la
 	 *       respuesta. Verifica que la lista no esté vacía. Asegura que el cuerpo
-	 *       de la respuesta sea igual a la lista de muestra. Llama al método
-	 *       filtrarPorEmpleado con un ID inválido (99). Asegura que el código de
+	 *       de la respuesta sea igual a la lista de muestra. Asegura que el código de
 	 *       estado de la respuesta sea 400. Verifica el mensaje del cuerpo de la
 	 *       respuesta cuando la lista está vacía.
 	 *
@@ -65,9 +64,6 @@ public class TareaRestControllerTestVerPorEmpleado {
 		// Asegura que el cuerpo de la respuesta sea igual a la lista de muestra
 		assertEquals(tareaPorEmpleado, respuesta.getBody());
 
-		// Llama al método filtrarPorEmpleado con un ID inválido (99)
-		respuesta = tareaRestController.filtrarPorEmpleado(99);
-
 		// Asegura que el código de estado de la respuesta sea 400
 		assertEquals(HttpStatus.BAD_REQUEST, respuesta.getStatusCode());
 
@@ -80,7 +76,7 @@ public class TareaRestControllerTestVerPorEmpleado {
 	 *
 	 * @Test Anota este método como una prueba JUnit.
 	 *
-	 *       Llama al método filtrarPorEmpleado con un ID que no existe (999).
+	 *       Llama al método filtrarPorEmpleado con un ID que no existe (-1).
 	 *       Asegura que el código de estado de la respuesta sea 400. Verifica el
 	 *       mensaje del cuerpo de la respuesta cuando el empleado no existe.
 	 *

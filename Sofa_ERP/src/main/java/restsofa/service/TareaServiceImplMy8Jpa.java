@@ -2,16 +2,13 @@ package restsofa.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import restsofa.modelo.entities.Departamento;
 import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Estado;
-import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Tarea;
 import restsofa.repository.TareaRepository;
 
