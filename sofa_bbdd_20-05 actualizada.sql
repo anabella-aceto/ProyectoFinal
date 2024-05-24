@@ -1,3 +1,6 @@
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2024-05-24 13:39:49.834
+
 -- Database: sofa_bbdd
 CREATE DATABASE IF NOT EXISTS sofa_bbdd;
 use sofa_bbdd;
@@ -67,6 +70,13 @@ CREATE TABLE empleados (
 
 CREATE INDEX id_perfil ON empleados (id_perfil);
 
+-- Table: estado_pedido
+CREATE TABLE estado_pedido (
+    id_estPed int  NOT NULL,
+    nombEst varchar(50)  NOT NULL,
+    CONSTRAINT est_ped_pk PRIMARY KEY (id_estPed)
+);
+
 -- Table: estados
 CREATE TABLE estados (
     id_estado int  NOT NULL AUTO_INCREMENT,
@@ -105,12 +115,15 @@ CREATE TABLE pedidos (
     id_cliente int  NULL DEFAULT null,
     fecha date  NULL DEFAULT null,
     vendedor int  NULL DEFAULT null,
+    id_estPed int  NULL,
     CONSTRAINT pedidos_pk PRIMARY KEY (id_pedido)
 ) AUTO_INCREMENT 15 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 CREATE INDEX id_cliente ON pedidos (id_cliente);
 
 CREATE INDEX id_empleado ON pedidos (vendedor);
+
+CREATE INDEX id_estPedido ON pedidos (id_estPed);
 
 -- Table: perfiles
 CREATE TABLE perfiles (
@@ -228,6 +241,10 @@ ALTER TABLE sofa_materiales ADD CONSTRAINT id_sofa1 FOREIGN KEY id_sofa1 (id_sof
 ALTER TABLE detalle_pedido ADD CONSTRAINT id_sofa9 FOREIGN KEY id_sofa9 (id_sofa)
     REFERENCES sofas (id_sofa);
 
+-- Reference: pedidos_estado_pedido (table: pedidos)
+ALTER TABLE pedidos ADD CONSTRAINT pedidos_estado_pedido FOREIGN KEY pedidos_estado_pedido (id_estPed)
+    REFERENCES estado_pedido (id_estPed);
+
 -- Reference: tareas_detalle_pedido (table: tareas)
 ALTER TABLE tareas ADD CONSTRAINT tareas_detalle_pedido FOREIGN KEY tareas_detalle_pedido (id_deped)
     REFERENCES detalle_pedido (id_deped);
@@ -259,9 +276,13 @@ INSERT INTO `empleados` VALUES (1,'Juan','Pérez','juan',1,1,'2023-05-10',NULL,'
 INSERT INTO `materiales` VALUES 
 (1,'Tornillos','Tornillos madera 7cm',6.00,2,456,'ferreteria','caja'),(2,'Guata','Guata blanca 50cm ancho',276.00,5,357,'textil',''),(3,'Hilo','Hilo costura',18.00,1,100,'textil','bobina'),(4,'Tela','Rivera beige',16.00,1,757,'textil','m2'),(5,'Tela','Rivera negro',2.00,1,48,'textil','m2'),(6,'Madera','Madera pino esqueleto',33.00,6,112,'madera','ml'),(7,'Cojines','Cojines sofas',16.00,5,654,'textil','unidad'),(8,'Cinchas','Cinchas duras',4.00,4,1795,'ferreteria','ml'),(9,'Cinchas','Cinchas blandas',7.00,4,548,'ferreteria','ml'),(10,'Patas','Patas de madera negras básicas',24.00,3,468,'patas','unidad'),(11,'Patas','Patas acero inox rectas',6.00,3,489,'patas','unidad');
 
+-- Estado_pedido
+INSERT INTO estado_pedido (id_estPed, nombEst) VALUES
+(1, 'Activo'), (2, 'Cancelado');
+
 -- Pedidos
 INSERT INTO `pedidos` VALUES 
-(1,1,'2024-04-01',1),(2,5,'2024-03-24',5),(3,2,'2024-03-24',2),(4,2,'2024-03-27',2),(5,3,'2024-04-01',3),(6,2,'2024-04-01',1);
+(1,1,'2024-04-01',1,1),(2,5,'2024-03-24',5,1),(3,2,'2024-03-24',2,1),(4,2,'2024-03-27',2,1),(5,3,'2024-04-01',3,1),(6,2,'2024-04-01',1,1);
 
 -- Sofas
 INSERT INTO `sofas` VALUES 
@@ -289,6 +310,7 @@ INSERT INTO `tareas` VALUES
 -- Materiales por proveedor
 INSERT INTO `material_proveedor` VALUES 
 (1, 1, 1),(2, 2, 2),(3, 3, 3),(4, 4, 4),(5, 5, 5),(6, 6, 6);
+
 
 
 -- End of file.
