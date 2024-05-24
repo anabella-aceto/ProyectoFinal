@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import restsofa.modelo.entities.DetallePedido;
-import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Material;
-import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.SofaMaterial;
 import restsofa.repository.MaterialRepository;
 
@@ -26,14 +24,9 @@ public class MaterialServiceImplMy8 implements MaterialService {
 	@Autowired
 	private SofaMaterialService sofaMaterialService;
 
-	@Autowired
-	private PedidoService pedidoService;
 	
 	@Autowired
 	private DetallePedidoService detallePedidoService;
-
-	@Autowired
-	private EstadoService estadoService;
 
 	/**
 	 * Método que permite crear un material
@@ -203,9 +196,9 @@ public class MaterialServiceImplMy8 implements MaterialService {
 	            material.setCantidad(cantidad);
 	            mrepo.save(material);
 	        }
-	        return 1; // Indica que la restauración fue exitosa
+	        return 1; 
 	    }
-	    return 0; // Si el pedido no está en el estado adecuado o no existe, indica que la restauración falló
+	    return 0;
 	}
 
 }
