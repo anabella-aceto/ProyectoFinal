@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.persistence.NoResultException;
 import restsofa.modelo.DTO.DetallePedidoDto;
 import restsofa.modelo.entities.Departamento;
 import restsofa.modelo.entities.DetallePedido;
+import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Sofa;
@@ -232,39 +234,63 @@ public class DetallePedidoRestController {
 	 */
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody DetallePedidoDto detalleDto) {
-		try {
-			// Buscar el detalle de pedido por su ID
-			DetallePedido detalle = detPedService.buscarDetPed(detalleDto.getIdDePed());
+	    try {
+	        // Buscar el detalle de pedido por su ID
+	        DetallePedido detalle = detPedService.findByDetalleYPedido(detalleDto.getIdDePed(), detalleDto.getIdPedido());
+	        
+	        // Verificar si el detalle de pedido existe
+	        if (detalle == null) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El detalle de pedido con el ID " + detalleDto.getIdDePed() + " no existe");
+	        }
 
-			// Verificar si el detalle de pedido existe
-			if (detalle != null) {
-				// Actualizar los datos del detalle de pedido con los datos del DTO
-				detalle.setPedido(pedidoService.buscarPedido(detalleDto.getIdPedido()));
-				detalle.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
-				detalle.setFecha(detalleDto.getFecha());
-				detalle.setCantidad(detalleDto.getCantidad());
-				detalle.setPlazas(detalleDto.getPlazas());
-				detalle.setPrecio(detalleDto.getPrecio());
-				detalle.setDensCojin(detalleDto.getDensCojin());
+	        if (detalle !=null) {        	
 
-				// Guardar los cambios en el detalle de pedido
-				detPedService.modifDetPed(detalle);
+	        // Guardar los valores originales para la comparación
+	        int cantidadOriginal = detalle.getCantidad();
+	        int idSofaOriginal = detalle.getSofa().getIdSofa();
 
-				// Devolver una respuesta exitosa con un mensaje indicando el éxito de la
-				// modificación
-				return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido modificado correctamente");
-			} else {
-				// Si el detalle de pedido no existe, devolver un error con un mensaje
-				// correspondiente
-				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-						.body("El detalle de pedido con el ID " + detalleDto.getIdDePed() + " no existe");
-			}
-		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al modificar el detalle de pedido: " + e.getMessage());
-		}
+	        // Actualizar los datos del detalle de pedido con los datos del DTO
+	        detalle.setSofa(sofaService.buscarSofa(detalleDto.getIdSofa()));
+	        detalle.setFecha(detalleDto.getFecha());
+	        detalle.setCantidad(detalleDto.getCantidad());
+	        detalle.setPlazas(detalleDto.getPlazas());
+	        detalle.setPrecio(detalleDto.getPrecio());
+	        detalle.setDensCojin(detalleDto.getDensCojin());
+
+	        // Verificar si es necesario restaurar materiales
+	        boolean restaurarMateriales = (idSofaOriginal != detalleDto.getIdSofa());
+
+	        if (restaurarMateriales) {
+	            // Intentar restaurar los materiales
+	            int materialRestaurado = materialService.restaurarMateriales(detalleDto.getIdPedido(), idSofaOriginal);
+
+	            if (materialRestaurado != 1) {
+	                // Actualizar el estado de las tareas relacionadas si no se pudieron restaurar los materiales
+	                List<Tarea> listaTareas = tareaService.buscarPorDetalle(detalleDto.getIdDePed());
+
+	                for (Tarea tarea : listaTareas) {
+	                    tarea.setEstado(estadoService.buscarEstado(4));
+	                }
+
+	                // Devolver un ResponseEntity con estado 404 y un mensaje de error
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al restaurar los materiales");
+	            }
+	        }      
+	        
+	        detPedService.modifDetPed(detalle);
+
+	        // Devolver una respuesta exitosa con un mensaje indicando el éxito de la modificación
+	        return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido modificado correctamente");
+	    } catch (NoResultException e) {
+	        // Capturar la excepción si no se encuentra ningún resultado
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El detalle de pedido con el ID " + detalleDto.getIdDePed() + " no existe");
+	    } 
+	    catch (Exception e) {
+	        // Capturar cualquier excepción y devolver un error interno del servidor
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al modificar el detalle de pedido: " + e.getMessage());
+	    }
 	}
+
 
 	/**
 	 * Elimina un detalle de pedido con el identificador proporcionado.
@@ -273,30 +299,41 @@ public class DetallePedidoRestController {
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
-	@DeleteMapping("/eliminar/{idDePed}")
-	public ResponseEntity<?> borrar(@PathVariable int idDePed) {
-		try {
-			// Buscar el detalle de pedido por su ID
-			DetallePedido detalle = detPedService.buscarDetPed(idDePed);
+    @DeleteMapping("/eliminar/{idDePed}")
+    public ResponseEntity<?> borrar(@PathVariable int idDePed) {
+        try {
+            // Buscar el detalle de pedido por su ID
+            DetallePedido detalle = detPedService.buscarDetPed(idDePed);
 
-			// Verificar si el detalle de pedido existe
-			if (detalle != null) {
-				// Eliminar el detalle de pedido
-				detPedService.borrarDetPed(idDePed);
-				// Devolver una respuesta exitosa con un mensaje indicando el éxito de la
-				// eliminación
-				return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido eliminado correctamente");
-			} else {
-				// Si el detalle de pedido no existe, devolver un error con un mensaje
-				// correspondiente
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Detalle de pedido no se ha podido eliminar");
-			}
-		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al eliminar el detalle de pedido: " + e.getMessage());
-		}
-	}
+            // Verificar si el detalle de pedido existe
+            if (detalle != null) {
+                List<Tarea> lista = tareaService.buscarPorDetalle(idDePed);
+
+                // Eliminar todas las tareas asociadas
+                for (Tarea tarea : lista) {
+                    tareaService.borrarTarea(tarea.getIdTarea());
+                }
+
+                // Ahora intentamos eliminar el detalle de pedido después de eliminar todas las tareas asociadas
+                if (detPedService.borrarDetPed(idDePed)) {
+                    // Si se eliminó correctamente el detalle de pedido, retornar una respuesta exitosa
+                    return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido eliminado correctamente");
+                } else {
+                    // Si no se pudo eliminar el detalle de pedido por alguna razón, retornar un error
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo eliminar el detalle de pedido");
+                }
+            } else {
+                // Si el detalle de pedido no existe, devolver un error con un mensaje correspondiente
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El detalle de pedido con el ID " + idDePed + " no existe");
+            }
+        } catch (Exception e) {
+            // Capturar cualquier excepción y devolver un mensaje indicando la razón específica por la cual no se pudo eliminar el detalle de pedido
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar el detalle de pedido: " + e.getMessage());
+        }
+    }
+
+
 
 	/**
 	 * Filtra los detalles de pedido por el identificador de pedido proporcionado.

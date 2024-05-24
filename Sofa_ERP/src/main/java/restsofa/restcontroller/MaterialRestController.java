@@ -300,6 +300,7 @@ public class MaterialRestController {
 			if (detallePedido != null && tareaService.buscarPorEstado(1) !=null) {
 				// Intentar restaurar los materiales
 				if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
+					
 					// Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y
 					// un mensaje
 					return ResponseEntity.status(HttpStatus.OK).body("Pedido restaurado");
