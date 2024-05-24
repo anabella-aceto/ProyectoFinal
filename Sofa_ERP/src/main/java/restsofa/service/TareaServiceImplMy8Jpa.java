@@ -183,4 +183,10 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 		return tarepo.buscarPorDepartamento(idDepartamento);
 	}
 
+	@Override
+	public List<Tarea> buscarPorDetalle(int idDePed) {
+		// TODO Auto-generated method stub
+		return tarepo.buscarPorDetalle(idDePed);
+	}
+
 }

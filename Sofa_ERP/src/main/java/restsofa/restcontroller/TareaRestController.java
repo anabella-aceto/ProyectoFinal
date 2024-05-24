@@ -1,6 +1,7 @@
 package restsofa.restcontroller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -294,9 +295,12 @@ public class TareaRestController {
 	/**
 	 * Método que toma el ID de un detalle de pedido, recupera las tareas asociadas
 	 * y determina su estado basado en los estados de las tareas en diferentes departamentos. El estado
-	 * se determina usando reglas de prioridad
+	 * se determina usando reglas de prioridad.
+	 * 
 	 * @param idDeped El identificador único del detalle de pedido.
-	 *                   
+	 *           
+	 * * @return ResponseEntity donde se muestra la información del detalle solicitado del estado de cada 
+	 * uno de los departamento.               
 	 */
 	@GetMapping("/porEstadoYDetalle/{idDeped}")
 	public ResponseEntity<?> listarporDetalle(@PathVariable int idDeped) {
@@ -363,8 +367,78 @@ public class TareaRestController {
 	    return ResponseEntity.status(HttpStatus.OK).body(resultado);
 	}
 
+	
+	
+	/**
+	 * Método que toma el ID de un pedido, recupera las tareas asociadas
+	 * y determina el estado general del pedido. El estado se determina usando reglas de prioridad.
+	 * 
+	 * @param idDeped El identificador único del detalle de pedido.
+	 *           
+	 * * @return ResponseEntity donde se muestra la información del del pedido.               
+	 */
+	@GetMapping("/estadoPorPedido/{idPedido}")
+	public ResponseEntity<?> mostrarEstadoPedido(@PathVariable int idPedido) {
+	    List<DetallePedido> detalle = detallePedidoService.buscarPorIdPedido(idPedido);
 
+	    if (detalle == null || detalle.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                             .body("DetallePedido not found for pedido ID: " + idPedido);
+	    }
+	    
+	    List<Estado> estados = estadoService.buscarTodosEstado();
+	    List<Departamento> deptos = depService.listarTodos();
+	    List<Tarea> tareas = tareaService.buscarTodasTareas();
+	    
+	    Map<String, Object> tareaInfo = new HashMap<>();
+	    tareaInfo.put("detallePedidoId", detalle.get(0).getIdDePed()); // Assuming you have a method to get ID from DetallePedido
 
+	    boolean pendiente = false;
+	    boolean procesando = false;
+	    boolean sinAsignar = false;
+	    boolean finalizada = false;
+
+	    for (Tarea tarea : tareas) {
+	        for (DetallePedido deped : detalle) {
+	            for (Departamento depto : deptos) {
+	                if (tarea.getDepartamento().getIdDepartamento() == depto.getIdDepartamento()) {
+	                    Estado estado = tarea.getEstado();
+	                    switch (estado.getIdEstado()) {
+	                        case 1:
+	                            pendiente = true;
+	                            break;
+	                        case 2:
+	                            procesando = true;
+	                            break;
+	                        case 3:
+	                            finalizada = true;
+	                            break;
+	                        case 5:
+	                            sinAsignar = true;
+	                            break;
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    // Determine the final state based on priority rules
+	    if (finalizada) {
+	        tareaInfo.put("estado", "finalizada");
+	    } else if (procesando) {
+	        tareaInfo.put("estado", "procesando");
+	    } else if (sinAsignar && pendiente) {
+	        tareaInfo.put("estado", "pendiente");
+	    } else if (pendiente) {
+	        tareaInfo.put("estado", "pendiente");
+	    } else if (sinAsignar) {
+	        tareaInfo.put("estado", "sin asignar");
+	    } else {
+	        tareaInfo.put("estado", "desconocido");
+	    }
+
+	    return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonList(tareaInfo));
+	}
 }
 	
 

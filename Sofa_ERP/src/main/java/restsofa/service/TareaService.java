@@ -18,5 +18,5 @@ public interface TareaService {
 	int altaEstadoTarea(int idPedido, int idEmpleado, int idDepartamento);
 	Tarea buscarPorEstado(int idEstado);
 	List<Tarea> buscarPorIdDepartamento(int idDepartamento);
-	
+	public List<Tarea> buscarPorDetalle(int idDePed);
 }
