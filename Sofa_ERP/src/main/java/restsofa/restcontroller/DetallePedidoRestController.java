@@ -179,24 +179,27 @@ public class DetallePedidoRestController {
 	                    .body("Pedido no encontrado con ID: " + detalleDto.getIdPedido());
 	        }
 
-	        // Crear el detalle de pedido
-	        DetallePedido detallePedido = new DetallePedido();
-	        detallePedido.setPedido(pedido);
-	        detallePedido.setSofa(sofa);
-	        detallePedido.setFecha(detalleDto.getFecha());
-	        detallePedido.setCantidad(detalleDto.getCantidad());
-	        detallePedido.setPlazas(detalleDto.getPlazas());
-	        detallePedido.setPrecio(detalleDto.getPrecio());
-	        detallePedido.setDensCojin(detalleDto.getDensCojin());
+	        int cantidad = detalleDto.getCantidad(); // Obtener la cantidad del detalle
+	        
+	        // Crear tantos detalles de pedido como cantidad haya
+	        for (int i = 0; i < cantidad; i++) {
+	            DetallePedido detallePedido = new DetallePedido();
+	            detallePedido.setPedido(pedido);
+	            detallePedido.setSofa(sofa);
+	            detallePedido.setFecha(detalleDto.getFecha());
+	            detallePedido.setCantidad(1); // Fijar la cantidad en 1
+	            detallePedido.setPlazas(detalleDto.getPlazas());
+	            detallePedido.setPrecio(detalleDto.getPrecio());
+	            detallePedido.setDensCojin(detalleDto.getDensCojin());
 
-	        DetallePedido detalleGuardado = detPedService.altaDetPed(detallePedido);
+	            DetallePedido detalleGuardado = detPedService.altaDetPed(detallePedido);
 
-	        if (detalleGuardado!= null) {
-	            List<Departamento> departamentos = departamentoService.listarTodos();
-	            List<Tarea> tareasCreadas = new ArrayList<>();
+	            if (detalleGuardado != null) {
+	                List<Departamento> departamentos = departamentoService.listarTodos();
+	                List<Tarea> tareasCreadas = new ArrayList<>();
 
-	            for (Departamento departamento : departamentos) {
-	                if (departamento != null) {
+	                for (Departamento departamento : departamentos) {
+	                    if (departamento != null) {
 	                        Tarea tarea = new Tarea();
 	                        tarea.setDetalle(detPedService.buscarDetPed(detalleGuardado.getIdDePed()));
 	                        tarea.setDepartamento(departamento);
@@ -208,9 +211,10 @@ public class DetallePedidoRestController {
 	                    }
 	                }
 	            }
+	        }
 
 	        return ResponseEntity.status(HttpStatus.CREATED)
-	                .body("Detalle de pedido procesado correctamente: " + detallePedido);
+	                .body("Detalle(s) de pedido procesado(s) correctamente.");
 	    } catch (Exception e) {
 	        // Capturar cualquier excepción y devolver un error interno del servidor
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
