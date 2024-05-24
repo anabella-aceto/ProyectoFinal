@@ -386,12 +386,11 @@ public class TareaRestController {
 	                             .body("DetallePedido not found for pedido ID: " + idPedido);
 	    }
 	    
-	    List<Estado> estados = estadoService.buscarTodosEstado();
 	    List<Departamento> deptos = depService.listarTodos();
 	    List<Tarea> tareas = tareaService.buscarTodasTareas();
 	    
 	    Map<String, Object> tareaInfo = new HashMap<>();
-	    tareaInfo.put("detallePedidoId", detalle.get(0).getIdDePed()); // Assuming you have a method to get ID from DetallePedido
+	    tareaInfo.put("idPedido", idPedido);
 
 	    boolean pendiente = false;
 	    boolean procesando = false;
@@ -437,8 +436,9 @@ public class TareaRestController {
 	        tareaInfo.put("estado", "desconocido");
 	    }
 
-	    return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonList(tareaInfo));
+	    return ResponseEntity.status(HttpStatus.OK).body(tareaInfo);
 	}
+
 }
 	
 
