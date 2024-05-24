@@ -311,56 +311,58 @@ public class TareaRestController {
 	    
 	    List<Map<String, Object>> resultado = new ArrayList<>();
 
-	    Map<String, Object> tareaInfo = new HashMap<>();
-	    tareaInfo.put("detallePedidoId", detalle.getIdDePed());
+	    for (Departamento depto : deptos) {
+	        Map<String, Object> tareaInfo = new HashMap<>();
+	        tareaInfo.put("departamentoId", depto.getIdDepartamento());
+	        tareaInfo.put("departamentoNombre", depto.getNombre());
+	        
+	        boolean pendiente = false;
+	        boolean procesando = false;
+	        boolean sinAsignar = false;
+	        boolean finalizada = false;
 
-	    boolean pendiente = false;
-	    boolean procesando = false;
-	    boolean sinAsignar = false;
-	    boolean finalizada = false;
-
-	    for (Tarea tarea : tareas) {
-	        if (tarea.getDetalle().getIdDePed() == detalle.getIdDePed()) {
-	            for (Departamento depto : deptos) {
-	                if (tarea.getDepartamento().getIdDepartamento() == depto.getIdDepartamento()) {
-	                    Estado estado = tarea.getEstado();
-	                    switch (estado.getIdEstado()) {
-	                        case 1:
-	                            pendiente = true;
-	                            break;
-	                        case 2:
-	                            procesando = true;
-	                            break;
-	                        case 3:
-	                            finalizada = true;
-	                            break;
-	                        case 5:
-	                            sinAsignar = true;
-	                            break;
-	                    }
+	        for (Tarea tarea : tareas) {
+	            if (tarea.getDetalle().getIdDePed() == detalle.getIdDePed() &&
+	                tarea.getDepartamento().getIdDepartamento() == depto.getIdDepartamento()) {
+	                
+	                Estado estado = tarea.getEstado();
+	                switch (estado.getIdEstado()) {
+	                    case 1:
+	                        pendiente = true;
+	                        break;
+	                    case 2:
+	                        procesando = true;
+	                        break;
+	                    case 3:
+	                        finalizada = true;
+	                        break;
+	                    case 5:
+	                        sinAsignar = true;
+	                        break;
 	                }
 	            }
 	        }
-	    }
 
-	    if (finalizada) {
-	        tareaInfo.put("estado", "finalizada");
-	    } else if (procesando) {
-	        tareaInfo.put("estado", "procesando");
-	    } else if (sinAsignar && pendiente) {
-	        tareaInfo.put("estado", "pendiente");
-	    } else if (pendiente) {
-	        tareaInfo.put("estado", "pendiente");
-	    } else if (sinAsignar) {
-	        tareaInfo.put("estado", "sin asignar");
-	    } else {
-	        tareaInfo.put("estado", "desconocido");
-	    }
+	        if (finalizada) {
+	            tareaInfo.put("estado", "finalizada");
+	        } else if (procesando) {
+	            tareaInfo.put("estado", "procesando");
+	        } else if (sinAsignar && pendiente) {
+	            tareaInfo.put("estado", "pendiente");
+	        } else if (pendiente) {
+	            tareaInfo.put("estado", "pendiente");
+	        } else if (sinAsignar) {
+	            tareaInfo.put("estado", "sin asignar");
+	        } else {
+	            tareaInfo.put("estado", "desconocido");
+	        }
 
-	    resultado.add(tareaInfo);
+	        resultado.add(tareaInfo);
+	    }
 
 	    return ResponseEntity.status(HttpStatus.OK).body(resultado);
 	}
+
 
 
 }
