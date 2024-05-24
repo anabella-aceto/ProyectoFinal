@@ -29,4 +29,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 	 */
 	@Query("select p from Pedido p where p.fecha >=?1 and p.fecha <=?2")
 	public List<Pedido> buscarPorFecha(Date fechaInicio, Date fechaFin);
+	
 }

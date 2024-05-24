@@ -2,7 +2,6 @@ package restsofa.restcontroller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.DTO.DetallePedidoDto;
 import restsofa.modelo.entities.Departamento;
 import restsofa.modelo.entities.DetallePedido;
-import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
 import restsofa.modelo.entities.Sofa;
@@ -70,9 +68,6 @@ public class DetallePedidoRestController {
 	
 	@Autowired
 	private EstadoService estadoService;
-	
-	@Autowired
-	private EmpleadoService empleadoService;
 	
 	@Autowired
 	private ModelMapper modelMapper;

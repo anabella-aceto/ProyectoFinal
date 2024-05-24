@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import restsofa.modelo.entities.DetallePedido;
-import restsofa.modelo.entities.SofaMaterial;
 import restsofa.repository.DetallePedidoRepository;
 
 /**
@@ -18,9 +17,6 @@ public class DetallePedidoServiceImplMy8Jpa implements DetallePedidoService {
 
 	@Autowired
 	private DetallePedidoRepository dprepo;
-
-	@Autowired
-	private SofaMaterialService sofaMaterialService;
 
 	/**
 	 * Método que busca un detalle de pedido por su identificador.
@@ -107,5 +103,11 @@ public class DetallePedidoServiceImplMy8Jpa implements DetallePedidoService {
 	public boolean alta(DetallePedido detPed) {
 		dprepo.save(detPed);
 		return true;
+	}
+
+	@Override
+	public List<DetallePedido> buscarPorIdPedido(int idPedido) {
+		// TODO Auto-generated method stub
+		return dprepo.buscarPorIdPedido(idPedido);
 	}
 }

@@ -17,6 +17,7 @@ public interface DetallePedidoService {
 	boolean borrarDetPed (int idDePed);
 	DetallePedido buscarPorPedido(int idPedido);
 	boolean alta(DetallePedido detPed);
+	List<DetallePedido> buscarPorIdPedido(int idPedido);
 	
 
 }
