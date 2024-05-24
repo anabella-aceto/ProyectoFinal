@@ -289,8 +289,8 @@ public class MaterialRestController {
 	 * @param idSofa   ID del sofá a restaurar.
 	 * @return ResponseEntity con el estado de la operación y un mensaje.
 	 */
-	@PutMapping("restaurar/{idPedido}/{idSofa}")
-	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa) {
+	@PutMapping("restaurar/{idPedido}/{idSofa}/{idDeped}")
+	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa, @PathVariable int idDeped) {
 		try {
 			// Buscar el pedido en la base de datos
 			DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
@@ -299,7 +299,7 @@ public class MaterialRestController {
 			// materiales
 			if (detallePedido != null && tareaService.buscarPorEstado(1) !=null) {
 				// Intentar restaurar los materiales
-				if (materialService.restaurarMateriales(idPedido, idSofa) == 1) {
+				if (materialService.restaurarMateriales(idPedido, idSofa, idDeped) == 1) {
 					
 					// Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y
 					// un mensaje

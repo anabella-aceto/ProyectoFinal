@@ -116,4 +116,10 @@ public class DetallePedidoServiceImplMy8Jpa implements DetallePedidoService {
 		// TODO Auto-generated method stub
 		return dprepo.buscarPorDetalleYPedido(idDeped, idPedido);
 	}
+
+	@Override
+	public DetallePedido buscarPorDetalleSofaPedido(int idDeped, int idPedido, int idSofa) {
+		// TODO Auto-generated method stub
+		return dprepo.buscarPorDetalleSofaPedido(idDeped, idPedido, idSofa);
+	}
 }

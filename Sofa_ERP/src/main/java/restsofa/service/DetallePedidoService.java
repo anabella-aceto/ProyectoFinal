@@ -19,6 +19,7 @@ public interface DetallePedidoService {
 	boolean alta(DetallePedido detPed);
 	List<DetallePedido> buscarPorIdPedido(int idPedido);
 	DetallePedido findByDetalleYPedido(int idDeped, int idPedido);
+	DetallePedido buscarPorDetalleSofaPedido(int idDeped, int idPedido, int idSofa);
 	
 
 }

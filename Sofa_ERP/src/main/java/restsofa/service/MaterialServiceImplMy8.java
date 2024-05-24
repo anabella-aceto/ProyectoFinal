@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
@@ -27,6 +28,9 @@ public class MaterialServiceImplMy8 implements MaterialService {
 
 	@Autowired
 	private PedidoService pedidoService;
+	
+	@Autowired
+	private DetallePedidoService detallePedidoService;
 
 	@Autowired
 	private EstadoService estadoService;
@@ -188,28 +192,20 @@ public class MaterialServiceImplMy8 implements MaterialService {
 	 */
 
 	@Override
-	public int restaurarMateriales(int idPedido, int idSofa) {
-		Pedido pedido = pedidoService.buscarPedido(idPedido);
-		Estado estado = estadoService.buscarEstado(4); 
-
-
-			List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(idSofa);
-
-			for (SofaMaterial sm : sofaMaterial) {
-				int materialId = sm.getMaterial().getIdMaterial();
-				Material material = buscarUno(materialId);
-
-				double cantidad = sm.getCantidadUtilizada() + material.getCantidad();
-
-				material.setCantidad(cantidad);
-
-				mrepo.save(material);
-		
-			return 1; // Indica que la restauración fue exitosa
-		}
-
-		return 0; // Si el pedido no está en el estado adecuado o no existe, indica que la
-					// restauración falló
+	public int restaurarMateriales(int idPedido, int idSofa, int idDeped) {
+	    DetallePedido deped = detallePedidoService.buscarPorDetalleSofaPedido(idPedido, idSofa, idDeped);
+	    if (deped != null) {
+	        List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(idSofa);
+	        for (SofaMaterial sm : sofaMaterial) {
+	            int idMaterial = sm.getMaterial().getIdMaterial();
+	            Material material = buscarUno(idMaterial);
+	            double cantidad = sm.getCantidadUtilizada() + material.getCantidad();
+	            material.setCantidad(cantidad);
+	            mrepo.save(material);
+	        }
+	        return 1; // Indica que la restauración fue exitosa
+	    }
+	    return 0; // Si el pedido no está en el estado adecuado o no existe, indica que la restauración falló
 	}
 
 }
