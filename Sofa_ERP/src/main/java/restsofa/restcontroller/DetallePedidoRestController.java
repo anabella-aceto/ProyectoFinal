@@ -233,47 +233,44 @@ public class DetallePedidoRestController {
 	 *         eliminación.
 	 */
 	@DeleteMapping("/eliminar/{idDePed}")
-    public ResponseEntity<?> borrar(@PathVariable int idDePed) {
-        try {
-            // Buscar el detalle de pedido por su ID
-            DetallePedido detalle = detPedService.buscarDetPed(idDePed);
+	public ResponseEntity<?> borrar(@PathVariable int idDePed) {
+	    try {
+	        // Buscar el detalle de pedido por su ID
+	        DetallePedido detalle = detPedService.buscarDetPed(idDePed);
 
-            // Verificar si el detalle de pedido existe
-            if (detalle != null) {
-                List<Tarea> lista = tareaService.buscarPorDetalle(idDePed);
+	        // Verificar si el detalle de pedido existe
+	        if (detalle != null) {
+	            // Obtener todas las tareas asociadas y marcarlas como eliminadas
+	            List<Tarea> lista = tareaService.buscarPorDetalle(idDePed);
+	            for (Tarea tarea : lista) {	            
+	                tareaService.borrarTarea(tarea.getIdTarea()); 	             
+	            }
 
-                // Eliminar todas las tareas asociadas
-                for (Tarea tarea : lista) {
-                    tareaService.borrarTarea(tarea.getIdTarea());
-                }
+	            // Restaurar los materiales asociados a los sofás en el detalle de pedido
+	            List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
+	            for (SofaMaterial sm : sofaMaterial) {
+	                Material material = sm.getMaterial();
+	                double stock = material.getCantidad();
+	                double cantidadUtilizada = sm.getCantidadUtilizada();
+	                double restaurar = stock + cantidadUtilizada;
+	                material.setCantidad(restaurar);
+	                materialService.updateOne(material);
+	            }
 
-                // Ahora intentamos eliminar el detalle de pedido después de eliminar todas las tareas asociadas
-                if (detPedService.borrarDetPed(idDePed)) {
-                    List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
-                    for (SofaMaterial sm : sofaMaterial) {
-                    	Material material = sm.getMaterial();
-                        double stock = material.getCantidad();
-        	            double cantidadUtilizada = sm.getCantidadUtilizada();
-                        double restaurar = stock + cantidadUtilizada;
-                        material.setCantidad(restaurar);
-        	            materialService.updateOne(material);
-                    }
-                    // Si se eliminó correctamente el detalle de pedido, retornar una respuesta exitosa
-                    return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido eliminado correctamente");
-                } else {
-                    // Si no se pudo eliminar el detalle de pedido por alguna razón, retornar un error
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo eliminar el detalle de pedido");
-                }
-            } else {
-                // Si el detalle de pedido no existe, retornar un error
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Detalle de pedido no encontrado");
-            }
-        } catch (Exception e) {
-            // Capturar cualquier excepción y devolver un mensaje indicando la razón específica por la cual no se pudo eliminar el detalle de pedido
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al eliminar el detalle de pedido: " + e.getMessage());
-        }
-    } 
+	            // Eliminar el detalle de pedido después de eliminar todas las tareas asociadas y restaurar los materiales
+	            if (detPedService.borrarDetPed(idDePed)) {
+	                return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido eliminado correctamente");
+	            } else {
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo eliminar el detalle de pedido");
+	            }
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Detalle de pedido no encontrado");
+	        }
+	    } catch (Exception e) {           
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al eliminar el detalle de pedido: " + e.getMessage());
+	    }
+	}
 
 
 	/**
@@ -322,32 +319,32 @@ public class DetallePedidoRestController {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El detalle de pedido con el ID " + detallePedidoDto.getIdDePed() + " no existe");
 	        }
 
-	        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
-	        
-	        for (SofaMaterial sofaMaterial : sofaMateriales) {
-	            Material material = materialService.findById(sofaMaterial.getIdSofaMateriales());	 	        	            
-	            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
-	            double stock = material.getCantidad();
-	            material.setCantidad(stock + cantidadUtilizada);
-	            materialService.updateOne(material);
-	        }
-	        
-	        boolean restaurarMateriales = (detalle.getSofa().getIdSofa() != detallePedidoDto.getIdSofa());
-
-	        if (restaurarMateriales) {
-	            int materialRestaurado = materialService.restaurarMateriales(detallePedidoDto.getIdPedido(), detalle.getSofa().getIdSofa(), detalle.getIdDePed());
-
-	            if (materialRestaurado != 1) {
-	                List<Tarea> listaTareas = tareaService.buscarPorDetalle(detallePedidoDto.getIdDePed());
-
-	                for (Tarea tarea : listaTareas) {
-	                    tarea.setEstado(estadoService.buscarEstado(4));
-	                }
-
-	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al restaurar los materiales");
+	        if (detallePedidoDto.getIdSofa() != detalle.getSofa().getIdSofa()) {
+	            // Restaurar materiales del sofá antiguo
+	            List<SofaMaterial> sofaMaterialAntiguo = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
+	            for (SofaMaterial sm : sofaMaterialAntiguo) {
+	                Material material = sm.getMaterial();
+	                material.setCantidad(material.getCantidad() + sm.getCantidadUtilizada());
+	                materialService.updateOne(material);
 	            }
-	        }      
-	        
+
+	            // Descontar materiales del nuevo sofá
+	            List<SofaMaterial> sofaMaterialNuevo = sofaMaterialService.buscarPorSofa(detallePedidoDto.getIdSofa());
+	            for (SofaMaterial sm : sofaMaterialNuevo) {
+	                Material material = sm.getMaterial();
+	                material.setCantidad(material.getCantidad() - sm.getCantidadUtilizada());
+	                materialService.updateOne(material);
+	            }
+
+	            // Actualizar el ID del sofá en el detalle del pedido
+	            Sofa nuevoSofa = sofaService.buscarSofa(detallePedidoDto.getIdSofa());
+	            if (nuevoSofa == null) {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El nuevo sofá con el ID " + detallePedidoDto.getIdSofa() + " no existe");
+	            }
+	            detalle.setSofa(nuevoSofa);
+	        }
+
+	        // Guardar los cambios en el detalle del pedido
 	        detPedService.modifDetPed(detalle);
 
 	        return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido modificado correctamente");
@@ -357,6 +354,8 @@ public class DetallePedidoRestController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al modificar el detalle de pedido: " + e.getMessage());
 	    }
 	}
+
+
 
 
 
