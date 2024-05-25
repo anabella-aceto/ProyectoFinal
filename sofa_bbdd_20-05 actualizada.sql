@@ -15,14 +15,14 @@ CREATE TABLE clientes (
     email varchar(100)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     telefono varchar(20)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     CONSTRAINT clientes_pk PRIMARY KEY (id_cliente)
-) AUTO_INCREMENT 8 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 8 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: departamentos
 CREATE TABLE departamentos (
     id_depto int  NOT NULL AUTO_INCREMENT,
     nombre varchar(50)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     CONSTRAINT departamentos_pk PRIMARY KEY (id_depto)
-) AUTO_INCREMENT 5 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 5 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: detalle_pedido
 CREATE TABLE detalle_pedido (
@@ -35,7 +35,7 @@ CREATE TABLE detalle_pedido (
     fecha date  NULL DEFAULT null,
     precio decimal(10,2)  NULL DEFAULT null,
     CONSTRAINT detalle_pedido_pk PRIMARY KEY (id_deped)
-) AUTO_INCREMENT 6 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 6 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_sofa9 ON detalle_pedido (id_sofa);
 
@@ -47,7 +47,7 @@ CREATE TABLE empleado_departamento (
     id_empleado int  NULL DEFAULT null,
     id_depto int  NULL DEFAULT null,
     CONSTRAINT empleado_departamento_pk PRIMARY KEY (id_ed)
-) ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_empleado6 ON empleado_departamento (id_empleado);
 
@@ -66,7 +66,7 @@ CREATE TABLE empleados (
     estado varchar(15)  NULL DEFAULT null,
     salario decimal(10,2)  NULL DEFAULT null,
     CONSTRAINT empleados_pk PRIMARY KEY (id_empleado)
-) AUTO_INCREMENT 11 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 11 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_perfil ON empleados (id_perfil);
 
@@ -82,7 +82,7 @@ CREATE TABLE estados (
     id_estado int  NOT NULL AUTO_INCREMENT,
     nombre varchar(50)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     CONSTRAINT estados_pk PRIMARY KEY (id_estado)
-) AUTO_INCREMENT 5 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 5 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: material_proveedor
 CREATE TABLE material_proveedor (
@@ -90,7 +90,7 @@ CREATE TABLE material_proveedor (
     id_proveedor int  NULL DEFAULT null,
     id_material int  NULL DEFAULT null,
     CONSTRAINT material_proveedor_pk PRIMARY KEY (id_mat_prov)
-) ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_proveedor1 ON material_proveedor (id_proveedor);
 
@@ -107,7 +107,7 @@ CREATE TABLE materiales (
     categoria varchar(100)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     unidad_medida varchar(100)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     CONSTRAINT materiales_pk PRIMARY KEY (id_material)
-) AUTO_INCREMENT 12 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 12 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: pedidos
 CREATE TABLE pedidos (
@@ -117,7 +117,7 @@ CREATE TABLE pedidos (
     vendedor int  NULL DEFAULT null,
     id_estPed int  NULL,
     CONSTRAINT pedidos_pk PRIMARY KEY (id_pedido)
-) AUTO_INCREMENT 15 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 15 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_cliente ON pedidos (id_cliente);
 
@@ -130,7 +130,7 @@ CREATE TABLE perfiles (
     id_perfil int  NOT NULL AUTO_INCREMENT,
     rol varchar(50)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     CONSTRAINT perfiles_pk PRIMARY KEY (id_perfil)
-) AUTO_INCREMENT 4 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 4 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: proveedores
 CREATE TABLE proveedores (
@@ -139,7 +139,7 @@ CREATE TABLE proveedores (
     telefono int  NULL DEFAULT null,
     descripcion varchar(300)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     CONSTRAINT proveedores_pk PRIMARY KEY (id_proveedor)
-) AUTO_INCREMENT 9 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 9 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: sofa_materiales
 CREATE TABLE sofa_materiales (
@@ -148,7 +148,7 @@ CREATE TABLE sofa_materiales (
     id_material int  NULL DEFAULT null,
     cantidad_utilizada int  NULL DEFAULT null,
     CONSTRAINT sofa_materiales_pk PRIMARY KEY (id_sm)
-) AUTO_INCREMENT 41 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 41 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_sofa1 ON sofa_materiales (id_sofa);
 
@@ -163,7 +163,7 @@ CREATE TABLE sofas (
     medida_cojin varchar(100)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT null,
     precio decimal(10,2)  NULL DEFAULT null,
     CONSTRAINT sofas_pk PRIMARY KEY (id_sofa)
-) AUTO_INCREMENT 7 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 7 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Table: tareas
 CREATE TABLE tareas (
@@ -174,7 +174,7 @@ CREATE TABLE tareas (
     fecha date  NULL DEFAULT null,
     id_deped int  NOT NULL,
     CONSTRAINT tareas_pk PRIMARY KEY (id_tarea)
-) AUTO_INCREMENT 3 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) AUTO_INCREMENT 3 ENGINE InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE INDEX id_empleado2 ON tareas (id_empleado);
 

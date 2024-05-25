@@ -87,17 +87,6 @@ public class DetallePedidoServiceImplMy8Jpa implements DetallePedidoService {
 		return false;
 	}
 
-	/**
-	 * Busca un detalle de pedido por el identificsdor del pedido asociado.
-	 *
-	 * @param idPedido El identificdador único del pedido asociado al detalle de
-	 *                 pedido.
-	 * @return El detalle de pedido encontrado, o null si no se encuentra.
-	 */
-	@Override
-	public DetallePedido buscarPorPedido(int idPedido) {
-		return dprepo.buscarPorPedido(idPedido);
-	}
 
 	@Override
 	public boolean alta(DetallePedido detPed) {

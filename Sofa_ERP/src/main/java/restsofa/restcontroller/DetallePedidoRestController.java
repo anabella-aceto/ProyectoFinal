@@ -157,22 +157,49 @@ public class DetallePedidoRestController {
 	                    .body("Sofá no encontrado con ID: " + detalleDto.getIdSofa());
 	        }
 
+	        //Obtener la cantidad de unidades a fabricar
+	        int cantidadSofas = detalleDto.getCantidad();
+	        if (cantidadSofas <= 0) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body("La cantidad de sofás debe ser mayor a cero");
+	        }
+	        
 	        // Obtener la lista de materiales del sofá
 	        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
 
+	        // Lista para acumular mensajes de materiales insuficientes
+	        List<String> mensajesInsuficientes = new ArrayList<>();
+	        
+	        //Comprobar si hay materiales suficientes para poder generar el detalle pedido
 	        for (SofaMaterial sofaMaterial : sofaMateriales) {
 	            Material material = sofaMaterial.getMaterial();
 	            double cantidadDisponible = material.getCantidad();
-	            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
+	            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada() * cantidadSofas;
 
 	            if (cantidadDisponible < cantidadUtilizada) {
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                        .body("Stock insuficiente para el material: " + material.getNombre());
+	            	double cantidadFaltante = cantidadUtilizada - cantidadDisponible;
+	                mensajesInsuficientes.add("Stock insuficiente para el material: " + material.getDescripcion() +
+	                        ". Cantidad faltante: " + cantidadFaltante);
 	            }
-	            // Actualizar la cantidad disponible del material en el almacén
-	            material.setCantidad(cantidadDisponible - cantidadUtilizada);
-	            materialService.updateOne(material);
 	        }
+	        
+	        // Si hay materiales insuficientes, retornar un mensaje detallado
+	        if (!mensajesInsuficientes.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(String.join("\n", mensajesInsuficientes));
+	        }
+	        
+		    //Actualizamos los materiales        
+	        for (SofaMaterial sofaMaterial : sofaMateriales) {
+		         Material material = sofaMaterial.getMaterial();
+		         double cantidadDisponible = material.getCantidad();
+		         double cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
+		                
+		         // Actualizar la cantidad disponible del material en el almacén
+		         material.setCantidad(cantidadDisponible - cantidadUtilizada);
+		         materialService.updateOne(material);
+	        }
+	          
 
 	        // Buscar el pedido existente
 	        Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
@@ -285,7 +312,7 @@ public class DetallePedidoRestController {
 	public ResponseEntity<?> filtrarPorPedido(@PathVariable(name = "idPedido") int idPedido) {
 		try {
 			// Buscar el detalle de pedido por el ID del pedido
-			DetallePedido detallePedido = detPedService.buscarPorPedido(idPedido);
+			List <DetallePedido> detallePedido = detPedService.buscarPorIdPedido(idPedido);
 
 			// Verificar si se encontró el detalle de pedido
 			if (detallePedido != null) {
