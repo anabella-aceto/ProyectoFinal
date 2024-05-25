@@ -287,6 +287,7 @@ public class MaterialRestController {
 	 *
 	 * @param idPedido ID del pedido a restaurar.
 	 * @param idSofa   ID del sofá a restaurar.
+	 * @param idDeped  ID del detalle de pedido.
 	 * @return ResponseEntity con el estado de la operación y un mensaje.
 	 */
 	@PutMapping("restaurar/{idPedido}/{idSofa}/{idDeped}")

@@ -34,6 +34,7 @@ public class MaterialRestControllerTestRestaurar_REVISAR {
      * @test Se ejecuta el método del controlador para restaurar los materiales del pedido.
      * @param idPedido El ID del pedido a restaurar.
      * @param idSofa   El ID del sofá a restaurar.
+     * @param idDeped el ID del detalle de pedido     
      * @return ResponseEntity con el estado de la operación y un mensaje.
      */
     @Test
@@ -44,7 +45,7 @@ public class MaterialRestControllerTestRestaurar_REVISAR {
         Sofa sofa = new Sofa();
 
         // Ejecuta el método del controlador para restaurar los materiales del pedido
-        ResponseEntity<?> response = materialRestController.restaurarMateriales(12, 2);
+        ResponseEntity<?> response = materialRestController.restaurarMateriales(2, 3, 2);
 
         // Verifica que la respuesta sea 200 y el cuerpo sea "Pedido restaurado"
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -58,6 +59,7 @@ public class MaterialRestControllerTestRestaurar_REVISAR {
      * @test Se ejecuta el método del controlador para restaurar los materiales del pedido.
      * @param idPedido El ID del pedido a restaurar.
      * @param idSofa   El ID del sofá a restaurar.
+     * @param idDeped el ID del detalle de pedido     
      * @return ResponseEntity con el estado de la operación y un mensaje.
      */
     @Test
@@ -66,7 +68,7 @@ public class MaterialRestControllerTestRestaurar_REVISAR {
         Pedido pedido = new Pedido();
 
         // Ejecuta el método del controlador para restaurar los materiales del pedido
-        ResponseEntity<?> response = materialRestController.restaurarMateriales(12, 999);
+        ResponseEntity<?> response = materialRestController.restaurarMateriales(12, -1, 1);
 
         // Verifica que la respuesta sea 404 (Not Found) ya que no existe el sofá
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -78,12 +80,13 @@ public class MaterialRestControllerTestRestaurar_REVISAR {
      * @test Se ejecuta el método del controlador para restaurar los materiales del pedido.
      * @param idPedido El ID del pedido a restaurar.
      * @param idSofa   El ID del sofá a restaurar.
+     * @param idDeped el ID del detalle de pedido     
      * @return ResponseEntity con el estado de la operación y un mensaje.
      */
     @Test
     public void testRestaurarMateriales_NingunPedidoExistente() {
         // Ejecuta el método del controlador para restaurar los materiales del pedido
-        ResponseEntity<?> response = materialRestController.restaurarMateriales(999, 2);
+        ResponseEntity<?> response = materialRestController.restaurarMateriales(-1, 2, 1);
 
         // Verifica que la respuesta sea 404 (Not Found) ya que no existe el pedido
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

@@ -24,7 +24,7 @@ import restsofa.restcontroller.MaterialRestController;
  *           
  */
 @SpringBootTest
-public class MaterialRestControllerTestRestaurarMaterialesPedido {
+public class MaterialRestControllerTestRestaurarMaterialesPedidoREVISAR {
 
     @Autowired
     MaterialRestController materialRestController;
@@ -34,16 +34,18 @@ public class MaterialRestControllerTestRestaurarMaterialesPedido {
      *
      * @param idPedido el ID del pedido existente
      * @param idSofa   el ID del sofá para restaurar los materiales
+     * @param idDeped el ID del detalle de pedido
      * @return ResponseEntity con el estado de la operación y un mensaje
      */
     @Test
     void restaurarMateriales_PedidoExistenteYEstadoCorrecto_Devuelve200() {
         // Probamos un pedido existente y estado correcto (pendiente)
-        int idPedido = 6;
-        int idSofa = 2;
+        int idPedido = 1;
+        int idSofa = 1;
+        int idDeped = 1;
 
         // Llama al método "restaurarMateriales"
-        ResponseEntity<?> response = materialRestController.restaurarMateriales(idPedido, idSofa);
+        ResponseEntity<?> response = materialRestController.restaurarMateriales(idPedido, idSofa, idDeped);
 
         // Comprueba que devuelve 200 y el cuerpo del mensaje es el adecuado
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -55,16 +57,18 @@ public class MaterialRestControllerTestRestaurarMaterialesPedido {
      *
      * @param idPedido el ID del pedido que no existe
      * @param idSofa   el ID del sofá para restaurar los materiales
+     * @param idDeped el ID del detalle de pedido     
      * @return ResponseEntity con el estado de la operación y un mensaje
      */
     @Test
     void restaurarMateriales_PedidoNoExiste_Devuelve404() {
         // Probamos un pedido que no existe y un idSofa que exista
-        int idPedido = 999;
+        int idPedido = -1;
         int idSofa = 1;
+        int idDeped = 1;
 
         // Llama al método "restaurarMateriales"
-        ResponseEntity<?> response = materialRestController.restaurarMateriales(idPedido, idSofa);
+        ResponseEntity<?> response = materialRestController.restaurarMateriales(idPedido, idSofa, idDeped);
 
         // Comprueba que devuelve 404 y el cuerpo del mensaje es el adecuado
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -76,6 +80,7 @@ public class MaterialRestControllerTestRestaurarMaterialesPedido {
      *
      * @param idPedido el ID del pedido con estado incorrecto
      * @param idSofa   el ID del sofá para restaurar los materiales
+     * @param idDeped el ID del detalle de pedido
      * @return ResponseEntity con el estado de la operación y un mensaje
      */
     @Test
@@ -83,9 +88,10 @@ public class MaterialRestControllerTestRestaurarMaterialesPedido {
         // Probamos un pedido que exista, un idSofa que exista pero con un estado incorrecto (cancelado)
         int idPedido = 4;
         int idSofa = 3;
+        int idDeped = 1;
 
         // Llama al método "restaurarMateriales"
-        ResponseEntity<?> response = materialRestController.restaurarMateriales(idPedido, idSofa);
+        ResponseEntity<?> response = materialRestController.restaurarMateriales(idPedido, idSofa, idDeped);
 
         // Comprueba que devuelve 404 y el cuerpo del mensaje es el adecuado
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
