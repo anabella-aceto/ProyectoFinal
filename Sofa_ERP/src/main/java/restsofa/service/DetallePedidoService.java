@@ -15,11 +15,11 @@ public interface DetallePedidoService {
 	DetallePedido altaDetPed (DetallePedido detPed);
 	DetallePedido modifDetPed (DetallePedido detPed);
 	boolean borrarDetPed (int idDePed);
-	DetallePedido buscarPorPedido(int idPedido);
 	boolean alta(DetallePedido detPed);
 	List<DetallePedido> buscarPorIdPedido(int idPedido);
 	DetallePedido findByDetalleYPedido(int idDeped, int idPedido);
 	DetallePedido buscarPorDetalleSofaPedido(int idDeped, int idPedido, int idSofa);
+	DetallePedido buscarPorPedido(int idPedido);
 	
 
 }

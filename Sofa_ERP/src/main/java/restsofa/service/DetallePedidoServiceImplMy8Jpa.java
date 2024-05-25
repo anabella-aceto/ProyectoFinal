@@ -98,7 +98,7 @@ public class DetallePedidoServiceImplMy8Jpa implements DetallePedidoService {
 	public DetallePedido buscarPorPedido(int idPedido) {
 		return dprepo.buscarPorPedido(idPedido);
 	}
-
+	
 	@Override
 	public boolean alta(DetallePedido detPed) {
 		dprepo.save(detPed);
