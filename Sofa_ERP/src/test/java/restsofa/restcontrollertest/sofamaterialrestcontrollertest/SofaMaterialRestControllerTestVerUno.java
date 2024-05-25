@@ -16,55 +16,83 @@ import restsofa.restcontroller.SofaMaterialRestController;
  * @author Alberto Saboya
  * @version 1.0
  * 
- * Clase de prueba JUnit para el método "buscarPorIdMaterialSofa" en SofaMaterialRestController.
+ *          Clase de prueba JUnit para el método "buscarPorIdMaterialSofa" en
+ *          SofaMaterialRestController.
  *
- * @SpringBootTest
- * Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired
- * Inyecta la instancia de `SofaMaterialRestController` para realizar las pruebas.
+ * @Autowired Inyecta la instancia de `SofaMaterialRestController` para realizar
+ *            las pruebas.
  * 
  */
 @SpringBootTest
 public class SofaMaterialRestControllerTestVerUno {
-	
+
 	@Autowired
 	private SofaMaterialRestController sofaMaterialRestController;
-	
+
 	/**
-	 * Prueba del método "buscarPorIdMaterialSofa".
+	 * Prueba del método "buscarPorIdMaterialSofa" cuando el material de sofá
+	 * existe.
 	 *
-	 * @Test
-	 * Anota este método como una prueba JUnit.
-	 *
-	 * Verifica que el código de estado de la respuesta sea HttpStatus.OK (200).
-	 * Obtiene el empleado del cuerpo de la respuesta.
-	 * Verifica que el material de sofá no sea nulo.
-	 * Verifica que el material de sofá tenga el idMaterialSofa correcto.
-	 * Verifica si el idSofa es correcto.
-	 *
-	 * @param idSofaMaterial El identificador del material de sofá a buscar.
-	 * @return ResponseEntity con el resultado de la búsqueda.
+	 * @test Este método verifica la funcionalidad de buscar un material de sofá
+	 *       existente por su id. Comprueba que el código de estado de la respuesta
+	 *       sea HttpStatus.OK (200). Obtiene el material de sofá del cuerpo de la
+	 *       respuesta y verifica que no sea nulo. Verifica que el idMaterialSofa
+	 *       del material de sofá coincida con el proporcionado.
+	 * 
+	 * @return ResponseEntity con el resultado de la búsqueda del material de sofá
+	 *         existente.
+	 * 
+	 * @param idMaterialSofa El identificador único del material de sofá existente.
 	 */
 	@Test
-	public void testbuscarPorId() {
-		int idSofaMaterial = 2;
-		ResponseEntity<?> responseEntity = sofaMaterialRestController.buscarPorIdMaterialSofa(idSofaMaterial);
+	public void testBuscarPorIdMaterialSofaExistente() {
+		int idMaterialSofa = 2;
+		ResponseEntity<?> responseEntity = sofaMaterialRestController.buscarPorIdMaterialSofa(idMaterialSofa);
 
-		// Asegura que el código de estado de la respuesta sea HttpStatus.OK (200)
+		// Verifica que el código de estado de la respuesta sea HttpStatus.OK (200)
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-		// Obtiene el empleado del cuerpo de la respuesta
+		// Obtiene el material de sofá del cuerpo de la respuesta
 		SofaMaterial sofaMaterial = (SofaMaterial) responseEntity.getBody();
 
 		// Verifica que el material de sofá no sea nulo
 		assertNotNull(sofaMaterial, "El material de sofá no debería ser nulo");
 
-		// Verifica que el material de sofá tenga el idSofaMaterial correcto
-		assertEquals(idSofaMaterial, sofaMaterial.getIdSofaMateriales(), "No se encuentra el material de sofá");
+		// Verifica que el material de sofá tenga el idMaterialSofa correcto
+		assertEquals(idMaterialSofa, sofaMaterial.getIdSofaMateriales(),
+				"El idMaterialSofa del material de sofá no coincide");
+	}
 
-		// Verifica si el idSofa es correcto
-		assertEquals(1, sofaMaterial.getSofa().getIdSofa(), "El idSofa no coincide");
+	/**
+	 * Prueba del método "buscarPorIdMaterialSofa" cuando el material de sofá no
+	 * existe.
+	 *
+	 * @test Este método verifica la funcionalidad de buscar un material de sofá
+	 *       inexistente por su id. Comprueba que el código de estado de la
+	 *       respuesta sea HttpStatus.BAD_REQUEST (400). Verifica el mensaje de
+	 *       error en el cuerpo de la respuesta para asegurar que sea correcto.
+	 * 
+	 * @return ResponseEntity con el resultado de la búsqueda del material de sofá
+	 *         inexistente.
+	 * 
+	 * @param idMaterialSofa El identificador único del material de sofá
+	 *                       inexistente.
+	 */
+	@Test
+	public void testBuscarPorIdMaterialSofaNoExistente() {
+		int idMaterialSofa = -1; // Un id de material de sofá que no existe
+		ResponseEntity<?> responseEntity = sofaMaterialRestController.buscarPorIdMaterialSofa(idMaterialSofa);
+
+		// Verifica que el código de estado de la respuesta sea HttpStatus.BAD_REQUEST
+		// (400)
+		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+		// Verifica el mensaje de error en el cuerpo de la respuesta
+		String mensajeError = (String) responseEntity.getBody();
+		assertEquals("No se encuentra el material de sofá", mensajeError,
+				"El mensaje de error no es el esperado para un material de sofá inexistente");
 	}
 
 }

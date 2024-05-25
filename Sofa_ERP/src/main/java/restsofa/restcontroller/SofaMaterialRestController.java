@@ -145,9 +145,10 @@ public class SofaMaterialRestController {
 				sofaMaterial.setCantidadUtilizada(sofaMaterialDto.getCantidadUtilizada());
 				sofaMaterialService.updateOne(sofaMaterial);
 				return ResponseEntity.status(HttpStatus.OK)
-						.body("Modificación realizada correctamente " + sofaMaterial);
+						.body("Modificación realizada correctamente" + sofaMaterial);
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al modificar el material de sofá");
+				 return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				            .body("El material de sofá que intentas modificar no se encontró en la base de datos");
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -164,22 +165,22 @@ public class SofaMaterialRestController {
 	 */
 	@PutMapping("/modificarSofaMaterial/{idSofa}/{idMaterial}")
 	public ResponseEntity<?> modificarSofaMaterial(@RequestBody SofaMaterialDto sofaMaterialDto) {
-		try {
-			SofaMaterial sofaMaterial = sofaMaterialService.buscarPorSofaAndmaterial(sofaMaterialDto.getIdSofa(),
-					sofaMaterialDto.getIdMaterial());
-			if (sofaMaterial != null) {
-				sofaMaterial.setMaterial(materialService.buscarUno(sofaMaterialDto.getIdMaterial()));
-				sofaMaterial.setCantidadUtilizada(sofaMaterialDto.getCantidadUtilizada());
-				sofaMaterialService.updateOne(sofaMaterial);
-				return ResponseEntity.status(HttpStatus.OK)
-						.body("Modificación realizada correctamente " + sofaMaterial);
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha podido modificar el material");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al modificar el material del sofá: " + e.getMessage());
-		}
+	    try {
+	        SofaMaterial sofaMaterial = sofaMaterialService.buscarPorSofaAndmaterial(sofaMaterialDto.getIdSofa(),
+	                sofaMaterialDto.getIdMaterial());
+	        if (sofaMaterial != null) {
+	            sofaMaterial.setMaterial(materialService.buscarUno(sofaMaterialDto.getIdMaterial()));
+	            sofaMaterial.setCantidadUtilizada(sofaMaterialDto.getCantidadUtilizada());
+	            sofaMaterialService.updateOne(sofaMaterial);
+	            return ResponseEntity.status(HttpStatus.OK)
+	                    .body("Modificación del material de sofá con ID " + sofaMaterial.getIdSofaMateriales() + " realizada correctamente");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha podido modificar el material");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al modificar el material del sofá: " + e.getMessage());
+	    }
 	}
 
 	/**

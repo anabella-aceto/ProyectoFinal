@@ -52,6 +52,7 @@ public class SofaMaterialRestControllerTestAlta {
         SofaMaterialDto nuevoMaterial = new SofaMaterialDto();
         nuevoMaterial.setIdSofa(1);; // Establece el idSofa
         nuevoMaterial.setIdMaterial(1); // Establece el idMaterial
+        nuevoMaterial.setCantidadUtilizada(8); // Establece la cantidad de material necesaria para fabricar el sofá
 
         // Llama al método "altaSofaMaterial"
         ResponseEntity<?> responseEntity = sofaMaterialRestController.altaSofaMaterial(nuevoMaterial);
