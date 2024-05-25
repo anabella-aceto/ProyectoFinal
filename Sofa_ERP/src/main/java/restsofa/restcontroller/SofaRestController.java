@@ -62,7 +62,7 @@ public class SofaRestController {
 			if (sofa != null) {
 				return ResponseEntity.status(HttpStatus.OK).body(sofa);
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encuentra el sofá");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encuentra el sofá");
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -129,7 +129,7 @@ public class SofaRestController {
 				sofaService.borrarSofa(idSofa);
 				return ResponseEntity.status(HttpStatus.OK).body("Sofá eliminado correctamente");
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar el sofá en la BBDD");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El sofá a eliminar no existe");
 			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
