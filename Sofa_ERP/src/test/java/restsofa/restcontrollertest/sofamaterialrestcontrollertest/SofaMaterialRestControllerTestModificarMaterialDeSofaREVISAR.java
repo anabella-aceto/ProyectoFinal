@@ -29,7 +29,7 @@ import restsofa.service.SofaMaterialService;
  * 
  */
 @SpringBootTest
-public class SofaMaterialRestControllerTestModificarMaterialDeSofa {
+public class SofaMaterialRestControllerTestModificarMaterialDeSofaREVISAR {
 
 	@Autowired
 	private SofaMaterialRestController sofaMaterialRestController;

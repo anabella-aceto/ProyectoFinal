@@ -49,7 +49,7 @@ public class SofaMaterialRestControllerTestBorrarMaterialSofa {
      */
     @Test
     public void testEliminarSofaMaterial_Exito() {
-        int idSofa = 8;
+        int idSofa = 5;
         int idMaterial = 1;
 
         // Se verifica que el material de sofá exista antes de la eliminación
