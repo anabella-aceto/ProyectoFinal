@@ -9,7 +9,7 @@ import restsofa.modelo.entities.Estado;
 import restsofa.modelo.entities.Tarea;
 
 /**
- * @author Anabella Aceto
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
  * @version 1.0
  * 
  * Interfaz que define un repositorio para la entidad Tarea.

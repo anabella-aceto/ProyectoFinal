@@ -38,6 +38,10 @@ import restsofa.service.SofaService;
 import restsofa.service.TareaService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de detallePedido.
  */
 
@@ -94,7 +98,6 @@ public class DetallePedidoRestController {
 
 			return ResponseEntity.ok(listaDto);
 		} catch (Exception e) {
-			// En caso de error, devuelve una lista vacía
 			return ResponseEntity.ok(new ArrayList<>());
 		}
 	}
@@ -103,6 +106,7 @@ public class DetallePedidoRestController {
 	 * Método que obtiene un detalle de pedido por su identificador único.
 	 *
 	 * @param idDetalle El identificador único del detalle de pedido a buscar.
+	 * 
 	 * @return ResponseEntity con el detalle de pedido encontrado si existe, o un
 	 *         mensaje de error si no existe.
 	 */
@@ -124,16 +128,12 @@ public class DetallePedidoRestController {
 				detalleDto.setFecha(detalle.getFecha());
 				detalleDto.setPrecio(detalle.getPrecio());
 
-				// Devolver el detalle de pedido mapeado en el DTO con estado OK
 				return ResponseEntity.status(HttpStatus.OK).body(detalleDto);
 			} else {
-				// Si el detalle de pedido no se encuentra, devolver un mensaje con estado NOT
-				// FOUND
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body("El detalle de pedido con ID " + idDePed + " no se encontró.");
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al procesar la solicitud: " + e.getMessage());
 		}
@@ -144,6 +144,7 @@ public class DetallePedidoRestController {
 	 * DTO.
 	 * 
 	 * @param detalleDto El DTO del detalle de pedido a crear.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         creación del detalle de pedido.
 	 */
@@ -157,20 +158,16 @@ public class DetallePedidoRestController {
 	                    .body("Sofá no encontrado con ID: " + detalleDto.getIdSofa());
 	        }
 
-	        //Obtener la cantidad de unidades a fabricar
 	        int cantidadSofas = detalleDto.getCantidad();
 	        if (cantidadSofas <= 0) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 	                    .body("La cantidad de sofás debe ser mayor a cero");
 	        }
 	        
-	        // Obtener la lista de materiales del sofá
 	        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
 
-	        // Lista para acumular mensajes de materiales insuficientes
 	        List<String> mensajesInsuficientes = new ArrayList<>();
 	        
-	        //Comprobar si hay materiales suficientes para poder generar el detalle pedido
 	        for (SofaMaterial sofaMaterial : sofaMateriales) {
 	            Material material = sofaMaterial.getMaterial();
 	            double cantidadDisponible = material.getCantidad();
@@ -183,34 +180,29 @@ public class DetallePedidoRestController {
 	            }
 	        }
 	        
-	        // Si hay materiales insuficientes, retornar un mensaje detallado
 	        if (!mensajesInsuficientes.isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 	                    .body(String.join("\n", mensajesInsuficientes));
 	        }
-	        
-		    //Actualizamos los materiales        
+	            
 	        for (SofaMaterial sofaMaterial : sofaMateriales) {
 		         Material material = sofaMaterial.getMaterial();
 		         double cantidadDisponible = material.getCantidad();
 		         double cantidadUtilizada = sofaMaterial.getCantidadUtilizada();
-		                
-		         // Actualizar la cantidad disponible del material en el almacén
+		       
 		         material.setCantidad(cantidadDisponible - cantidadUtilizada);
 		         materialService.updateOne(material);
 	        }
 	          
 
-	        // Buscar el pedido existente
 	        Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
 	        if (pedido == null) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 	                    .body("Pedido no encontrado con ID: " + detalleDto.getIdPedido());
 	        }
 
-	        int cantidad = detalleDto.getCantidad(); // Obtener la cantidad del detalle
-	        
-	        // Crear tantos detalles de pedido como cantidad haya
+	        int cantidad = detalleDto.getCantidad(); 
+	       
 	        for (int i = 0; i < cantidad; i++) {
 	            DetallePedido detallePedido = new DetallePedido();
 	            detallePedido.setPedido(pedido);
@@ -245,7 +237,6 @@ public class DetallePedidoRestController {
 	        return ResponseEntity.status(HttpStatus.CREATED)
 	                .body("Detalle(s) de pedido procesado(s) correctamente.");
 	    } catch (Exception e) {
-	        // Capturar cualquier excepción y devolver un error interno del servidor
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	                .body("Error al procesar el detalle de pedido: " + e.getMessage());
 	    }
@@ -256,24 +247,21 @@ public class DetallePedidoRestController {
 	 * Elimina un detalle de pedido con el identificador proporcionado.
 	 *
 	 * @param idDetalle El identificador único del detalle de pedido a eliminar.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
 	@DeleteMapping("/eliminar/{idDePed}")
 	public ResponseEntity<?> borrar(@PathVariable int idDePed) {
 	    try {
-	        // Buscar el detalle de pedido por su ID
 	        DetallePedido detalle = detPedService.buscarDetPed(idDePed);
 
-	        // Verificar si el detalle de pedido existe
-	        if (detalle != null) {
-	            // Obtener todas las tareas asociadas y marcarlas como eliminadas
+	        if (detalle != null) {	         
 	            List<Tarea> lista = tareaService.buscarPorDetalle(idDePed);
 	            for (Tarea tarea : lista) {	            
 	                tareaService.borrarTarea(tarea.getIdTarea()); 	             
 	            }
 
-	            // Restaurar los materiales asociados a los sofás en el detalle de pedido
 	            List<SofaMaterial> sofaMaterial = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
 	            for (SofaMaterial sm : sofaMaterial) {
 	                Material material = sm.getMaterial();
@@ -284,7 +272,6 @@ public class DetallePedidoRestController {
 	                materialService.updateOne(material);
 	            }
 
-	            // Eliminar el detalle de pedido después de eliminar todas las tareas asociadas y restaurar los materiales
 	            if (detPedService.borrarDetPed(idDePed)) {
 	                return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido eliminado correctamente");
 	            } else {
@@ -305,26 +292,22 @@ public class DetallePedidoRestController {
 	 *
 	 * @param idPedido El identificador único del pedido para filtrar los detalles
 	 *                 de pedido.
+	 *                 
 	 * @return ResponseEntity con el detalle de pedido encontrado si existe, o un
 	 *         mensaje de error si no.
 	 */
-	@GetMapping("/porPedido/{idPedido}") // probado y funcionando
+	@GetMapping("/porPedido/{idPedido}") 
 	public ResponseEntity<?> filtrarPorPedido(@PathVariable(name = "idPedido") int idPedido) {
 		try {
-			// Buscar el detalle de pedido por el ID del pedido
 			List <DetallePedido> detallePedido = detPedService.buscarPorIdPedido(idPedido);
 
-			// Verificar si se encontró el detalle de pedido
 			if (detallePedido != null) {
-				// Si se encontró, devolver el detalle de pedido con un estado OK
 				return ResponseEntity.status(HttpStatus.OK).body(detallePedido);
 			} else {
-				// Si no se encontró, devolver un error con un mensaje correspondiente
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body("No se encontró ningún detalle de pedido para el pedido con ID: " + idPedido);
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al buscar detalles de pedido: " + e.getMessage());
 		}
@@ -334,6 +317,7 @@ public class DetallePedidoRestController {
 	 * Modifica un detalle de pedido con los datos proporcionados en el DTO.
 	 *
 	 * @param detalleDto El DTO del detalle de pedido a modificar.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         modificación del detalle de pedido.
 	 */
@@ -347,15 +331,13 @@ public class DetallePedidoRestController {
 	        }
 
 	        if (detallePedidoDto.getIdSofa() != detalle.getSofa().getIdSofa()) {
-	            // Restaurar materiales del sofá antiguo
 	            List<SofaMaterial> sofaMaterialAntiguo = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
 	            for (SofaMaterial sm : sofaMaterialAntiguo) {
 	                Material material = sm.getMaterial();
 	                material.setCantidad(material.getCantidad() + sm.getCantidadUtilizada());
 	                materialService.updateOne(material);
 	            }
-
-	            // Descontar materiales del nuevo sofá
+	            
 	            List<SofaMaterial> sofaMaterialNuevo = sofaMaterialService.buscarPorSofa(detallePedidoDto.getIdSofa());
 	            for (SofaMaterial sm : sofaMaterialNuevo) {
 	                Material material = sm.getMaterial();
@@ -363,7 +345,6 @@ public class DetallePedidoRestController {
 	                materialService.updateOne(material);
 	            }
 
-	            // Actualizar el ID del sofá en el detalle del pedido
 	            Sofa nuevoSofa = sofaService.buscarSofa(detallePedidoDto.getIdSofa());
 	            if (nuevoSofa == null) {
 	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El nuevo sofá con el ID " + detallePedidoDto.getIdSofa() + " no existe");
@@ -371,7 +352,6 @@ public class DetallePedidoRestController {
 	            detalle.setSofa(nuevoSofa);
 	        }
 
-	        // Guardar los cambios en el detalle del pedido
 	        detPedService.modifDetPed(detalle);
 
 	        return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido modificado correctamente");

@@ -19,6 +19,10 @@ import restsofa.modelo.entities.Estado;
 import restsofa.service.EstadoService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de los estados.
  */
 
@@ -47,7 +51,6 @@ public class EstadoRestController {
 				return ResponseEntity.status(HttpStatus.OK).body(lista);
 			}
 		} catch (Exception e) {
-			// Captura cualquier excepción y devuelve un mensaje de error genérico
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error interno del servidor al cargar la lista de estados de pedido");
 		}
@@ -57,6 +60,7 @@ public class EstadoRestController {
 	 * Método que permite obtener un estado de pedido por su identificador.
 	 *
 	 * @param idEstado El identificador único del estado de pedido a buscar.
+	 * 
 	 * @return ResponseEntity con el estado de pedido encontrado si existe, o un
 	 *         mensaje de error si no existe.
 	 */
@@ -72,7 +76,6 @@ public class EstadoRestController {
 						.body("El estado de pedido con el ID proporcionado no existe");
 			}
 		} catch (Exception e) {
-			// Captura cualquier excepción y devuelve un mensaje de error genérico
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error interno del servidor al buscar el estado de pedido");
 		}
@@ -99,7 +102,6 @@ public class EstadoRestController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al procesar el estado de pedido");
 			}
 		} catch (Exception e) {
-			// Captura cualquier excepción y devuelve un mensaje de error genérico
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error interno del servidor al procesar el estado de pedido");
 		}
@@ -126,7 +128,6 @@ public class EstadoRestController {
 			    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se puede modificar el estado de pedido");
 			}
 		} catch (Exception e) {
-			// Captura cualquier excepción y devuelve un mensaje de error genérico
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error interno del servidor al modificar el estado de pedido");
 		}
@@ -152,7 +153,6 @@ public class EstadoRestController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de pedido no se ha podido eliminar");
 			}
 		} catch (Exception e) {
-			// Captura cualquier excepción y devuelve un mensaje de error genérico
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error interno del servidor al eliminar el estado de pedido");
 		}

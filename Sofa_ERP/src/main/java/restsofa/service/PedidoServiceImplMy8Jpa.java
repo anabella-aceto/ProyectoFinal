@@ -10,6 +10,10 @@ import restsofa.modelo.entities.Pedido;
 import restsofa.repository.PedidoRepository;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Implementación de la interfaz PedidoService.
  */
 @Service

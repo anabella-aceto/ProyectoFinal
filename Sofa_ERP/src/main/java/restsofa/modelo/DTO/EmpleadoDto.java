@@ -9,6 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Clase que representa un DTO (Data Transfer Object) para un empleado.
  */
 

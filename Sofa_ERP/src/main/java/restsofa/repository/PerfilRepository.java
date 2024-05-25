@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import restsofa.modelo.entities.Perfil;
 
 /**
- * @author Anabella Aceto
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
  * @version 1.0
  * 
  * Interfaz que define un repositorio para la entidad Perfil.

@@ -19,6 +19,10 @@ import restsofa.modelo.entities.Sofa;
 import restsofa.service.SofaService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de un sofá.
  */
 
@@ -52,6 +56,7 @@ public class SofaRestController {
 	 * Método que busca un sofá por su identificador.
 	 *
 	 * @param idSofa El identificador único del sofá que se desea buscar.
+	 * 
 	 * @return ResponseEntity con el sofá si existe, o un mensaje de error si no
 	 *         existe.
 	 */
@@ -74,6 +79,7 @@ public class SofaRestController {
 	 * Método que permite dar de alta un sofá.
 	 * 
 	 * @param sofa El sofá a dar de alta.
+	 * 
 	 * @return ResponseEntity con el sofá dado de alta si el proceso fue exitoso, o
 	 *         un mensaje de error si no.
 	 */
@@ -96,6 +102,7 @@ public class SofaRestController {
 	 * Método que modifica los datos de un sofá.
 	 * 
 	 * @param sofa El sofá con la información actualizada.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         modificación.
 	 */
@@ -118,6 +125,7 @@ public class SofaRestController {
 	 * Método que elimina un sofá.
 	 * 
 	 * @param idSofa El identificador único del sofá.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */

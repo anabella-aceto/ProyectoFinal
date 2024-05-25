@@ -13,7 +13,8 @@ import restsofa.modelo.DTO.PedidoDto;
 import restsofa.restcontroller.PedidoRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0 * 
  * 
  * Clase de prueba JUnit para el método "modificar" en PedidoRestController.

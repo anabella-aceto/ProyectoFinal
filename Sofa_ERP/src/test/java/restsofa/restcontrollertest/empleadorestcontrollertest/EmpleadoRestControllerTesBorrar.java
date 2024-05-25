@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.EmpleadoRestController;
 
 /**
- * @author Alberto Saboya
+ * @authors  Alberto Saboya, Anabella Av¡ceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  *          Clase de prueba JUnit para el método "borrarUno" en

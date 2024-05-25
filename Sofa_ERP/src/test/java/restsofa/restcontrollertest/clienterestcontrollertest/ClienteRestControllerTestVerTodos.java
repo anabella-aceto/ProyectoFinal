@@ -16,11 +16,11 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
  * @version 1.0
  * 
- *          Clase de prueba JUnit para el método "todos" en
- *          ClienteRestController.
+ * Clase de prueba JUnit para el método "todos" en ClienteRestController.
  *
  * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
  *

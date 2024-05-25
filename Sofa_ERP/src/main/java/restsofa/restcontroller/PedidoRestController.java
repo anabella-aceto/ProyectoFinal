@@ -27,6 +27,10 @@ import restsofa.service.PedidoService;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de los pedidos.
  */
 
@@ -100,6 +104,7 @@ public class PedidoRestController {
 	 * Método que permite obtener un pedido por su identificador.
 	 *
 	 * @param idPedido El identificador único del pedido a buscar.
+	 * 
 	 * @return ResponseEntity con el pedido encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
@@ -129,6 +134,7 @@ public class PedidoRestController {
 	 * Método que permite crear un pedido.
 	 *
 	 * @param pedidoDto El pedido a dar de alta.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         alta.
 	 */
@@ -158,6 +164,7 @@ public class PedidoRestController {
 	 * Método que modifica un pedido.
 	 *
 	 * @param pedidoDto El pedido con la información actualizada.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         modificación.
 	 */
@@ -186,6 +193,7 @@ public class PedidoRestController {
 	 * Método que modifica el estado de un pedido a cancelado, por identificador.
 	 *
 	 * @param idPedido El identificador único del pedido a cancelar.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         cancelación.
 	 */
@@ -207,6 +215,7 @@ public class PedidoRestController {
 	 * Método que elimina un pedido.
 	 *
 	 * @param idPedido El identificador único del pedido a eliminar.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
@@ -231,7 +240,9 @@ public class PedidoRestController {
 	 * Método que filtra pedidos por fecha.
 	 *
 	 * @param fechaInicio La fecha de inicio del período a filtrar.
+	 * 
 	 * @param fechaFin    La fecha de fin del período a filtrar.
+	 * 
 	 * @return ResponseEntity con la lista de pedidos encontrados si existen en el
 	 *         rango de fechas, o un mensaje de error si no existen.
 	 */

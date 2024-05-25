@@ -9,6 +9,10 @@ import restsofa.modelo.entities.DetallePedido;
 import restsofa.repository.DetallePedidoRepository;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Implementación de la interfaz DetallePedidoService que utiliza Spring Data
  * JPA.
  */

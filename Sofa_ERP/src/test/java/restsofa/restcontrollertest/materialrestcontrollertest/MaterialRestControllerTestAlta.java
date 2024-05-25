@@ -15,7 +15,8 @@ import restsofa.restcontroller.MaterialRestController;
 import restsofa.service.ProveedorService;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  *          Clase de prueba JUnit para el método "altaMaterial" en

@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 
 
 /**
- * Clase que representa un DTO (Data Transfer Object) para un material.
+ * 
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0Clase que representa un DTO (Data Transfer Object) para un material.
  */
 
 @Component // Indica que esta clase es un componente gestionado por Spring

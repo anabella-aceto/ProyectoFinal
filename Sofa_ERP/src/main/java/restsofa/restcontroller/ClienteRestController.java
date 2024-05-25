@@ -19,6 +19,10 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.service.ClienteService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de clientes.
  */
 
@@ -63,27 +67,24 @@ public class ClienteRestController {
 	 * Devuelve un cliente por su identificador único.
 	 *
 	 * @param idCliente El identificador único del cliente.
+	 * 
 	 * @return ResponseEntity con el cliente si se obtiene correctamente, o un
-	 *         mensaje de error si no se encuentra el cliente.
+	 * 		   mensaje de error si no se encuentra el cliente.
 	 */
+	
 	@GetMapping("/uno/{idCliente}")
 	public ResponseEntity<?> uno(@PathVariable int idCliente) {
 		try {
-			// Buscar el cliente por su identificador
 			Cliente cliente = clienteService.buscarCliente(idCliente);
-
-			// Verificar si se encontró el cliente
-			if (cliente != null) {
-				// Si se encontró el cliente, devolver el cliente con un estado OK
+			
+			if (cliente != null) {				
 				return ResponseEntity.ok(cliente);
+				
 			} else {
-				// Si no se encontró el cliente, devolver un mensaje de cliente no encontrado
-				// con un estado NOT FOUND
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body("Cliente no encontrado con el ID: " + idCliente);
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al obtener el cliente: " + e.getMessage());
 		}
@@ -93,26 +94,21 @@ public class ClienteRestController {
 	 * Da de alta un cliente con los datos proporcionados.
 	 *
 	 * @param cliente Los datos del cliente a dar de alta.
+	 * 
 	 * @return ResponseEntity con el cliente creado si se realizó correctamente, o
 	 *         un mensaje de error si no se ha realizado el alta.
 	 */
 	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody Cliente cliente) {
 		try {
-			// Intentar dar de alta el cliente
 			Cliente clienteCreado = clienteService.altaCliente(cliente);
 
-			// Verificar si se creó el cliente correctamente
 			if (clienteCreado != null) {
-				// Si se creó correctamente, devolver el cliente con un estado OK
 				return ResponseEntity.ok("Cliente agregado correctamente"+clienteCreado);
 			} else {
-				// Si no se pudo crear el cliente, devolver un mensaje de error con un estado
-				// BAD REQUEST
 				return ResponseEntity.badRequest().body("Error al cargar cliente en la base de datos");
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al procesar la solicitud: " + e.getMessage());
 		}
@@ -122,28 +118,24 @@ public class ClienteRestController {
 	 * Modifica los datos de un cliente existente.
 	 *
 	 * @param cliente Los nuevos datos del cliente.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         modificación.
 	 */
 	@PutMapping("/modificar")
 	public ResponseEntity<?> modificar(@RequestBody Cliente cliente) {
 		try {
-			// Buscar el cliente existente por su ID
 			Cliente clienteExistente = clienteService.buscarCliente(cliente.getIdCliente());
 
-			// Verificar si el cliente existe
 			if (clienteExistente != null) {
-				// Si el cliente existe, modificarlo
 				clienteService.modifCliente(cliente);
-				// Devolver un mensaje con el cliente modificado y un estado OK
 				return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente: " + cliente);
+			
 			} else {
-				// Si el cliente no existe, devolver un mensaje de error con un estado NOT FOUND
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body("El cliente con el ID " + cliente.getIdCliente() + " no existe");
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al procesar la solicitud: " + e.getMessage());
 		}
@@ -153,29 +145,23 @@ public class ClienteRestController {
 	 * Elimina un cliente existente.
 	 *
 	 * @param idCliente El identificador único del cliente a eliminar.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
 	@DeleteMapping("/eliminar/{idCliente}")
 	public ResponseEntity<?> borrar(@PathVariable int idCliente) {
 		try {
-			// Buscar el cliente por su ID
 			Cliente cliente = clienteService.buscarCliente(idCliente);
 
-			// Verificar si el cliente existe
 			if (cliente != null) {
-				// Si el cliente existe, borrarlo
 				clienteService.borrarCliente(idCliente);
-				// Devolver un mensaje con un estado OK indicando que la eliminación se realizó
-				// correctamente
 				return ResponseEntity.status(HttpStatus.OK).body("Eliminación realizada correctamente");
 			} else {
-				// Si el cliente no existe, devolver un mensaje de error con un estado NOT FOUND
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
 						.body("El cliente con el ID " + idCliente + " no existe");
 			}
 		} catch (Exception e) {
-			// Capturar cualquier excepción y devolver un error interno del servidor
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al procesar la solicitud: " + e.getMessage());
 		}

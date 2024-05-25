@@ -15,7 +15,8 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.MaterialRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  * Clase de prueba para MaterialRestController que verifica la funcionalidad de búsqueda de materiales por categoría.

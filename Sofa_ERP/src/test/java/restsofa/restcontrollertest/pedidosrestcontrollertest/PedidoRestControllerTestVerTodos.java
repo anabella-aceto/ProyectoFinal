@@ -16,22 +16,23 @@ import org.springframework.http.ResponseEntity;
 import restsofa.modelo.DTO.PedidoDto;
 import restsofa.restcontroller.PedidoRestController;
 
+/**
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * @version 1.0
+ * 
+ *          Clase de prueba JUnit para el método "todos" en
+ *          PedidoRestController.
+ *
+ * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
+ *
+ * @Autowired Inyecta la instancia de `PedidoRestController` para realizar las
+ *            pruebas.
+ * 
+ */
 @SpringBootTest
 public class PedidoRestControllerTestVerTodos {
 
-	/**
-	 * @author Alberto Saboya
-	 * @version 1.0
-	 * 
-	 *          Clase de prueba JUnit para el método "todos" en
-	 *          PedidoRestController.
-	 *
-	 * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
-	 *
-	 * @Autowired Inyecta la instancia de `PedidoRestController` para realizar las
-	 *            pruebas.
-	 * 
-	 */
+	
 	@Autowired
 	private PedidoRestController pedidoRestController;
 

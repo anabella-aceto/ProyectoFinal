@@ -11,17 +11,17 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.DetallePedidoRestController;
 
 /**
- * @author Alberto Saboya
+ * @authors Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
  * @version 1.0
  * 
- * Prueba unitaria para el controlador DetallePedidoRestController.
- * Verifica el método listarPorEstado.
+ * Clase de prueba JUnit para el método "verPorPedido" en DetallePediodRestController.
  *
  * @SpringBootTest
  * Indica que esta clase es una prueba de Spring Boot.
  *
  * @Autowired
- * Inyecta la instancia de `DetallePedidoRestController` para realizar las pruebas.
+ * Inyecta la instancia de `DetallepedidoRestController` para realizar las pruebas.
  * 
  */
 @SpringBootTest

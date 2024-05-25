@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import restsofa.modelo.DTO.MaterialDto;
-import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Material;
-import restsofa.modelo.entities.Pedido;
-import restsofa.modelo.entities.Tarea;
-import restsofa.service.DetallePedidoService;
 import restsofa.service.MaterialService;
-import restsofa.service.PedidoService;
 import restsofa.service.ProveedorService;
-import restsofa.service.TareaService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de los materiales.
  */
 
@@ -41,20 +39,14 @@ public class MaterialRestController {
 	@Autowired
 	private ProveedorService proveedorService;
 
-	@Autowired
-	private DetallePedidoService detallePedidoService;
-	
-	@Autowired
-	private TareaService tareaService;
-
 	/*
 	 * Método que devuelve todos los materiales.
-	 *
+	 * 	 
 	 * @return ResponseEntity con la lista de materiales si se pudo cargar
 	 * correctamente, o un mensaje de error si no.
 	 */
 
-	@GetMapping("/todos") // Probado y funcionando
+	@GetMapping("/todos") 
 	public ResponseEntity<?> listarTodos() {
 		try {
 			List<Material> material = materialService.findAll();
@@ -74,11 +66,12 @@ public class MaterialRestController {
 	 * Método que permite obtener un material por su identififcador.
 	 *
 	 * @param idMaterial El identificador único del material a buscar.
+	 * 
 	 * @return ResponseEntity con el material encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
 
-	@GetMapping("/uno/{idMaterial}") // Probado y funcionando
+	@GetMapping("/uno/{idMaterial}") 
 	public ResponseEntity<?> buscarUno(@PathVariable("idMaterial") int idMaterial) {
 		try {
 			Material material = materialService.findById(idMaterial);
@@ -97,11 +90,12 @@ public class MaterialRestController {
 	 * Método que permite buscar materiales por nombre.
 	 *
 	 * @param nombre El nombre del material a buscar.
+	 * 
 	 * @return ResponseEntity con la lista de materiales encontrados si existen, o
 	 *         un mensaje de error si no.
 	 */
 
-	@GetMapping("/porNombre/{nombre}") // Probado y funcionando
+	@GetMapping("/porNombre/{nombre}") 
 	public ResponseEntity<?> buscarPorNombre(@PathVariable("nombre") String nombre) {
 		try {
 			List<Material> material = materialService.buscarPorNombre(nombre);
@@ -120,12 +114,13 @@ public class MaterialRestController {
 	 * Busca materiales por referencia del proveedor.
 	 *
 	 * @param refMaterialProveedor La referencia del proveedor del material a
-	 *                             buscar.
+	 *        buscar.
+	 *        
 	 * @return ResponseEntity con el material encontrado si existe, o un mensaje de
 	 *         error si no.
 	 */
 
-	@GetMapping("/porRefProveedor/{refMaterialProveedor}") // Probado y funcionando
+	@GetMapping("/porRefProveedor/{refMaterialProveedor}") 
 	public ResponseEntity<?> buscarPorRefProveedor(@PathVariable("refMaterialProveedor") int refMaterialProveedor) {
 		try {
 			Material material = materialService.findByProveedor(refMaterialProveedor);
@@ -152,7 +147,6 @@ public class MaterialRestController {
 	@PostMapping("/alta")
 	public ResponseEntity<?> altaMaterial(@RequestBody MaterialDto materialDto) {
 		try {
-			// Intentar dar de alta el material
 			Material material = new Material();
 			material.setNombre(materialDto.getNombre());
 			material.setDescripcion(materialDto.getDescripcion());
@@ -164,7 +158,6 @@ public class MaterialRestController {
 
 			Material materialNuevo = materialService.insertOne(material);
 
-			// Verificar si se creó el material correctamente
 			if (materialNuevo != null) {
 				return ResponseEntity.status(HttpStatus.OK).body(materialNuevo);
 			} else {
@@ -181,10 +174,10 @@ public class MaterialRestController {
 	 * @param idMaterial El identificador único del material a eliminar.
 	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
-	 * eliminación.
+	 * 		   eliminación.
 	 */
 
-	@DeleteMapping("/eliminar/{idMaterial}") // Probado y funcionando
+	@DeleteMapping("/eliminar/{idMaterial}")
 	public ResponseEntity<?> eliminarMaterial(@PathVariable("idMaterial") int idMaterial) {
 		try {
 			Material material = materialService.findById(idMaterial);
@@ -209,7 +202,7 @@ public class MaterialRestController {
 	 * modificación.
 	 */
 
-	@PutMapping("/modificar") // Probado y funcionando
+	@PutMapping("/modificar") 
 	public ResponseEntity<?> modificarMaterial(@RequestBody MaterialDto materialDto) {
 		try {
 			Material material = materialService.findById(materialDto.getIdMaterial());
@@ -238,10 +231,11 @@ public class MaterialRestController {
 	 *
 	 * @param idProveedor El identificador único del proveedor cuyos materiales se
 	 *                    desean buscar.
+	 *                    
 	 * @return ResponseEntity con la lista de materiales encontrados si existen, o
 	 *         un mensaje de error si no existen.
 	 */
-	@GetMapping("/porProveedor/{idProveedor}") // Probado y funcionando
+	@GetMapping("/porProveedor/{idProveedor}") 
 	public ResponseEntity<?> buscarMaterialPorProveedor(@PathVariable("idProveedor") int idProveedor) {
 		try {
 			List<Material> material = materialService.buscarPorProveedor(idProveedor);
@@ -262,10 +256,11 @@ public class MaterialRestController {
 	 * Método que filtra materiales por categoría.
 	 *
 	 * @param categoria La categoría de los materiales a buscar.
+	 * 
 	 * @return ResponseEntity con la lista de materiales encontrados si existen, o
 	 *         un mensaje de error si no.
 	 */
-	@GetMapping("/porCategoria") // Probado y funcionando
+	@GetMapping("/porCategoria") 
 	public ResponseEntity<?> buscarMaterialPorCategoria(@RequestParam(name = "categoria") String categoria) {
 		try {
 			List<Material> material = materialService.buscarPorCategoria(categoria);
@@ -282,45 +277,5 @@ public class MaterialRestController {
 		}
 	}
 
-	/**
-	 * Método para restaurar materiales de un pedido.
-	 *
-	 * @param idPedido ID del pedido a restaurar.
-	 * @param idSofa   ID del sofá a restaurar.
-	 * @return ResponseEntity con el estado de la operación y un mensaje.
-	 */
-	@PutMapping("restaurar/{idPedido}/{idSofa}/{idDeped}")
-	public ResponseEntity<?> restaurarMateriales(@PathVariable int idPedido, @PathVariable int idSofa, @PathVariable int idDeped) {
-		try {
-			// Buscar el pedido en la base de datos
-			DetallePedido detallePedido = detallePedidoService.buscarPorPedido(idPedido);
-
-			// Verificar si el pedido existe y está en un estado adecuado para restaurar
-			// materiales
-			if (detallePedido != null && tareaService.buscarPorEstado(1) !=null) {
-				// Intentar restaurar los materiales
-				if (materialService.restaurarMateriales(idPedido, idSofa, idDeped) == 1) {
-					
-					// Si la restauración fue exitosa, devolver un ResponseEntity con estado 200 y
-					// un mensaje
-					return ResponseEntity.status(HttpStatus.OK).body("Pedido restaurado");
-				} else {
-					// Si ocurrió un error al restaurar los materiales, devolver un ResponseEntity
-					// con estado 404 y un mensaje de error
-					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al restaurar los materiales");
-				}
-			} else {
-				// Si el pedido no existe o no está en el estado adecuado para restaurar
-				// materiales, devolver un ResponseEntity con estado 404 y un mensaje de error
-				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-						.body("El pedido no existe o no está en el estado adecuado para restaurar los materiales");
-			}
-		} catch (Exception e) {
-			// Si ocurre una excepción, devolver un ResponseEntity con estado 500 y el
-			// mensaje de la excepción
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al restaurar los materiales: " + e.getMessage());
-		}
-	}
-
+	
 }

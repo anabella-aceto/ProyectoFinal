@@ -13,14 +13,17 @@ import restsofa.modelo.DTO.DetallePedidoDto;
 import restsofa.restcontroller.DetallePedidoRestController;
 
 /**
- * @author Alberto Saboya
- * @version 1.0 * Clase de prueba JUnit para el método "modificar" en
- *          DetallePedidoRestController.
+ * @authors Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
+ * @version 1.0
+ * 
+ * Clase de prueba JUnit para el método "modificar" en DetallePedidoRestController.
  *
- * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
  *
- * @Autowired Inyecta la instancia de `DetallePedidoRestController` para
- *            realizar las pruebas.
+ * @Autowired
+ * Inyecta la instancia de `DetallePediodRestController` para realizar las pruebas.
  * 
  */
 @SpringBootTest

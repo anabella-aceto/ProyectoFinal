@@ -19,6 +19,10 @@ import restsofa.modelo.entities.Perfil;
 import restsofa.service.PerfilService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de los perfiles.
  */
 
@@ -36,7 +40,7 @@ public class PerfilRestController {
 	 * @return ResponseEntity con la lista de perfiles si se pudo cargar
 	 *         correctamente, o un mensaje de error si no se cargó.
 	 */
-	@GetMapping("/todos") // probado y funcionando
+	@GetMapping("/todos") 
 	public ResponseEntity<?> todos() {
 		try {
 			List<Perfil> lista = perfilService.buscarTodos();
@@ -55,10 +59,11 @@ public class PerfilRestController {
 	 * Método que permite obtener un perfil por su identificador.
 	 *
 	 * @param idPerfil El identificador único del perfil a buscar.
+	 * 
 	 * @return ResponseEntity con el perfil encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
-	@GetMapping("/uno/{idPerfil}") // probado y funcionando
+	@GetMapping("/uno/{idPerfil}") 
 	public ResponseEntity<?> uno(@PathVariable("idPerfil") int idPerfil) {
 		try {
 			Perfil perfil = perfilService.buscarUno(idPerfil);
@@ -78,10 +83,11 @@ public class PerfilRestController {
 	 * Método que permite crear un perfil.
 	 * 
 	 * @param perfil El perfil a dar de alta.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         alta.
 	 */
-	@PostMapping("/alta") // probado y funcionando
+	@PostMapping("/alta") 
 	public ResponseEntity<?> alta(@RequestBody Perfil perfil) {
 		try {
 			Perfil resultado = perfilService.insertOne(perfil);
@@ -100,24 +106,21 @@ public class PerfilRestController {
 	 * Método que modifica un perfil.
 	 * 
 	 * @param perfil El perfil con la información actualizada.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         modificación.
 	 */
-	@PutMapping("/modificar") // probado y funcionando
+	@PutMapping("/modificar") 
 	public ResponseEntity<?> modificar(@RequestBody Perfil perfil) {
 		try {
-			// Verifica si el perfil existe antes de intentar modificarlo
 			Perfil perfilExistente = perfilService.buscarUno(perfil.getIdPerfil());
 			if (perfilExistente != null) {
-				// Actualiza el perfil existente con la nueva información
 				perfilService.modificarPerfil(perfilExistente);
 				return ResponseEntity.status(HttpStatus.OK).body("Modificación realizada correctamente " + perfil);
 			} else {
-				// Si el perfil no existe, devuelve un error
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Perfil no encontrado");
 			}
 		} catch (Exception e) {
-			// Manejo de excepciones
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al modificar el perfil: " + e.getMessage());
 		}
@@ -127,10 +130,11 @@ public class PerfilRestController {
 	 * Método que elimina un perfil.
 	 * 
 	 * @param idPerfil El identificador único del perfil.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
-	@DeleteMapping("/eliminar/{idPerfil}") // probado y funcionando
+	@DeleteMapping("/eliminar/{idPerfil}") 
 	public ResponseEntity<?> borrar(@PathVariable("idPerfil") int idPerfil) {
 		try {
 			if (perfilService.buscarUno(idPerfil) != null) {

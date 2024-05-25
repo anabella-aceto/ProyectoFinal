@@ -15,8 +15,11 @@ import restsofa.modelo.DTO.EmpleadoDto;
 import restsofa.restcontroller.EmpleadoRestController;
 
 /**
- * @author Alberto Saboya
- * @version 1.0 * Clase de prueba JUnit para el método "modificarEmpleado" en
+ * @author Alberto Saboya, Anabella Av¡ceto, David Rodríguez
+ * 
+ * @version 1.0 
+ * 
+ * 			Clase de prueba JUnit para el método "modificarEmpleado" en
  *          EmpleadoRestController.
  *
  * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.

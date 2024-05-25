@@ -16,7 +16,8 @@ import restsofa.modelo.DTO.DetallePedidoDto;
 import restsofa.restcontroller.DetallePedidoRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
  * @version 1.0
  * 
  *          Clase de prueba JUnit para el método "alta" en

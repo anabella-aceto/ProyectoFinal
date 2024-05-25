@@ -12,7 +12,8 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.restcontroller.ClienteRestController;
 
 /**
- * @author Alberto Saboya
+ * @authors Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
  * @version 1.0
  * 
  * Clase de prueba JUnit para el método "alta" en ClienteRestController.

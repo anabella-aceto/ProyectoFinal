@@ -11,6 +11,10 @@ import restsofa.modelo.entities.SofaMaterial;
 import restsofa.repository.MaterialRepository;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Implementación de la Interface Service para la entidad Material utilizando
  * Spring Data JPA.
  */

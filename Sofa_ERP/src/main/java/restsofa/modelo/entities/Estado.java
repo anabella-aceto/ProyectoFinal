@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author David Rodriguez Moral
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
  * @version 1.0
  * 
  * Clase que representa un estado de pedido.

@@ -36,6 +36,10 @@ import restsofa.service.EstadoService;
 import restsofa.service.TareaService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de tareas.
  */
 
@@ -88,6 +92,7 @@ public class TareaRestController {
 	 * Método que permite obtener una tarea por su identificador.
 	 *
 	 * @param idTarea El identificador único de la tarea a buscar.
+	 * 
 	 * @return ResponseEntity con la tarea encontrada si existe, o un mensaje de
 	 *         error si no existe.
 	 */
@@ -99,7 +104,7 @@ public class TareaRestController {
 	            TareaDto tareaDto = modelMapper.map(tarea, TareaDto.class);
 	            return ResponseEntity.status(HttpStatus.OK).body(tareaDto);
 	        } else {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Devuelve un cuerpo de respuesta nulo
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
 	        }
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -158,6 +163,7 @@ public class TareaRestController {
 	 * 
 	 * @param tareaDto El DTO de la tarea con la información actualizada. Debe 
 	 *                 contener el ID de la tarea a modificar y los nuevos datos.
+	 *                 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso 
 	 *         de modificación. Retorna:
 	 *         - 200 OK si la modificación se realizó correctamente.
@@ -190,6 +196,7 @@ public class TareaRestController {
 	 * Método que elimina una tarea.
 	 * 
 	 * @param idTarea El identificador único de la tarea.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la eliminación.
 	 */
 	@DeleteMapping("/borrar/{idTarea}")
@@ -213,6 +220,7 @@ public class TareaRestController {
 	 *
 	 * @param idEmpleado El identificador único del empleado del cual se desean
 	 *                   filtrar las tareas.
+	 *                   
 	 * @return ResponseEntity con una lista de tareas si se encuentran tareas para
 	 *         el empleado especificado, o un mensaje de error si no.
 	 */
@@ -236,9 +244,12 @@ public class TareaRestController {
 	 * Método que cambia el estado de una tarea.
 	 * 
 	 * @param idPedido       El identificador del pedido a actualizar.
+	 * 
 	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
+	 * 
 	 * @param idDepartamento El identificador del departamento asociado con la
 	 *                       tarea.
+	 *                       
 	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
 	 *         realizó correctamente o si hubo algún error.
 	 */
@@ -271,8 +282,10 @@ public class TareaRestController {
 	 *
 	 * @param idDepartamento El identificador único del departamento del cual se desean
 	 *                   filtrar las tareas.
+	 *                   
 	 * @return ResponseEntity con una lista de tareas si se encuentran tareas para
 	 *         el departamento especificado, o un mensaje de error si no.
+	 *         
 	 * @return ResponseEntity donde se muestra la información del estado del detalle solicitado.
 	 */
 	@GetMapping("/departamento/{idDepartamento}")
@@ -299,7 +312,7 @@ public class TareaRestController {
 	 * 
 	 * @param idDeped El identificador único del detalle de pedido.
 	 *           
-	 * * @return ResponseEntity donde se muestra la información del detalle solicitado del estado de cada 
+	 * @return ResponseEntity donde se muestra la información del detalle solicitado del estado de cada 
 	 * uno de los departamento.               
 	 */
 	@GetMapping("/porEstadoYDetalle/{idDeped}")
@@ -375,7 +388,7 @@ public class TareaRestController {
 	 * 
 	 * @param idDeped El identificador único del detalle de pedido.
 	 *           
-	 * * @return ResponseEntity donde se muestra la información del del pedido.               
+	 * @return ResponseEntity donde se muestra la información del del pedido.               
 	 */
 	@GetMapping("/estadoPorPedido/{idPedido}")
 	public ResponseEntity<?> mostrarEstadoPedido(@PathVariable int idPedido) {
@@ -421,7 +434,6 @@ public class TareaRestController {
 	        }
 	    }
 
-	    // Determine the final state based on priority rules
 	    if (finalizada) {
 	        tareaInfo.put("estado", "finalizada");
 	    } else if (procesando) {

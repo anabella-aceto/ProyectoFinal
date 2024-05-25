@@ -19,7 +19,8 @@ import restsofa.restcontroller.PedidoRestController;
 
 /**
  * 
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  * Prueba unitaria para el controlador PedidoRestController.

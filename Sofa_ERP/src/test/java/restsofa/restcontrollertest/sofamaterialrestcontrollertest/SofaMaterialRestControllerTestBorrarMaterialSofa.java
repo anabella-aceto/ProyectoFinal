@@ -14,7 +14,8 @@ import restsofa.restcontroller.SofaMaterialRestController;
 import restsofa.service.SofaMaterialService;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  * Clase de prueba JUnit para el método "eliminarSofaMaterial" en SofaMaterialRestController.

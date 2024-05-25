@@ -12,17 +12,18 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.DetallePedidoRestController;
 
 /**
- * Prueba del método "borrarUno".
+ * @authors Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
+ * @version 1.0
+ * 
+ * Clase de prueba JUnit para el método "eliminar" en DetallePedidoRestController.
  *
- * @Test
- * Anota este método como una prueba JUnit.
+ * @SpringBootTest
+ * Indica que esta clase es una prueba de Spring Boot.
  *
- * Verifica que el código de estado de la respuesta sea OK.
- * Obtiene el mensaje de la respuesta.
- * Verifica que la eliminación fue correcta.
- *
- * @param empId El identificador del empleado a borrar.
- * @return ResponseEntity con el resultado de la operación de borrado.
+ * @Autowired
+ * Inyecta la instancia de `DetallePedidoRestController` para realizar las pruebas.
+ * 
  */
 @SpringBootTest
 public class DetallePedidoRestControllerTestBorrar {

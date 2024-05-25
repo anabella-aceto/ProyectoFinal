@@ -17,7 +17,8 @@ import restsofa.modelo.entities.Empleado;
 import restsofa.restcontroller.EmpleadoRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Av¡ceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  *          Clase de prueba JUnit para el método "listarEmpleados" en

@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Implementación de la interfaz PerfilService.
  */
 @Service

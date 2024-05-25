@@ -24,6 +24,10 @@ import restsofa.service.EmpleadoService;
 import restsofa.service.PerfilService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de empleados.
  */
 
@@ -45,10 +49,11 @@ public class EmpleadoRestController {
 	 * Método que busca un empleado por su identificador único.
 	 *
 	 * @param idEmpleado El identificador único del empleado a buscar.
+	 * 
 	 * @return ResponseEntity con el empleado encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
-	@GetMapping("/uno/{idEmpleado}") // probado y funcionando
+	@GetMapping("/uno/{idEmpleado}")
 	public ResponseEntity<?> buscarPorId(@PathVariable("idEmpleado") int idEmpleado) {
 		try {
 			Empleado empleado = empleadoService.buscarUno(idEmpleado);
@@ -68,7 +73,7 @@ public class EmpleadoRestController {
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         alta.
 	 */
-	@PostMapping("/alta") // probado y funcionando
+	@PostMapping("/alta")
 	public ResponseEntity<?> alta(@RequestBody EmpleadoDto empleadoDto) {
 		try {
 			Empleado empleado = new Empleado();
@@ -96,10 +101,11 @@ public class EmpleadoRestController {
 	 * Método que elimina un empleado.
 	 *
 	 * @param idEmpleado El identificador único del empleado a eliminar.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
-	@DeleteMapping("/eliminar/{idEmpleado}") // probado y funcionando
+	@DeleteMapping("/eliminar/{idEmpleado}") 
 	public ResponseEntity<?> borrarUno(@PathVariable("idEmpleado") int idEmpleado) {
 		try {
 			Empleado empleado = empleadoService.buscarUno(idEmpleado);
@@ -121,7 +127,7 @@ public class EmpleadoRestController {
 	 * @return ResponseEntity con la lista de todos los empleados si se obtienen
 	 *         correctamente, o un mensaje de error si no hay elementos en la lista.
 	 */
-	@GetMapping("/todos") // probado y funcionando
+	@GetMapping("/todos") 
 	public ResponseEntity<?> listarEmpleados() {
 		try {
 			List<Empleado> lista = empleadoService.buscarTodos();
@@ -140,10 +146,11 @@ public class EmpleadoRestController {
 	 *
 	 * @param idDepartamento El identificador único del departamento para filtrar
 	 *                       los empleados.
+	 *                       
 	 * @return ResponseEntity con la lista de empleados encontrados si existen, o un
 	 *         mensaje de error si no hay empleados en ese departamento.
 	 */
-	@GetMapping("/porDepto/{idDepartamento}") // probado y funcionando
+	@GetMapping("/porDepto/{idDepartamento}") 
 	public ResponseEntity<?> buscarPorDpto(@PathVariable("idDepartamento") int idDepartamento) {
 		try {
 			List<Empleado> lista = empleadoService.buscarPorDepto(idDepartamento);
@@ -161,9 +168,10 @@ public class EmpleadoRestController {
 	 * Método que modifica los datos de un empleado.
 	 *
 	 * @param empleadoDto El DTO del empleado a modificar.
+	 * 
 	 * @return ResponseEntity con el mensaje del resultado de la modificación.
 	 */
-	@PutMapping("/modificar") // probado y funcionnado
+	@PutMapping("/modificar") 
 	public ResponseEntity<?> modificarEmpleado(@RequestBody EmpleadoDto empleadoDto) {
 		try {
 			Empleado empleado = empleadoService.buscarUno(empleadoDto.getIdEmpleado());
@@ -191,10 +199,11 @@ public class EmpleadoRestController {
 	 * Método que lista los empleados por el identificador de perfil.
 	 *
 	 * @param idPerfil El identificador único del perfil para filtrar los empleados.
+	 * 
 	 * @return ResponseEntity con la lista de empleados encontrados si existe el
 	 *         perfil, o un mensaje de error si no existe.
 	 */
-	@GetMapping("/porPerfil/{idPerfil}") // probado y funcionando
+	@GetMapping("/porPerfil/{idPerfil}") 
 	public ResponseEntity<?> listarPorPerfil(@PathVariable("idPerfil") int idPerfil) {
 		try {
 			Perfil perfil = perfilService.buscarUno(idPerfil);
@@ -213,10 +222,11 @@ public class EmpleadoRestController {
 	 * Método que busca un empleado por su apellido.
 	 *
 	 * @param apellidos Primer apellido del empleado a buscar.
+	 * 
 	 * @return ResponseEntity con el empleado encontrado si existe, o un mensaje de
 	 *         error si no existe.
 	 */
-	@GetMapping("/porApellido") // probado y funcionando
+	@GetMapping("/porApellido")
 	public ResponseEntity<?> buscarPorApellido(@RequestParam String apellidos) {
 		try {
 			Empleado empleado = empleadoService.buscarPorApellidos(apellidos);

@@ -14,7 +14,8 @@ import restsofa.modelo.DTO.TareaDto;
 import restsofa.restcontroller.TareaRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  * Clase de prueba JUnit para el método "una" en TareaRestController.

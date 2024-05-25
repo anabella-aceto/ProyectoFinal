@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import restsofa.restcontroller.PerfilRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  *          Clase de prueba JUnit para el método "borrar" en

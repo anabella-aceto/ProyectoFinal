@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import restsofa.modelo.entities.Material;
 
 /**
- * @author Anabella Aceto
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
  * @version 1.0
  * 
  * Interfaz que define un repositorio para la entidad Material.

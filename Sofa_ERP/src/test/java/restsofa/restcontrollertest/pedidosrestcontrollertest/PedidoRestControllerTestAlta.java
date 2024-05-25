@@ -15,7 +15,8 @@ import restsofa.restcontroller.PedidoRestController;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
  * @version 1.0
  * 
  * Clase de prueba JUnit para el método "alta" en PedidoRestController.

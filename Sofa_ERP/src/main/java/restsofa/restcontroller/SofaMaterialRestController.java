@@ -22,6 +22,10 @@ import restsofa.service.SofaMaterialService;
 import restsofa.service.SofaService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de los materiales de un sofá.
  */
 
@@ -60,6 +64,7 @@ public class SofaMaterialRestController {
 	 * Método que obtiene un material de sofá por su identificador único.
 	 *
 	 * @param idMaterialSofa El identificador único del material de sofá a buscar.
+	 * 
 	 * @return ResponseEntity con el material de sofá encontrado si existe, o un
 	 *         mensaje de error si no existe.
 	 */
@@ -83,6 +88,7 @@ public class SofaMaterialRestController {
 	 *
 	 * @param idSofa El identificador único del sofá del cual se desean buscar los
 	 *               materiales asociados.
+	 *               
 	 * @return ResponseEntity con la lista de materiales asociados al sofá si
 	 *         existen, o un mensaje de error si no.
 	 */
@@ -106,6 +112,7 @@ public class SofaMaterialRestController {
 	 * 
 	 * @param sofaMaterialDto El DTO con la información de los materiales del sofá a
 	 *                        dar de alta.
+	 *                        
 	 * @return ResponseEntity con el material de sofá guardado o un mensaje de error
 	 *         si no se pudo dar de alta.
 	 */
@@ -133,6 +140,7 @@ public class SofaMaterialRestController {
 	 * Método que modifica los datos de un material de sofá.
 	 *
 	 * @param sofaMaterialDto El DTO del material de sofá a modificar.
+	 * 
 	 * @return ResponseEntity con el mensaje del resultado de la modificación.
 	 */
 	@PutMapping("/modificar")
@@ -159,6 +167,7 @@ public class SofaMaterialRestController {
 	 * Método que modifica un material asociado a un sofá.
 	 *
 	 * @param sofaMaterialDto Los datos del material asociado al sofá a modificar.
+	 * 
 	 * @return ResponseEntity con un mensaje de éxito si se realiza la modificación
 	 *         correctamente, o un mensaje de error si no.
 	 */
@@ -187,6 +196,7 @@ public class SofaMaterialRestController {
 	 * 
 	 * @param idSofaMateriales El identificador único del material de sofá a
 	 *                         eliminar.
+	 *                         
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */
@@ -211,7 +221,9 @@ public class SofaMaterialRestController {
 	 *
 	 * @param idSofa     El identificador único del sofá del cual se desea eliminar
 	 *                   el material.
+	 *                   
 	 * @param idMaterial El identificador único del material a eliminar.
+	 * 
 	 * @return ResponseEntity con un mensaje de éxito si se realiza la eliminación
 	 *         correctamente, o un mensaje de error si no.
 	 */

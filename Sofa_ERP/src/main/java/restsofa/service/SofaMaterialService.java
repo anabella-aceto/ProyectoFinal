@@ -5,6 +5,10 @@ import java.util.List;
 import restsofa.modelo.entities.SofaMaterial;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Interfaz que define los servicios relacionados con la entidad SofaMaterial.
  */
 

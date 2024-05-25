@@ -17,7 +17,8 @@ import restsofa.modelo.entities.Departamento;
 import restsofa.restcontroller.DepartamentoRestController;
 
 /**
- * @author Alberto Saboya
+ * @author Alberto Saboya, Anabella Aceto David Rodríguez
+ * 
  * @version 1.0
  * 
  * Clase de prueba JUnit para el método "listarTodos" en DepartamentoRestController.

@@ -9,6 +9,10 @@ import restsofa.modelo.entities.Cliente;
 import restsofa.repository.ClienteRepository;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Implementación de la interfaz ClienteService que utiliza Spring Data JPA.
  */
 

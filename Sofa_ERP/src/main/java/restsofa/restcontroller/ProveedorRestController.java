@@ -19,6 +19,10 @@ import restsofa.modelo.entities.Proveedor;
 import restsofa.service.ProveedorService;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Controlador para la gestión de los proveedores.
  */
 
@@ -34,6 +38,7 @@ public class ProveedorRestController {
 	 * Método que permite dar de alta un proveedor.
 	 * 
 	 * @param proveedor El proveedor a dar de alta.
+	 * 
 	 * @return ResponseEntity con el proveedor dado de alta o un mensaje de error si
 	 *         no se pudo dar de alta.
 	 */
@@ -61,14 +66,11 @@ public class ProveedorRestController {
 	        List<Proveedor> lista = proveedorService.mostrarTodos();
 
 	        if (!lista.isEmpty()) {
-	            // Devolver ResponseEntity<List<Proveedor>>
 	            return ResponseEntity.ok().body(lista);
 	        } else {
-	            // Devolver mensaje si la lista está vacía
 	            return ResponseEntity.ok().body("No se encontraron proveedores");
 	        }
 	    } catch (Exception e) {
-	        // Devolver ResponseEntity con mensaje de error
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	                .body("Error al obtener la lista de proveedores: " + e.getMessage());
 	    }
@@ -78,10 +80,11 @@ public class ProveedorRestController {
 	 * Método que devuelve un proveedor.
 	 * 
 	 * @param idProveedor El identificador único del proveedor.
+	 * 
 	 * @return ResponseEntity con el proveedor si se obtiene correctamente, o un
 	 *         mensaje de error si no existe.
 	 */
-	@GetMapping("/uno/{idProveedor}") // probado y funcionando
+	@GetMapping("/uno/{idProveedor}") 
 	public ResponseEntity<?> uno(@PathVariable int idProveedor) {
 	    try {
 	        Proveedor proveedor = proveedorService.buscarUno(idProveedor);
@@ -99,6 +102,7 @@ public class ProveedorRestController {
 	 * Método que modifica los datos de un proveedor.
 	 * 
 	 * @param proveedor El proveedor con la información actualizada.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         modificación.
 	 */
@@ -122,6 +126,7 @@ public class ProveedorRestController {
 	 * Método que elimina un proveedor.
 	 * 
 	 * @param idProveedor El identificador único del proveedor.
+	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado de la
 	 *         eliminación.
 	 */

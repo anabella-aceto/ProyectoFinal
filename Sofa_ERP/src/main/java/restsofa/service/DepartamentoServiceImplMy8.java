@@ -9,6 +9,10 @@ import restsofa.modelo.entities.Departamento;
 import restsofa.repository.DepartamentoRepository;
 
 /**
+ * @authors Alberto Saboya Ocaña, Anabella Aceto, David Rodriguez Moral
+ * 
+ * @version 1.0
+ * 
  * Implementación de la interfaz DepartamentoService que utiliza Spring Data
  * JPA.
  */

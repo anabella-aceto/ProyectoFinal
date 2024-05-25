@@ -15,8 +15,11 @@ import restsofa.modelo.DTO.TareaDto;
 import restsofa.restcontroller.TareaRestController;
 
 /**
- * @author Alberto Saboya
- * @version 1.0 * Clase de prueba JUnit para el método "modificar" en
+ * @author Alberto Saboya, Anabella Aceto, David Rodríguez
+ * 
+ * @version 1.0 
+ * 
+ * 			Clase de prueba JUnit para el método "modificar" en
  *          TareaRestController.
  *
  * @SpringBootTest Indica que esta clase es una prueba de Spring Boot.
