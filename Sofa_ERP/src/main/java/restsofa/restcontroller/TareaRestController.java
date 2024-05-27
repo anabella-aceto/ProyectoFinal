@@ -450,6 +450,43 @@ public class TareaRestController {
 
 	    return ResponseEntity.status(HttpStatus.OK).body(tareaInfo);
 	}
+	
+	/**
+	 * Asigna un empleado a una tarea en un departamento específico.
+	 *
+	 * @param idDeped     El ID del detalle del pedido.
+	 * 
+	 * @param idTarea     El ID de la tarea.
+	 * 
+	 * @param idEmpleado  El ID del empleado a asignar.
+	 * 
+	 * @return ResponseEntity con un mensaje indicando el resultado de la asignación.
+	 *         Devuelve un ResponseEntity.ok si la asignación fue exitosa.
+	 *         Devuelve un ResponseEntity con HttpStatus.INTERNAL_SERVER_ERROR si ocurre un error durante el proceso.
+	 */
+	@PutMapping("/asignarEmpleado/{idDeped}/{idTarea}")
+	public ResponseEntity<?> asignarEmpleado(@PathVariable(name = "idDeped") int idDeped,
+			@PathVariable(name = "idTarea") int idTarea,
+			@RequestParam(name = "idEmpleado") int idEmpleado) {
+		try {
+			DetallePedido detallePedido = detallePedidoService.buscarDetPed(idDeped);
+			Tarea tarea = tareaService.buscarTarea(idTarea);
+			if (detallePedido != null && tarea != null) {
+				tarea.setEmpleado(empleadoService.buscarUno(idEmpleado));
+				tarea.setDepartamento(depService.buscarUno(tarea.getDepartamento().getIdDepartamento()));
+				tarea.setDetalle(detallePedidoService.buscarDetPed(idDeped));
+				tarea.setEstado(estadoService.buscarEstado(tarea.getEstado().getIdEstado()));
+
+				tareaService.modifTarea(tarea);
+		
+				} return ResponseEntity.status(HttpStatus.OK).body(tarea);
+				
+			}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al asignar un empleado a la tarea: " + e.getMessage());
+		}
+	}
+	
 
 }
 	
