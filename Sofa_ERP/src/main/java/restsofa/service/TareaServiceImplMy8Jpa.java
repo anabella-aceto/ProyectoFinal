@@ -128,8 +128,9 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	 *         0 si no se encuentra el pedido o el estado del pedido no es 1 o 2.
 	 */
 	@Override
-	public int altaEstadoTarea(int idDeped, int idEmpleado, int idDepartamento) {
+	public int altaEstadoTarea(int idDeped, int idEmpleado, int idDepartamento, int idTarea) {
 		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
+		Tarea tarea = buscarTarea(idTarea);
 		Tarea tarea1 = tarepo.buscarPorEstado(1);
 		Estado estado1 = estadoService.buscarEstado(2);
 		Estado estado2 = estadoService.buscarEstado(3);
@@ -137,7 +138,6 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 		Empleado empleado = empleadoService.buscarUno(idEmpleado);
 
 		if (pedido != null && tarea1 == null ) {
-			Tarea tarea = new Tarea();
 			tarea.setDetalle(pedido);
 			tarea.setEmpleado(empleado);
 			tarea.setEstado(estado1);
@@ -149,7 +149,6 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 		}
 
 		if (pedido != null && tarea1!=null) {
-			Tarea tarea = new Tarea();
 			tarea.setDetalle(pedido);
 			tarea.setEstado(estado2);
 			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
@@ -179,6 +178,7 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	 * Método que busca todas las tareas asociadas a un departamento por su identificador.
 	 *
 	 * @param idDepartamento El identificador único del departamento.
+	 * 
 	 * @return Una lista de todas las tareas asociadas al departamento con el identificador dado.
 	 */
 	@Override
@@ -186,11 +186,53 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 
 		return tarepo.buscarPorDepartamento(idDepartamento);
 	}
-
+	
+	/**
+	 * Método que busca todas las tareas asociadas a un detalle de pedido por su identificador.
+	 *
+	 * @param idDeped El identificador único del detalle de pedido.
+	 * 
+	 * @return Una lista de todas las tareas asociadas al detalle de pedido con el identificador dado.
+	 */
 	@Override
 	public List<Tarea> buscarPorDetalle(int idDePed) {
 		// TODO Auto-generated method stub
 		return tarepo.buscarPorDetalle(idDePed);
 	}
+	
+	@Override
+	public int revocarEstadoTarea(int idDeped, int idEmpleado, int idDepartamento, int idTarea) {
+		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
+		Tarea tarea = buscarTarea(idTarea);
+		Estado estado1 = estadoService.buscarEstado(1);
+		Estado estado2 = estadoService.buscarEstado(2);
+		
+		Empleado empleado = empleadoService.buscarUno(idEmpleado);
 
+		if (pedido != null && tarepo.buscarPorEstado(2) != null ) {
+			tarea.setDetalle(pedido);
+			tarea.setEmpleado(empleado);
+			tarea.setEstado(estado1);
+			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
+			tarea.setFecha(new Date());
+			tarepo.save(tarea);
+			
+			return 1;
+		}
+
+		if (pedido != null && tarepo.buscarPorEstado(3) != null) {
+			tarea.setDetalle(pedido);
+			tarea.setEstado(estado2);
+			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
+			tarea.setFecha(new Date());
+			tarepo.save(tarea);
+			
+			return 2;
+			
+		} else {
+			return 0;
+		
+	}
+
+}
 }

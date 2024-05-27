@@ -19,8 +19,9 @@ public interface TareaService {
 	Tarea modifTarea (Tarea tarea);
 	boolean borrarTarea (int idTarea);
 	List<Tarea> buscarPorIdEmpleado(int idEmpleado);
-	int altaEstadoTarea(int idPedido, int idEmpleado, int idDepartamento);
+	int altaEstadoTarea(int idPedido, int idEmpleado, int idDepartamento, int idTarea);
 	Tarea buscarPorEstado(int idEstado);
 	List<Tarea> buscarPorIdDepartamento(int idDepartamento);
 	public List<Tarea> buscarPorDetalle(int idDePed);
+	int revocarEstadoTarea(int idDeped, int idEmpleado, int idDepartamento, int idTarea);
 }

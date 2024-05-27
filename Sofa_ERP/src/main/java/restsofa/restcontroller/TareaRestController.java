@@ -253,24 +253,19 @@ public class TareaRestController {
 	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
 	 *         realizó correctamente o si hubo algún error.
 	 */
-	@PutMapping("/estadoTarea")
-	public ResponseEntity<?> cambiarEstado(@RequestParam(name = "idDeped") int idDeped,
-			@RequestParam(name = "idEmpleado") int idEmpleado,
-			@RequestParam(name = "idDepartamento") int idDepartamento) {
+	@PutMapping("/estadoTarea/{idDeped}/{idEmpleado}/{IdDepto}/{idTarea}")
+	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idDeped") int idDeped,
+			@PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
+			@PathVariable(name = "idTarea") int idTarea) {
 		try {
-			DetallePedido detallePedido = detallePedidoService.buscarDetPed(idDeped);
-			if (detallePedido != null) {
-				int tarea = tareaService.altaEstadoTarea(idDeped, idEmpleado, idDepartamento);
-				if (tarea == 1) {
+				int tarea = tareaService.altaEstadoTarea(idDeped, idEmpleado, idDepto, idTarea);
+				if (tarea == 1) 
 					return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
-				} else if (tarea == 2) {
+				else if (tarea == 2) 
 					return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'finalizado'");
-				} else {
+				else
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al cambiar el estado de la tarea");
-				}
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Pedido no encontrado");
-			}
+				
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al cambiar el estado de la tarea: " + e.getMessage());
@@ -486,8 +481,23 @@ public class TareaRestController {
 					.body("Error al asignar un empleado a la tarea: " + e.getMessage());
 		}
 	}
-	
 
+	
+	@PutMapping("/revocarTarea/{idDeped}/{idEmpleado}/{IdDepto}/{idTarea}")
+	public ResponseEntity<?> revocarEstado(@PathVariable(name = "idDeped") int idDeped,
+			@PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
+			@PathVariable(name = "idTarea") int idTarea) {
+		try {
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al asignar un empleado a la tarea: " + e.getMessage());
+		}
+			
+				
+		
+
+}
 }
 	
 
