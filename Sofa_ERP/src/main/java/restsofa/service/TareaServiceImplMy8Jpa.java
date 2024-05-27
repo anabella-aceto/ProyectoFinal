@@ -128,7 +128,7 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	 *         0 si no se encuentra el pedido o el estado del pedido no es 1 o 2.
 	 */
 	@Override
-	public int altaEstadoTarea(int idDeped, int idEmpleado, int idDepartamento, int idTarea) {
+	public int altaEstadoTarea(int idTarea, int idEmpleado, int idDepartamento, int idDeped) {
 		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
 		Tarea tarea = buscarTarea(idTarea);
 		Tarea tarea1 = tarepo.buscarPorEstado(1);
@@ -201,10 +201,10 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	}
 	
 	@Override
-	public int revocarEstadoTarea(int idDeped, int idEmpleado, int idDepartamento, int idTarea) {
+	public int revocarEstadoTarea(int idTarea, int idEmpleado, int idDepartamento, int idDeped) {
 		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
 		Tarea tarea = buscarTarea(idTarea);
-		Estado estado1 = estadoService.buscarEstado(1);
+		Estado estado1 = estadoService.buscarEstado(5);
 		Estado estado2 = estadoService.buscarEstado(2);
 		
 		Empleado empleado = empleadoService.buscarUno(idEmpleado);

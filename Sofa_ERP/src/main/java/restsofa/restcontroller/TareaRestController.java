@@ -253,24 +253,30 @@ public class TareaRestController {
 	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
 	 *         realizó correctamente o si hubo algún error.
 	 */
-	@PutMapping("/estadoTarea/{idDeped}/{idEmpleado}/{IdDepto}/{idTarea}")
-	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idDeped") int idDeped,
-			@PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
-			@PathVariable(name = "idTarea") int idTarea) {
-		try {
-				int tarea = tareaService.altaEstadoTarea(idDeped, idEmpleado, idDepto, idTarea);
-				if (tarea == 1) 
-					return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
-				else if (tarea == 2) 
-					return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'finalizado'");
-				else
-					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al cambiar el estado de la tarea");
-				
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al cambiar el estado de la tarea: " + e.getMessage());
-		}
+	@PutMapping("/estadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
+	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idTarea") int idTarea,
+	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
+	        @PathVariable(name = "idDeped") int idDeped) {
+	    try {
+	        int tarea = tareaService.altaEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
+
+	        switch (tarea) {
+	            case 1:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
+	            case 2:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
+	            case 3:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'finalizado'");
+	            default:
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de tarea no válido");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al cambiar el estado de la tarea: " + e.getMessage());
+	    }
 	}
+
+
 	
 	/**
 	 * Método que filtra las tareas asociadas a un departamento por su identificador.
@@ -483,21 +489,28 @@ public class TareaRestController {
 	}
 
 	
-	@PutMapping("/revocarTarea/{idDeped}/{idEmpleado}/{IdDepto}/{idTarea}")
-	public ResponseEntity<?> revocarEstado(@PathVariable(name = "idDeped") int idDeped,
-			@PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
-			@PathVariable(name = "idTarea") int idTarea) {
-		try {
-			
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al asignar un empleado a la tarea: " + e.getMessage());
-		}
-			
-				
-		
+	@PutMapping("/revocarEstadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
+	public ResponseEntity<?> revocarEstado(@PathVariable(name = "idTarea") int idTarea,
+	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
+	        @PathVariable(name = "idDeped") int idDeped) {
+	    try {
+	        int tarea = tareaService.revocarEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
 
-}
+	        switch (tarea) {
+	            case 1:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'sin asignar'");
+	            case 2:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'pendiente'");
+	            default:
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de tarea no válido");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al cambiar el estado de la tarea: " + e.getMessage());
+	    }
+	}
+
+
 }
 	
 
