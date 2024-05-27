@@ -240,43 +240,6 @@ public class TareaRestController {
 		}
 	}
 
-	/**
-	 * Método que cambia el estado de una tarea.
-	 * 
-	 * @param idPedido       El identificador del pedido a actualizar.
-	 * 
-	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
-	 * 
-	 * @param idDepartamento El identificador del departamento asociado con la
-	 *                       tarea.
-	 *                       
-	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
-	 *         realizó correctamente o si hubo algún error.
-	 */
-	@PutMapping("/estadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
-	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idTarea") int idTarea,
-	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
-	        @PathVariable(name = "idDeped") int idDeped) {
-	    try {
-	        int tarea = tareaService.altaEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
-
-	        switch (tarea) {
-	            case 1:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
-	            case 2:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
-	            case 3:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'finalizado'");
-	            default:
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de tarea no válido");
-	        }
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("Error al cambiar el estado de la tarea: " + e.getMessage());
-	    }
-	}
-
-
 	
 	/**
 	 * Método que filtra las tareas asociadas a un departamento por su identificador.
@@ -488,7 +451,60 @@ public class TareaRestController {
 		}
 	}
 
-	
+	/**
+	 * Método que cambia el estado de una tarea en orden ascendente.
+	 * 
+	 * @param idPedido       El identificador del pedido a actualizar.
+	 * 
+	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
+	 * 
+	 * @param idDepartamento El identificador del departamento asociado con la
+	 *                       tarea.
+	 * 
+	 * @param idDeped     El identificador del detalle de pedido asociado con la tarea.
+	 *                   
+	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
+	 *         realizó correctamente o si hubo algún error.
+	 */
+	@PutMapping("/estadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
+	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idTarea") int idTarea,
+	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
+	        @PathVariable(name = "idDeped") int idDeped) {
+	    try {
+	        int tarea = tareaService.altaEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
+
+	        switch (tarea) {
+	            case 1:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
+	            case 2:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
+	            case 3:
+	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'finalizado'");
+	            default:
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de tarea no válido");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al cambiar el estado de la tarea: " + e.getMessage());
+	    }
+	}
+
+
+	/**
+	 * Método que cambia el estado de una tarea en orden descendente.
+	 * 
+	 * @param idTarea       El identificador del pedido a actualizar.
+	 * 
+	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
+	 * 
+	 * @param idDepartamento El identificador del departamento asociado con la
+	 *                       tarea.
+	 *                       
+	 * @param idDeped     El identificador del detalle de pedido asociado con la tarea.
+	 *                       
+	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
+	 *         realizó correctamente o si hubo algún error.
+	 */
 	@PutMapping("/revocarEstadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
 	public ResponseEntity<?> revocarEstado(@PathVariable(name = "idTarea") int idTarea,
 	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
