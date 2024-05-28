@@ -362,6 +362,12 @@ public class TareaRestController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("DetallePedido not found for pedido ID: " + idPedido);
 	    }
 
+	    boolean todasTareasFinalizadas = true;
+	    boolean todasTareasSinAsignar = true;
+	    boolean pendiente = false;
+	    boolean procesando = false;
+	    boolean cancelada = false;
+
 	    for (DetallePedido detalle : lista) {
 	        List<Tarea> tareas = tareaService.buscarPorDetalle(detalle.getIdDePed());
 
@@ -369,48 +375,41 @@ public class TareaRestController {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No tasks found for detallePedido ID: " + detalle.getIdDePed());
 	        }
 
-	        boolean sinAsignar = true;
-	        boolean pendiente = false;
-	        boolean procesando = false;
-	        boolean cancelada = false;
-	        boolean finalizada = true;
-
 	        for (Tarea tarea : tareas) {
 	            int estado = tarea.getEstado().getIdEstado();
 
-	            if (estado != 5) {
-	                sinAsignar = false;
-	            }
 	            if (estado == 1) {
 	                pendiente = true;
-	            }
-	            if (estado == 2) {
+	                todasTareasSinAsignar = false;
+	                todasTareasFinalizadas = false;
+	            } else if (estado == 2) {
 	                procesando = true;
-	            }
-	            if (estado == 3) {
-	                finalizada = finalizada && true;
-	            } else {
-	                finalizada = false;
-	            }
-	            if (estado == 4) {
+	                todasTareasSinAsignar = false;
+	                todasTareasFinalizadas = false;
+	            } else if (estado != 3) {
+	                todasTareasFinalizadas = false;
+	            } else if (estado == 4) {
 	                cancelada = true;
+	                todasTareasFinalizadas = false;
+	            } else if (estado != 5) {
+	                todasTareasSinAsignar = false;
 	            }
-	        }
-
-	        if (sinAsignar) {
-	            return ResponseEntity.ok("sin asignar");
-	        } else if (cancelada) {
-	            return ResponseEntity.ok("cancelada");
-	        } else if (procesando) {
-	            return ResponseEntity.ok("procesando");
-	        } else if (pendiente) {
-	            return ResponseEntity.ok("pendiente");
-	        } else if (finalizada) {
-	            return ResponseEntity.ok("finalizado");
 	        }
 	    }
 
-	    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error");
+	    if (todasTareasSinAsignar) {
+	        return ResponseEntity.ok("sin asignar");
+	    } else if (cancelada) {
+	        return ResponseEntity.ok("cancelada");
+	    } else if (procesando) {
+	        return ResponseEntity.ok("procesando");
+	    } else if (pendiente) {
+	        return ResponseEntity.ok("pendiente");
+	    } else if (todasTareasFinalizadas) {
+	        return ResponseEntity.ok("finalizado");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error");
+	    }
 	}
 
 		  
