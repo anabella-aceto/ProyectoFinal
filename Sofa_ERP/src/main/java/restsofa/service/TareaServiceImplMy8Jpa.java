@@ -202,37 +202,42 @@ public class TareaServiceImplMy8Jpa implements TareaService {
 	
 	@Override
 	public int revocarEstadoTarea(int idTarea, int idEmpleado, int idDepartamento, int idDeped) {
-		DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
-		Tarea tarea = buscarTarea(idTarea);
-		Estado estado1 = estadoService.buscarEstado(5);
-		Estado estado2 = estadoService.buscarEstado(2);
-		
-		Empleado empleado = empleadoService.buscarUno(idEmpleado);
+	    DetallePedido pedido = detallePedidoService.buscarDetPed(idDeped);
+	    Tarea tarea = buscarTarea(idTarea);
+	    Estado estado1 = estadoService.buscarEstado(5);
+	    Estado estado2 = estadoService.buscarEstado(2);
 
-		if (pedido != null && tarepo.buscarPorEstado(2) != null ) {
-			tarea.setDetalle(pedido);
-			tarea.setEmpleado(empleado);
-			tarea.setEstado(estado1);
-			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
-			tarea.setFecha(new Date());
-			tarepo.save(tarea);
-			
-			return 1;
-		}
+	    if (pedido != null) {
+	        List<Tarea> tarea1  = listarPorEstado(1);
+	        List<Tarea> tarea2 = listarPorEstado(2);
 
-		if (pedido != null && tarepo.buscarPorEstado(3) != null) {
-			tarea.setDetalle(pedido);
-			tarea.setEstado(estado2);
-			tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
-			tarea.setFecha(new Date());
-			tarepo.save(tarea);
-			
-			return 2;
-			
-		} else {
-			return 0;
-		
+	        if (tarea1 != null) {
+	            tarea.setDetalle(pedido);
+	            tarea.setEmpleado(null);
+	            tarea.setEstado(estado1);
+	            tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
+	            tarea.setFecha(new Date());
+	            tarepo.save(tarea);
+
+	            return 1;
+	        } else if (tarea2 != null) {
+	            tarea.setDetalle(pedido);
+	            tarea.setEstado(estado2);
+	            tarea.setDepartamento(departamentoService.buscarUno(idDepartamento));
+	            tarea.setFecha(new Date());
+	            tarepo.save(tarea);
+
+	            return 2;
+	        }
+	    }
+
+	    return 0;
 	}
 
-}
+	@Override
+	public List<Tarea> listarPorEstado(int idEstado) {
+		// TODO Auto-generated method stub
+		return tarepo.listarPorEstado(idEstado);
+	}
+
 }

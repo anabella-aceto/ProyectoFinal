@@ -24,4 +24,5 @@ public interface TareaService {
 	List<Tarea> buscarPorIdDepartamento(int idDepartamento);
 	public List<Tarea> buscarPorDetalle(int idDePed);
 	int revocarEstadoTarea(int idTarea, int idEmpleado, int idDepartamento, int idDeped);
+	List<Tarea> listarPorEstado(int idEstado);
 }

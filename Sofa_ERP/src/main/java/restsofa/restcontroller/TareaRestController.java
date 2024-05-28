@@ -356,64 +356,66 @@ public class TareaRestController {
 	 */
 	@GetMapping("/estadoPorPedido/{idPedido}")
 	public ResponseEntity<?> mostrarEstadoPedido(@PathVariable int idPedido) {
-	    List<DetallePedido> detalle = detallePedidoService.buscarPorIdPedido(idPedido);
+	    List<DetallePedido> lista = detallePedidoService.buscarPorIdPedido(idPedido);
 
-	    if (detalle == null || detalle.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                             .body("DetallePedido not found for pedido ID: " + idPedido);
+	    if (lista == null || lista.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("DetallePedido not found for pedido ID: " + idPedido);
 	    }
-	    
-	    List<Departamento> deptos = depService.listarTodos();
-	    List<Tarea> tareas = tareaService.buscarTodasTareas();
-	    
-	    Map<String, Object> tareaInfo = new HashMap<>();
-	    tareaInfo.put("idPedido", idPedido);
 
-	    boolean pendiente = false;
-	    boolean procesando = false;
-	    boolean sinAsignar = false;
-	    boolean finalizada = false;
+	    for (DetallePedido detalle : lista) {
+	        List<Tarea> tareas = tareaService.buscarPorDetalle(detalle.getIdDePed());
 
-	    for (Tarea tarea : tareas) {
-	        for (DetallePedido deped : detalle) {
-	            for (Departamento depto : deptos) {
-	                if (tarea.getDepartamento().getIdDepartamento() == depto.getIdDepartamento()) {
-	                    Estado estado = tarea.getEstado();
-	                    switch (estado.getIdEstado()) {
-	                        case 1:
-	                            pendiente = true;
-	                            break;
-	                        case 2:
-	                            procesando = true;
-	                            break;
-	                        case 3:
-	                            finalizada = true;
-	                            break;
-	                        case 5:
-	                            sinAsignar = true;
-	                            break;
-	                    }
-	                }
+	        if (tareas == null || tareas.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No tasks found for detallePedido ID: " + detalle.getIdDePed());
+	        }
+
+	        boolean sinAsignar = true;
+	        boolean pendiente = false;
+	        boolean procesando = false;
+	        boolean cancelada = false;
+	        boolean finalizada = true;
+
+	        for (Tarea tarea : tareas) {
+	            int estado = tarea.getEstado().getIdEstado();
+
+	            if (estado != 5) {
+	                sinAsignar = false;
 	            }
+	            if (estado == 1) {
+	                pendiente = true;
+	            }
+	            if (estado == 2) {
+	                procesando = true;
+	            }
+	            if (estado == 3) {
+	                finalizada = finalizada && true;
+	            } else {
+	                finalizada = false;
+	            }
+	            if (estado == 4) {
+	                cancelada = true;
+	            }
+	        }
+
+	        if (sinAsignar) {
+	            return ResponseEntity.ok("sin asignar");
+	        } else if (cancelada) {
+	            return ResponseEntity.ok("cancelada");
+	        } else if (procesando) {
+	            return ResponseEntity.ok("procesando");
+	        } else if (pendiente) {
+	            return ResponseEntity.ok("pendiente");
+	        } else if (finalizada) {
+	            return ResponseEntity.ok("finalizado");
 	        }
 	    }
 
-	    if (finalizada) {
-	        tareaInfo.put("estado", "finalizada");
-	    } else if (procesando) {
-	        tareaInfo.put("estado", "procesando");
-	    } else if (sinAsignar && pendiente) {
-	        tareaInfo.put("estado", "pendiente");
-	    } else if (pendiente) {
-	        tareaInfo.put("estado", "pendiente");
-	    } else if (sinAsignar) {
-	        tareaInfo.put("estado", "sin asignar");
-	    } else {
-	        tareaInfo.put("estado", "desconocido");
-	    }
-
-	    return ResponseEntity.status(HttpStatus.OK).body(tareaInfo);
+	    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error");
 	}
+
+		  
+	
+
 	
 	/**
 	 * Asigna un empleado a una tarea en un departamento específico.
@@ -509,7 +511,7 @@ public class TareaRestController {
 	public ResponseEntity<?> revocarEstado(@PathVariable(name = "idTarea") int idTarea,
 	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
 	        @PathVariable(name = "idDeped") int idDeped) {
-	    try {
+	    try {	    
 	        int tarea = tareaService.revocarEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
 
 	        switch (tarea) {
