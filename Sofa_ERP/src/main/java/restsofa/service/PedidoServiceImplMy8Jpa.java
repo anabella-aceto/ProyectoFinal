@@ -1,5 +1,8 @@
 package restsofa.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -120,4 +123,18 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
     public List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin) {
         return pedrepo.buscarPorFecha(fechaInicio, fechaFin);
     }
+    
+
+	@Override
+	public List<Pedido> findPedidosDeHoy() {
+		
+		return pedrepo.findPedidosDeHoy();
+	}
+
+	@Override
+	public int contarPedidosDesdeInicioMes() {
+		 LocalDateTime startOfMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(1), LocalTime.MIN);
+	        List<Pedido> pedidos = pedrepo.findPedidosDesdeInicioMes(startOfMonth);
+	        return pedidos.size();
+	}
 }

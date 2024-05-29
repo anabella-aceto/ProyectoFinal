@@ -263,4 +263,23 @@ public class PedidoRestController {
 					.body("Error al filtrar los pedidos por fecha: " + e.getMessage());
 		}
 	}
+	
+	@GetMapping("/porDia")
+	public ResponseEntity<?> calcularPorDia() {
+		List<Pedido> lista = pedidoService.findPedidosDeHoy();
+		
+		int cantidad = lista.size();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(cantidad);
+	}
+	
+	 @GetMapping("/porMes")
+	 public ResponseEntity<?> calcularPorMes() {
+	        long cantidad = pedidoService.contarPedidosDesdeInicioMes();
+	        
+	        return ResponseEntity.status(HttpStatus.OK).body(cantidad);
+	    }
+	
+	
+	
 }

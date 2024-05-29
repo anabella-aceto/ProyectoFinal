@@ -1,10 +1,12 @@
 package restsofa.repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import restsofa.modelo.entities.Pedido;
 
@@ -29,5 +31,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 	 */
 	@Query("select p from Pedido p where p.fecha >=?1 and p.fecha <=?2")
 	public List<Pedido> buscarPorFecha(Date fechaInicio, Date fechaFin);
+	
+	 @Query("select p from Pedido p where DATE(p.fecha) = CURRENT_DATE")
+	    List<Pedido> findPedidosDeHoy();
+	 
+	 @Query("select p from Pedido p where p.fecha >= :startOfMonth")
+	    List<Pedido> findPedidosDesdeInicioMes(@Param("startOfMonth") LocalDateTime startOfMonth);
 	
 }
