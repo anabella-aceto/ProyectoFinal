@@ -398,15 +398,15 @@ public class TareaRestController {
 	    }
 
 	    if (todasTareasSinAsignar) {
-	        return ResponseEntity.ok("sin asignar");
+	        return ResponseEntity.ok("Sin asignar");
 	    } else if (cancelada) {
-	        return ResponseEntity.ok("cancelada");
+	        return ResponseEntity.ok("Cancelado");
 	    } else if (procesando) {
-	        return ResponseEntity.ok("procesando");
+	        return ResponseEntity.ok("Procesando");
 	    } else if (pendiente) {
-	        return ResponseEntity.ok("pendiente");
+	        return ResponseEntity.ok("Pendiente");
 	    } else if (todasTareasFinalizadas) {
-	        return ResponseEntity.ok("finalizado");
+	        return ResponseEntity.ok("Finalizado");
 	    } else {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error");
 	    }
@@ -429,22 +429,31 @@ public class TareaRestController {
 	 *         Devuelve un ResponseEntity.ok si la asignación fue exitosa.
 	 *         Devuelve un ResponseEntity con HttpStatus.INTERNAL_SERVER_ERROR si ocurre un error durante el proceso.
 	 */
-	@PutMapping("/asignarEmpleado/{idDeped}/{idTarea}")
-	public ResponseEntity<?> asignarEmpleado(@PathVariable(name = "idDeped") int idDeped,
-			@PathVariable(name = "idTarea") int idTarea,
-			@RequestParam(name = "idEmpleado") int idEmpleado) {
+	@PutMapping("/asignarEmpleado/{idTarea}")
+	public ResponseEntity<?> asignarEmpleado(@PathVariable(name = "idTarea") int idTarea, @RequestParam(name = "idEmpleado") int idEmpleado){ 
+			
 		try {
-			DetallePedido detallePedido = detallePedidoService.buscarDetPed(idDeped);
-			Tarea tarea = tareaService.buscarTarea(idTarea);
-			if (detallePedido != null && tarea != null) {
-				tarea.setEmpleado(empleadoService.buscarUno(idEmpleado));
-				tarea.setDepartamento(depService.buscarUno(tarea.getDepartamento().getIdDepartamento()));
-				tarea.setDetalle(detallePedidoService.buscarDetPed(idDeped));
-				tarea.setEstado(estadoService.buscarEstado(tarea.getEstado().getIdEstado()));
-
-				tareaService.modifTarea(tarea);
 		
-				} return ResponseEntity.status(HttpStatus.OK).body(tarea);
+			Tarea tarea = tareaService.buscarTarea(idTarea);
+			DetallePedido detallePedido = detallePedidoService.buscarDetPed(tarea.getDetalle().getIdDePed());
+			//Comprobar si la tarea existe y tiene detalle
+			if (detallePedido != null && tarea != null) {
+				
+				Empleado empleado = empleadoService.buscarUno(idEmpleado);
+				
+				//Comprobar si el empleado existe
+				if (empleado !=null) {
+					tarea.setEmpleado(empleado);
+					tarea.setEstado(estadoService.buscarEstado(1));
+					tareaService.modifTarea(tarea);
+				}
+				else {
+					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+							.body("El empleado no existe");
+				}
+			
+			}	
+			return ResponseEntity.status(HttpStatus.OK).body(tarea);
 				
 			}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

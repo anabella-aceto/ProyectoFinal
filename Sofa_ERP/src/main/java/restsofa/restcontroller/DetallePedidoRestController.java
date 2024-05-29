@@ -1,7 +1,9 @@
 package restsofa.restcontroller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,14 +177,16 @@ public class DetallePedidoRestController {
 
 	            if (cantidadDisponible < cantidadUtilizada) {
 	            	double cantidadFaltante = cantidadUtilizada - cantidadDisponible;
-	                mensajesInsuficientes.add("Stock insuficiente para el material: " + material.getDescripcion() +
-	                        ". Cantidad faltante: " + cantidadFaltante);
+	                mensajesInsuficientes.add("Stock insuficiente de " + material.getDescripcion() +
+	                        "- Cantidad faltante: " + cantidadFaltante + " " +material.getUnidadMedida());
 	            }
 	        }
 	        
 	        if (!mensajesInsuficientes.isEmpty()) {
+	            Map<String, Object> response = new HashMap<>();
+	            response.put("errors", mensajesInsuficientes);
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                    .body(String.join("\n", mensajesInsuficientes));
+	                    .body(response);
 	        }
 	            
 	        for (SofaMaterial sofaMaterial : sofaMateriales) {
@@ -234,11 +238,15 @@ public class DetallePedidoRestController {
 	            }
 	        }
 
-	        return ResponseEntity.status(HttpStatus.CREATED)
-	                .body("Detalle(s) de pedido procesado(s) correctamente.");
+	     // Respuesta exitosa
+	        Map<String, String> response = new HashMap<>();
+	        response.put("message", "Detalle(s) de pedido procesado(s) correctamente.");
+	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("Error al procesar el detalle de pedido: " + e.getMessage());
+	    	// Respuesta de error
+	        Map<String, String> response = new HashMap<>();
+	        response.put("error", "Error al procesar el detalle de pedido: " + e.getMessage());
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	    }
 	}
 
