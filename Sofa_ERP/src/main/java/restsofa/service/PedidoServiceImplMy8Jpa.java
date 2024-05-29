@@ -116,7 +116,9 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
      * Método que filtra los pedidos por rango de fechas.
      *
      * @param fechaInicio La fecha de inicio del rango.
+     * 
      * @param fechaFin    La fecha de fin del rango.
+     * 
      * @return Una lista de pedidos dentro del rango de fechas especificado.
      */
     @Override
@@ -124,17 +126,54 @@ public class PedidoServiceImplMy8Jpa implements PedidoService {
         return pedrepo.buscarPorFecha(fechaInicio, fechaFin);
     }
     
-
+    /**
+     * Obtiene una lista de pedidos realizados en el día actual.
+     *
+     * @return una lista de pedidos realizados hoy.
+     */
 	@Override
 	public List<Pedido> findPedidosDeHoy() {
 		
 		return pedrepo.findPedidosDeHoy();
 	}
 
+	/**
+     * Obtiene una lista de pedidos realizados en el desde inicios de mes hasta el día actual.
+     *
+     * @return una lista de pedidos realizados en corriente mes.
+     */
 	@Override
 	public int contarPedidosDesdeInicioMes() {
 		 LocalDateTime startOfMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(1), LocalTime.MIN);
 	        List<Pedido> pedidos = pedrepo.findPedidosDesdeInicioMes(startOfMonth);
 	        return pedidos.size();
 	}
+
+	/**
+     * Cuenta la cantidad de pedidos realizados desde el inicio del trimestre actual.
+     *
+     * @return el número de pedidos realizados desde el inicio del trimestre.
+     */
+	@Override
+	public long contarPedidosDesdeInicioTrimestre() {
+		LocalDate now = LocalDate.now();
+        LocalDate startOfQuarter = getStartOfQuarter(now);
+        LocalDateTime startOfQuarterDateTime = LocalDateTime.of(startOfQuarter, LocalTime.MIN);
+        
+        List<Pedido> pedidos = pedrepo.findPedidosDesdeInicioTrimestre(startOfQuarterDateTime);
+        return pedidos.size();
+    }
+
+	/**
+     * Obtiene la fecha de inicio del trimestre actual.
+     *
+     * @param date la fecha actual
+     * 
+     * @return la fecha de inicio del trimestre actual
+     */
+    private LocalDate getStartOfQuarter(LocalDate date) {
+        int currentMonth = date.getMonthValue();
+        int startMonth = currentMonth - (currentMonth - 1) % 3;
+        return LocalDate.of(date.getYear(), startMonth, 1);
+    }
 }

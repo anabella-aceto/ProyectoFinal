@@ -264,6 +264,12 @@ public class PedidoRestController {
 		}
 	}
 	
+	/**
+     * Método que calcula la cantidad de pedidos realizados en el día actual.
+     * 
+     * @return ResponseEntity con el número de pedidos realizados hoy y un estado HTTP OK.
+     * 
+     */
 	@GetMapping("/porDia")
 	public ResponseEntity<?> calcularPorDia() {
 		List<Pedido> lista = pedidoService.findPedidosDeHoy();
@@ -273,6 +279,12 @@ public class PedidoRestController {
 		return ResponseEntity.status(HttpStatus.OK).body(cantidad);
 	}
 	
+	/**
+     * Método que calcula la cantidad de pedidos realizados en el mes.
+     * 
+     * @return ResponseEntity con el número de pedidos realizados en el mes y un estado HTTP OK.
+     * 
+     */
 	 @GetMapping("/porMes")
 	 public ResponseEntity<?> calcularPorMes() {
 	        long cantidad = pedidoService.contarPedidosDesdeInicioMes();
@@ -280,6 +292,16 @@ public class PedidoRestController {
 	        return ResponseEntity.status(HttpStatus.OK).body(cantidad);
 	    }
 	
-	
+	 /**
+	     * Método que calcula la cantidad de pedidos realizados en el día actual.
+	     * 
+	     * @return ResponseEntity con el número de pedidos realizados en el trimestre y un estado HTTP OK.
+	     * 
+	     */
+	 @GetMapping("/porTrimestre")
+	    public ResponseEntity<?> calcularPorTrimestre() {
+	        long cantidad = pedidoService.contarPedidosDesdeInicioTrimestre();
+	        return ResponseEntity.status(HttpStatus.OK).body(cantidad);
+	    }
 	
 }

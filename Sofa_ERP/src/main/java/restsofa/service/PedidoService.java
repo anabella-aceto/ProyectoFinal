@@ -25,4 +25,5 @@ public interface PedidoService {
 	List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin);
 	List<Pedido> findPedidosDeHoy();
 	int contarPedidosDesdeInicioMes();
+	long contarPedidosDesdeInicioTrimestre();
 }
