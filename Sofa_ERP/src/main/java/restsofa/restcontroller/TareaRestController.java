@@ -359,7 +359,7 @@ public class TareaRestController {
 	    List<DetallePedido> lista = detallePedidoService.buscarPorIdPedido(idPedido);
 
 	    if (lista == null || lista.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("DetallePedido not found for pedido ID: " + idPedido);
+	        return ResponseEntity.status(HttpStatus.OK).body(" - ");
 	    }
 
 	    boolean todasTareasFinalizadas = true;
