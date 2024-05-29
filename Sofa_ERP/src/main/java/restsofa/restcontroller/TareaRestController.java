@@ -430,7 +430,8 @@ public class TareaRestController {
 	 *         Devuelve un ResponseEntity con HttpStatus.INTERNAL_SERVER_ERROR si ocurre un error durante el proceso.
 	 */
 	@PutMapping("/asignarEmpleado/{idTarea}")
-	public ResponseEntity<?> asignarEmpleado(@PathVariable(name = "idTarea") int idTarea, @RequestParam(name = "idEmpleado") int idEmpleado){ 
+	public ResponseEntity<?> asignarEmpleado(@PathVariable(name = "idTarea") int idTarea, 
+											@RequestParam(name = "idEmpleado") int idEmpleado){ 
 			
 		try {
 		

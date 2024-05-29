@@ -333,7 +333,7 @@ public class DetallePedidoRestController {
 	public ResponseEntity<?> modificar(@RequestBody DetallePedidoDto detallePedidoDto) {
 	    try {
 	        DetallePedido detalle = detPedService.findByDetalleYPedido(detallePedidoDto.getIdDePed(), detallePedidoDto.getIdPedido());
-	        
+
 	        if (detalle == null) {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El detalle de pedido con el ID " + detallePedidoDto.getIdDePed() + " no existe");
 	        }
@@ -345,7 +345,7 @@ public class DetallePedidoRestController {
 	                material.setCantidad(material.getCantidad() + sm.getCantidadUtilizada());
 	                materialService.updateOne(material);
 	            }
-	            
+
 	            List<SofaMaterial> sofaMaterialNuevo = sofaMaterialService.buscarPorSofa(detallePedidoDto.getIdSofa());
 	            for (SofaMaterial sm : sofaMaterialNuevo) {
 	                Material material = sm.getMaterial();
@@ -354,13 +354,34 @@ public class DetallePedidoRestController {
 	            }
 
 	            Sofa nuevoSofa = sofaService.buscarSofa(detallePedidoDto.getIdSofa());
+
 	            if (nuevoSofa == null) {
 	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El nuevo sofá con el ID " + detallePedidoDto.getIdSofa() + " no existe");
 	            }
+
 	            detalle.setSofa(nuevoSofa);
 	        }
 
+	        detalle.setFecha(detallePedidoDto.getFecha());
+	        detalle.setPlazas(detallePedidoDto.getPlazas());
+	        detalle.setPrecio(detallePedidoDto.getPrecio());
+	        detalle.setDensCojin(detallePedidoDto.getDensCojin());
+
 	        detPedService.modifDetPed(detalle);
+
+	        int cantidad = detallePedidoDto.getCantidad();
+	        for (int i = 1; i < cantidad; i++) {
+	            DetallePedido nuevoDetalle = new DetallePedido();
+	            nuevoDetalle.setPedido(detalle.getPedido());
+	            nuevoDetalle.setSofa(detalle.getSofa());
+	            nuevoDetalle.setFecha(detalle.getFecha());
+	            nuevoDetalle.setCantidad(1);
+	            nuevoDetalle.setPlazas(detalle.getPlazas());
+	            nuevoDetalle.setPrecio(detalle.getPrecio());
+	            nuevoDetalle.setDensCojin(detalle.getDensCojin());
+
+	            detPedService.altaDetPed(nuevoDetalle);
+	        }
 
 	        return ResponseEntity.status(HttpStatus.OK).body("Detalle de pedido modificado correctamente");
 	    } catch (NoResultException e) {
@@ -369,6 +390,7 @@ public class DetallePedidoRestController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al modificar el detalle de pedido: " + e.getMessage());
 	    }
 	}
+
 
 
 
