@@ -268,7 +268,32 @@ public class TareaRestController {
 		}
 	}
 	
-	
+	/**
+	 * Método que filtra las tareas asociadas a un departamento por su identificador.
+	 *
+	 * @param idDepartamento El identificador único del departamento del cual se desean
+	 *                   filtrar las tareas.
+	 *                   
+	 * @return ResponseEntity con una lista de tareas si se encuentran tareas para
+	 *         el departamento especificado, o un mensaje de error si no.
+	 *         
+	 * @return ResponseEntity donde se muestra la información del estado del detalle solicitado.
+	 */
+	@GetMapping("/departamento-por-estado/{idDepartamento}")
+	public ResponseEntity<?> estadoPorDepartamento (@PathVariable(name = "idDepartamento") int idDepartamento) {
+		try {
+			
+			
+
+		         // Iteramos sobre los estados (del 1 al 5)
+		            List<Tarea> lista = tareaService.buscarPorIdDepartamento(idDepartamento);
+		      
+		        return ResponseEntity.status(HttpStatus.OK).body(lista); // Devolvemos el array con la cantidad de tareas por cada estado
+		    
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+		}
+	}
 	/**
 	 * Método que toma el ID de un detalle de pedido, recupera las tareas asociadas
 	 * y determina su estado basado en los estados de las tareas en diferentes departamentos. El estado
@@ -359,7 +384,7 @@ public class TareaRestController {
 	    List<DetallePedido> lista = detallePedidoService.buscarPorIdPedido(idPedido);
 
 	    if (lista == null || lista.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.OK).body(" - ");
+	        return ResponseEntity.status(HttpStatus.OK).body("");
 	    }
 
 	    boolean todasTareasFinalizadas = true;
@@ -431,16 +456,12 @@ public class TareaRestController {
 	 */
 	@PutMapping("/asignarEmpleado/{idTarea}")
 	public ResponseEntity<?> asignarEmpleado(@PathVariable(name = "idTarea") int idTarea, @RequestParam(name = "idEmpleado") int idEmpleado){ 
-			
 		try {
-		
 			Tarea tarea = tareaService.buscarTarea(idTarea);
 			DetallePedido detallePedido = detallePedidoService.buscarDetPed(tarea.getDetalle().getIdDePed());
 			//Comprobar si la tarea existe y tiene detalle
 			if (detallePedido != null && tarea != null) {
-				
 				Empleado empleado = empleadoService.buscarUno(idEmpleado);
-				
 				//Comprobar si el empleado existe
 				if (empleado !=null) {
 					tarea.setEmpleado(empleado);
@@ -451,7 +472,6 @@ public class TareaRestController {
 					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 							.body("El empleado no existe");
 				}
-			
 			}	
 			return ResponseEntity.status(HttpStatus.OK).body(tarea);
 				
@@ -464,9 +484,6 @@ public class TareaRestController {
 	/**
 	 * Método que cambia el estado de una tarea en orden ascendente.
 	 * 
-	 * @param idPedido       El identificador del pedido a actualizar.
-	 * 
-	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
 	 * 
 	 * @param idDepartamento El identificador del departamento asociado con la
 	 *                       tarea.
@@ -476,67 +493,24 @@ public class TareaRestController {
 	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
 	 *         realizó correctamente o si hubo algún error.
 	 */
-	@PutMapping("/estadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
-	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idTarea") int idTarea,
-	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
-	        @PathVariable(name = "idDeped") int idDeped) {
+	@PutMapping("/estadoTarea/{idTarea}/{idEstado}")
+	public ResponseEntity<?> cambiarEstado(@PathVariable(name = "idTarea") int idTarea, @PathVariable (name="idEstado")int idEstado)
+	       {
 	    try {
-	        int tarea = tareaService.altaEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
-
-	        switch (tarea) {
-	            case 1:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
-	            case 2:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'procesando'");
-	            case 3:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'finalizado'");
-	            default:
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de tarea no válido");
+	    	
+	        Tarea tarea = tareaService.buscarTarea(idTarea);
+	        Estado estado = estadoService.buscarEstado(idEstado);
+	        if(idEstado == 5) {
+	        	tarea.setEmpleado(null);
 	        }
+	        tarea.setEstado(estado);
+	        tareaService.modifTarea(tarea);
+	        return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a " + estado.getNombre());
+	    
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	                .body("Error al cambiar el estado de la tarea: " + e.getMessage());
 	    }
-	}
-
-
-	/**
-	 * Método que cambia el estado de una tarea en orden descendente.
-	 * 
-	 * @param idTarea       El identificador del pedido a actualizar.
-	 * 
-	 * @param idEmpleado     El identificador del empleado asociado con la tarea.
-	 * 
-	 * @param idDepartamento El identificador del departamento asociado con la
-	 *                       tarea.
-	 *                       
-	 * @param idDeped     El identificador del detalle de pedido asociado con la tarea.
-	 *                       
-	 * @return ResponseEntity con un mensaje indicando si el cambio de estado se
-	 *         realizó correctamente o si hubo algún error.
-	 */
-	@PutMapping("/revocarEstadoTarea/{idTarea}/{idEmpleado}/{idDepto}/{idDeped}")
-	public ResponseEntity<?> revocarEstado(@PathVariable(name = "idTarea") int idTarea,
-	        @PathVariable(name = "idEmpleado") int idEmpleado, @PathVariable(name = "idDepto") int idDepto,
-	        @PathVariable(name = "idDeped") int idDeped) {
-	    try {	    
-	        int tarea = tareaService.revocarEstadoTarea(idTarea, idEmpleado, idDepto, idDeped);
-
-	        switch (tarea) {
-	            case 1:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'sin asignar'");
-	            case 2:
-	                return ResponseEntity.status(HttpStatus.OK).body("Se ha actualizado el pedido a 'pendiente'");
-	            default:
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Estado de tarea no válido");
-	        }
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("Error al cambiar el estado de la tarea: " + e.getMessage());
-	    }
-	}
-
+	       }
 
 }
-	
-

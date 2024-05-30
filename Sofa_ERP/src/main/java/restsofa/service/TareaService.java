@@ -1,6 +1,7 @@
 package restsofa.service;
 
 import java.util.List;
+import java.util.Map;
 
 import restsofa.modelo.entities.Tarea;
 /**
