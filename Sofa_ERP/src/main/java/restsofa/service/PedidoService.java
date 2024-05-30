@@ -23,4 +23,7 @@ public interface PedidoService {
 	boolean borrarPedido (int idPedido);
 	boolean cancelarPedido(int idPedido);
 	List<Pedido> filtrarPorFecha(Date fechaInicio, Date fechaFin);
+	List<Pedido> findPedidosDeHoy();
+	int contarPedidosDesdeInicioMes();
+	long contarPedidosDesdeInicioTrimestre();
 }
