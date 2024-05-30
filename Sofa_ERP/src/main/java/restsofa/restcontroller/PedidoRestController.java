@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.PedidoDto;
+import restsofa.modelo.entities.Cliente;
+import restsofa.modelo.entities.Empleado;
 import restsofa.modelo.entities.Pedido;
 import restsofa.service.ClienteService;
 import restsofa.service.EmpleadoService;
@@ -121,6 +123,35 @@ public class PedidoRestController {
 				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
 
 				return ResponseEntity.status(HttpStatus.OK).body(pedidoDto);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, no se encuentra el pedido");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al obtener el pedido: " + e.getMessage());
+		}
+	}
+
+	/*TEST*/
+	@GetMapping("/uno-front/{idPedido}")
+	public ResponseEntity<?> front(@PathVariable int idPedido) {
+		try {
+			Pedido pedido = pedidoService.buscarPedido(idPedido);
+
+			if (pedido != null) {
+				PedidoDto pedidoDto = new PedidoDto();
+				pedidoDto.setIdPedido(pedido.getIdPedido());
+				pedidoDto.setIdCliente(pedido.getCliente().getIdCliente());
+				pedidoDto.setFecha(pedido.getFecha());
+				pedidoDto.setVendedor(pedido.getVendedor().getIdEmpleado());
+				
+				Empleado empleado = empleadoService.buscarUno(pedidoDto.getVendedor());
+				pedidoDto.setNombreVendedor(empleado.getNombre());
+
+				Cliente cliente = clienteService.buscarCliente(pedidoDto.getIdCliente());
+				pedidoDto.setNombreCliente(cliente.getNombre());
+				return ResponseEntity.status(HttpStatus.OK).body(pedidoDto);
+
 			} else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, no se encuentra el pedido");
 			}
@@ -303,5 +334,7 @@ public class PedidoRestController {
 	        long cantidad = pedidoService.contarPedidosDesdeInicioTrimestre();
 	        return ResponseEntity.status(HttpStatus.OK).body(cantidad);
 	    }
+	 
+	 
 	
 }

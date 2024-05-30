@@ -42,4 +42,13 @@ public class PedidoDto {
      * El identificador del vendedor asociado al pedido.
      */
     private int vendedor;
+    
+    /*
+     * Nombre del cliente 
+     */
+    private String nombreCliente;
+    /*
+     * Nombre del vendedor 
+     */
+    private String nombreVendedor;
 }

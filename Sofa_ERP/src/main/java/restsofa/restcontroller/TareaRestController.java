@@ -397,7 +397,7 @@ public class TareaRestController {
 	        List<Tarea> tareas = tareaService.buscarPorDetalle(detalle.getIdDePed());
 
 	        if (tareas == null || tareas.isEmpty()) {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("-");
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
 	        }
 
 	        for (Tarea tarea : tareas) {
