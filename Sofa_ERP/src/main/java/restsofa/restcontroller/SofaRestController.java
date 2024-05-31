@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.entities.Sofa;
+import restsofa.modelo.entities.SofaMaterial;
+import restsofa.service.SofaMaterialService;
 import restsofa.service.SofaService;
 
 /**
@@ -35,6 +37,10 @@ public class SofaRestController {
 	@Autowired
 	private SofaService sofaService;
 
+	@Autowired
+	private SofaMaterialService sofaMaterialService;
+
+	
 	/**
 	 * Método que devuelve todos los sofás.
 	 *
@@ -133,7 +139,12 @@ public class SofaRestController {
 	public ResponseEntity<?> borrar(@PathVariable int idSofa) {
 		try {
 			Sofa sofa = sofaService.buscarSofa(idSofa);
+			List<SofaMaterial> lista = sofaMaterialService.buscarPorSofa(idSofa);
+			
 			if (sofa != null) {
+				for (SofaMaterial sm : lista) {
+					sofaMaterialService.deleteOne(sm);
+					}
 				sofaService.borrarSofa(idSofa);
 				return ResponseEntity.status(HttpStatus.OK).body("Sofá eliminado correctamente");
 			} else {
