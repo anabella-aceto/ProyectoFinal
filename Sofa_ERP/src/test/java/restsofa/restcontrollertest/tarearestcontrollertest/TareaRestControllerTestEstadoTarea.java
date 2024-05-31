@@ -41,11 +41,9 @@ public class TareaRestControllerTestEstadoTarea {
 	@Test
     public void testCambiarEstadoProcesando() throws Exception {
         int idTarea = 3; // Cambia esto al ID de un pedido válido
-        int idEmpleado = 1; // Cambia esto al ID de un empleado válido
-        int idDepartamento = 2; // Cambia esto al ID de un departamento válido
-        int idDeped = 7; // Cambia esto al ID de un detalle de pedido válido
+        int idEstado = 2; // Cambia esto al estado que quieras asignar a la tarea
 
-        ResponseEntity<?> response = tareaRestController.cambiarEstado(idTarea, idEmpleado, idDepartamento, idDeped);
+        ResponseEntity<?> response = tareaRestController.cambiarEstado(idTarea,  idEstado);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo("Se ha actualizado el pedido a 'procesando'");
@@ -63,11 +61,10 @@ public class TareaRestControllerTestEstadoTarea {
     @Test
     public void testCambiarEstadoFinalizado() throws Exception {
         int idTarea2 = 3; // Cambia esto al ID de un pedido válido
-        int idEmpleado2 = 2; // Cambia esto al ID de un empleado válido
-        int idDepartamento2 = 2; // Cambia esto al ID de un departamento válido
-        int idDeped2 = 7; // Cambia esto al ID de un detalle de pedido válido
+        int idEstado2= 3; // Cambia esto al estado que quieras asignar a la tarea
+       
 
-        ResponseEntity<?> response = tareaRestController.cambiarEstado(idTarea2, idEmpleado2, idDepartamento2, idDeped2 );
+        ResponseEntity<?> response = tareaRestController.cambiarEstado(idTarea2, idEstado2);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo("Se ha actualizado el pedido a 'finalizado'");
@@ -86,11 +83,9 @@ public class TareaRestControllerTestEstadoTarea {
     public void testErrorAlCargarTarea() throws Exception {
         // Similar al caso anterior, pero con valores que generen un error
         int idTarea3 = 50; // Cambia esto al ID de un pedido inválido
-        int idEmpleado3 = 252; // Cambia esto al ID de un empleado inválido
-        int idDepartamento3 = 245; // Cambia esto al ID de un departamento inválido
-        int idDeped3 = 150; // Cambia esto al ID de un detalle de pedido válido
-
-        ResponseEntity<?> response = tareaRestController.cambiarEstado(idTarea3, idEmpleado3, idDepartamento3, idDeped3);
+        int idEstado3 = 252; // Cambia esto al ID de un estado qeu no exista
+   
+        ResponseEntity<?> response = tareaRestController.cambiarEstado(idTarea3, idEstado3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).isEqualTo("Error al cargar tarea");
