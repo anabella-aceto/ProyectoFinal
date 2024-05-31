@@ -43,9 +43,30 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'Juan','Pérez','Calle 123','juan@example.com','123-456-7890'),(2,'María','Gómez','Avenida 456','maria@example.com','987-654-3210'),(3,'Carlos','López','Carrera 789','carlos@example.com','456-789-0123'),(4,'Laura','Martínez','Plaza 789','laura@example.com','789-012-3456'),(5,'Pedro','Sánchez','Calle 456','pedro@example.com','012-345-6789'),(7,'Gloria','Torres','Madrid 1254','gtorres@mail.com','661665664');
+INSERT INTO `clientes` VALUES 
+(1, 'Juan', 'Pérez', 'Calle 123', 'juan@example.com', '123-456-7890'),
+(2, 'María', 'Gómez', 'Avenida 456', 'maria@example.com', '987-654-3210'),
+(3, 'Carlos', 'López', 'Carrera 789', 'carlos@example.com', '456-789-0123'),
+(4, 'Laura', 'Martínez', 'Plaza 789', 'laura@example.com', '789-012-3456'),
+(5, 'Pedro', 'Sánchez', 'Calle 456', 'pedro@example.com', '012-345-6789'),
+(6, 'Ana', 'Rodríguez', 'Boulevard 123', 'ana@example.com', '321-654-9870'),
+(7, 'Gloria', 'Torres', 'Madrid 1254', 'gtorres@mail.com', '661665664'),
+(8, 'Luis', 'Fernández', 'Gran Via 789', 'luis@example.com', '741-852-9630'),
+(9, 'Marta', 'Jiménez', 'Av. Libertad 456', 'marta@example.com', '852-963-7410'),
+(10, 'Raúl', 'Hernández', 'Callejón 123', 'raul@example.com', '963-741-8520'),
+(11, 'Sofía', 'Ruiz', 'Calle 654', 'sofia@example.com', '159-753-4860'),
+(12, 'Diego', 'Ramírez', 'Carrera 321', 'diego@example.com', '258-369-1470'),
+(13, 'Elena', 'Moreno', 'Plaza Mayor 789', 'elena@example.com', '357-951-4680'),
+(14, 'Alberto', 'García', 'Avenida Central 456', 'alberto@example.com', '456-123-7890'),
+(15, 'Lucía', 'Vázquez', 'Paseo de Gracia 123', 'lucia@example.com', '654-789-3210'),
+(16, 'Jorge', 'Castro', 'Camino Real 789', 'jorge@example.com', '753-159-4860'),
+(17, 'Patricia', 'Navarro', 'Ronda 456', 'patricia@example.com', '951-357-4680'),
+(18, 'Andrés', 'Mendoza', 'Calle del Sol 123', 'andres@example.com', '147-258-3690'),
+(19, 'Teresa', 'Ortega', 'Paseo Marítimo 789', 'teresa@example.com', '369-147-2580'),
+(20, 'Felipe', 'Suárez', 'Av. de la Paz 456', 'felipe@example.com', '753-951-3570');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
+;
 
 --
 -- Table structure for table `departamentos`
@@ -131,10 +152,29 @@ CREATE TABLE `empleados` (
 --
 -- Dumping data for table `empleados`
 --
-
 LOCK TABLES `empleados` WRITE;
 /*!40000 ALTER TABLE `empleados` DISABLE KEYS */;
-INSERT INTO `empleados` VALUES (1,'Juan','Pérez','juan',1,1,'2023-05-10',NULL,'activo',30000.00),(2,'María','García','maria',2,2,'2022-08-20',NULL,'activo',35000.00),(3,'Pedro','Martínez','pedro',3,3,'2024-01-15','2024-04-30','inactivo',28000.00),(4,'Ana','López','ana',1,2,'2023-11-03',NULL,'activo',32000.00),(5,'Carlos','Sánchez','carlos',2,1,'2021-10-05',NULL,'activo',38000.00),(6,'Laura','Gómez','laura',3,3,'2024-02-28',NULL,'activo',27000.00),(7,'Luis','Hernández','luis',1,3,'2022-04-12',NULL,'activo',31000.00),(8,'Sofía','Díaz','sofia',2,2,'2023-09-08',NULL,'activo',33000.00),(9,'Javier','Ruiz','javier',3,1,'2021-12-20',NULL,'activo',36000.00),(10,'Paco','Hidalgo Flores',NULL,NULL,3,'2024-05-17',NULL,'activo',300000.00),(11,'Miguel','Núñez','miguel',4,3,'2024-05-19',NULL,'activo',29000.00),(12,'Lucía','Pérez','lucia',4,3,'2024-05-20',NULL,'activo',31000.00);
+INSERT INTO `empleados` VALUES 
+(1, 'Juan', 'Pérez', 'juan', 1, 1, '2023-05-10', NULL, 'activo', 30000.00),
+(2, 'María', 'García', 'maria', 2, 2, '2022-08-20', NULL, 'activo', 35000.00),
+(3, 'Pedro', 'Martínez', 'pedro', 3, 3, '2024-01-15', '2024-04-30', 'inactivo', 28000.00),
+(4, 'Ana', 'López', 'ana', 1, 2, '2023-11-03', NULL, 'activo', 32000.00),
+(5, 'Carlos', 'Sánchez', 'carlos', 2, 1, '2021-10-05', NULL, 'activo', 38000.00),
+(6, 'Laura', 'Gómez', 'laura', 3, 3, '2024-02-28', NULL, 'activo', 27000.00),
+(7, 'Luis', 'Hernández', 'luis', 1, 3, '2022-04-12', NULL, 'activo', 31000.00),
+(8, 'Sofía', 'Díaz', 'sofia', 2, 2, '2023-09-08', NULL, 'activo', 33000.00),
+(9, 'Javier', 'Ruiz', 'javier', 3, 1, '2021-12-20', NULL, 'activo', 36000.00),
+(10, 'Paco', 'Hidalgo Flores', NULL, NULL, 3, '2024-05-17', NULL, 'activo', 300000.00),
+(11, 'Miguel', 'Núñez', 'miguel', 4, 3, '2024-05-19', NULL, 'activo', 29000.00),
+(12, 'Lucía', 'Pérez', 'lucia', 4, 3, '2024-05-20', NULL, 'activo', 31000.00),
+(13, 'Carmen', 'Ortega', 'carmen', 1, 1, '2023-07-01', NULL, 'activo', 29500.00),
+(14, 'Antonio', 'Molina', 'antonio', 2, 2, '2022-03-15', NULL, 'activo', 34000.00),
+(15, 'Rosa', 'Blanco', 'rosa', 3, 3, '2024-01-10', NULL, 'activo', 28500.00),
+(16, 'David', 'Castro', 'david', 1, 2, '2023-09-21', NULL, 'activo', 32500.00),
+(17, 'Mónica', 'Vega', 'monica', 2, 1, '2021-11-11', NULL, 'activo', 37500.00),
+(18, 'Sergio', 'Martín', 'sergio', 3, 3, '2024-03-05', NULL, 'activo', 29500.00),
+(19, 'Natalia', 'Santos', 'natalia', 4, 2, '2023-06-22', NULL, 'activo', 30500.00),
+(20, 'Héctor', 'Reyes', 'hector', 4, 1, '2022-05-17', NULL, 'activo', 35000.00);
 /*!40000 ALTER TABLE `empleados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,7 +286,30 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` VALUES (15,1,'2024-04-01',1),(16,5,'2024-03-24',1),(17,2,'2024-03-24',1),(18,2,'2024-03-27',1),(19,3,'2024-04-01',1),(20,1,'2024-04-01',1);
+
+INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha`, `vendedor`) VALUES 
+(1, 1, '2024-05-01', 2),
+(2, 2, '2024-05-02', 3),
+(3, 3, '2024-05-03', 4),
+(4, 4, '2024-05-04', 5),
+(5, 5, '2024-05-05', 6),
+(6, 6, '2024-05-06', 7),
+(7, 7, '2024-05-07', 8),
+(8, 8, '2024-05-08', 9),
+(9, 9, '2024-05-09', 10),
+(10, 10, '2024-05-10', 11),
+(11, 11, '2024-05-11', 12),
+(12, 12, '2024-05-12', 13),
+(13, 13, '2024-05-13', 14),
+(14, 14, '2024-05-14', 15),
+(15, 15, '2024-05-15', 16),
+(16, 16, '2024-05-16', 17),
+(17, 17, '2024-05-17', 18),
+(18, 18, '2024-05-18', 19),
+(19, 19, '2024-05-19', 20),
+(20, 20, '2024-05-20', 21);
+
+
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,9 +359,30 @@ CREATE TABLE `proveedores` (
 
 LOCK TABLES `proveedores` WRITE;
 /*!40000 ALTER TABLE `proveedores` DISABLE KEYS */;
-INSERT INTO `proveedores` VALUES (1,'ACME',682659477,'Telas importadas he hilos'),(2,'Suministros Vanguardia',926548733,'Tornilleria y ferreteria'),(3,'Innova',957487611,'Patas'),(4,'Avanza Global',978574776,'Cinchas'),(5,'Excelencia',678479523,'Guata y cojines'),(6,'Maderas Moral',759845221,'Madera'),(8,'Tapitel',987654321,'Hilos negros importados');
+INSERT INTO `proveedores` VALUES 
+(1,'ACME',682659477,'Telas importadas he hilos'),
+(2,'Suministros Vanguardia',926548733,'Tornilleria y ferreteria'),
+(3,'Innova',957487611,'Patas'),
+(4,'Avanza Global',978574776,'Cinchas'),
+(5,'Excelencia',678479523,'Guata y cojines'),
+(6,'Maderas Moral',759845221,'Madera'),
+(7,'Materiales Diversos', 123456789, 'Variedad de materiales'),
+(8,'Tapitel',987654321,'Hilos negros importados'),
+(9,'Suministros Excel', 234567890, 'Suministros varios'),
+(10,'Proveeduría Total', 345678901, 'Suministros de todo tipo'),
+(11,'Ferretería Industrial', 456789012, 'Herramientas y ferretería industrial'),
+(12,'Textiles y Más', 567890123, 'Textiles y accesorios'),
+(13,'Maderas del Norte', 678901234, 'Maderas y derivados'),
+(14,'Tornillos y Herrajes', 789012345, 'Tornillería y herrajes'),
+(15,'Suministros de Calidad', 890123456, 'Suministros de calidad'),
+(16,'Materiales para la Construcción', 901234567, 'Materiales de construcción'),
+(17,'Suministros Integrales', 123456780, 'Suministros integrales para la industria'),
+(18,'Proveeduría Técnica', 234567801, 'Suministros técnicos especializados'),
+(19,'Textiles Finos', 345678912, 'Textiles de alta calidad'),
+(20,'Herramientas y Equipos', 456789123, 'Herramientas y equipos industriales');
 /*!40000 ALTER TABLE `proveedores` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 --
 -- Table structure for table `sofa_materiales`
@@ -354,7 +438,7 @@ CREATE TABLE `sofas` (
 
 LOCK TABLES `sofas` WRITE;
 /*!40000 ALTER TABLE `sofas` DISABLE KEYS */;
-INSERT INTO `sofas` VALUES (1,'Aithara','Sofá de estilo clásico con tapicería de cuero',4,'50.00',500.00),(2,'Lucia','Chaise longue izquierdo',4,'45.00',700.00),(3,'Luna','Chaise longue derecho',4,'48.00',600.00),(4,'Sevilla','Simple 2 y 3 plazas',6,'55.00',800.00),(5,'Iris','Respaldo reclinable en 2 y 3 plazas',4,'60.00',900.00),(6,'Benedetta','sofá Chesterfield',4,'30',1200.00);
+INSERT INTO `sofas` VALUES (1,'Aithara','Sofá de estilo clásico con tapicería de cuero',4,'50.00',500.00),(2,'Lucia','Chaise longue izquierdo',4,'45.00',700.00),(3,'Luna','Chaise longue derecho',4,'48.00',600.00),(4,'Sevilla','Simple 2 y 3 plazas',6,'55.00',800.00),(5,'Iris','Respaldo reclinable en 2 y 3 plazas',4,'60.00',900.00),(6,'Benedetta','sofá Chesterfield',4,'30',1200.00),(7,'Dafne','Sofá cama con almacenaje',4,'40.00',950.00),(8,'Fiona','Sofá modular de tela',5,'35.00',1100.00),(9,'Eva','Sofá de esquina con reposapiés',6,'38.00',1000.00),(10,'Gala','Sofá rinconero con chaise longue',6,'42.00',1300.00),(11,'Hermione','Sofá de diseño minimalista',4,'32.00',850.00),(12,'Isabella','Sofá esquinero con respaldo ajustable',5,'36.00',1150.00),(13,'Julia','Sofá reclinable con asientos deslizantes',4,'34.00',950.00),(14,'Katrina','Sofá de estilo vintage',4,'37.00',1050.00),(15,'Lara','Sofá de 4 plazas con chaise longue reversible',7,'40.00',1400.00),(16,'Mila','Sofá de piel con reposacabezas ajustables',5,'42.00',1250.00),(17,'Nina','Sofá cama nido con cajones de almacenaje',6,'38.00',1100.00),(18,'Olivia','Sofá de 3 plazas con mecanismo relax',4,'36.00',1200.00),(19,'Penelope','Sofá de estilo colonial',4,'39.00',1150.00),(20,'Quinn','Sofá modular con pouf',5,'41.00',1350.00);
 /*!40000 ALTER TABLE `sofas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,9 +468,87 @@ CREATE TABLE `tareas` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+
+INSERT INTO `detalle_pedido` (`id_pedido`, `id_sofa`, `cantidad`, `plazas`, `dens_cojin`, `fecha`, `precio`) VALUES 
+(1, 1, 2, 3, 1.5, '2024-05-01', 1500.00),
+(2, 2, 1, 4, 2.0, '2024-05-02', 700.00),
+(3, 3, 3, 3, 2.5, '2024-05-03', 1800.00),
+(4, 4, 2, 2, 3.0, '2024-05-04', 1400.00),
+(5, 5, 4, 3, 3.5, '2024-05-05', 2100.00),
+(6, 6, 2, 3, 1.6, '2024-05-06', 1600.00),
+(7, 7, 1, 4, 2.1, '2024-05-07', 750.00),
+(8, 8, 3, 3, 2.6, '2024-05-08', 1850.00),
+(9, 9, 2, 2, 3.1, '2024-05-09', 1450.00),
+(10, 10, 4, 3, 3.6, '2024-05-10', 2150.00),
+(11, 11, 2, 3, 1.7, '2024-05-11', 1700.00),
+(12, 12, 1, 4, 2.2, '2024-05-12', 800.00),
+(13, 13, 3, 3, 2.7, '2024-05-13', 1900.00),
+(14, 14, 2, 2, 3.2, '2024-05-14', 1500.00),
+(15, 15, 4, 3, 3.7, '2024-05-15', 2200.00),
+(16, 16, 2, 3, 1.8, '2024-05-16', 1800.00),
+(17, 17, 1, 4, 2.3, '2024-05-17', 850.00),
+(18, 18, 3, 3, 2.8, '2024-05-18', 1950.00),
+(19, 19, 2, 2, 3.3, '2024-05-19', 1550.00),
+(20, 20, 4, 3, 3.8, '2024-05-20', 2250.00);
+
+
+
 --
 -- Dumping data for table `tareas`
 --
+
+
+
+-- Insertar datos en la tabla `tareas`
+INSERT INTO `tareas` (`id_tarea`, `id_empleado`, `id_depto`, `id_estado`, `fecha`, `id_deped`) VALUES 
+(6, 1, 1, 1, '2024-05-01', 6), -- Pendiente
+(7, 2, 2, 2, '2024-05-02', 7), -- Procesando
+(8, 3, 3, 3, '2024-05-03', 8), -- Finalizado
+(9, 4, 4, 4, '2024-05-04', 9), -- Cancelado
+(10, 5, 1, 5, '2024-05-05', 10), -- Sin asignar
+(11, 6, 2, 1, '2024-05-06', 11), -- Pendiente
+(12, 7, 3, 2, '2024-05-07', 12), -- Procesando
+(13, 8, 4, 3, '2024-05-08', 13), -- Finalizado
+(14, 9, 1, 4, '2024-05-09', 14), -- Cancelado
+(15, 10, 2, 5, '2024-05-10', 15), -- Sin asignar
+(16, 11, 3, 1, '2024-05-11', 16), -- Pendiente
+(17, 12, 4, 2, '2024-05-12', 17), -- Procesando
+(18, 13, 1, 3, '2024-05-13', 18), -- Finalizado
+(19, 14, 2, 4, '2024-05-14', 19), -- Cancelado
+(20, 15, 3, 5, '2024-05-15', 20), -- Sin asignar
+(21, 16, 4, 1, '2024-05-16', 21), -- Pendiente
+(22, 17, 1, 2, '2024-05-17', 22), -- Procesando
+(23, 18, 2, 3, '2024-05-18', 23), -- Finalizado
+(24, 19, 3, 4, '2024-05-19', 24), -- Cancelado
+(25, 20, 4, 5, '2024-05-20', 25); -- Sin asignar
+
+
+-- Insertar datos en material_proveedor
+INSERT INTO `material_proveedor` (`id_proveedor`, `id_material`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(2, 9),
+(2, 10);
+
+
 
 LOCK TABLES `tareas` WRITE;
 /*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
