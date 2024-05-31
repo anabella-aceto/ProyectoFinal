@@ -369,8 +369,66 @@ public class TareaRestController {
 	    return ResponseEntity.status(HttpStatus.OK).body(resultado);
 	}
 
-	
-	
+
+	/**
+	 *  Método que toma el ID de un detallePedido, recupera las tareas asociadas
+	 * y determina el estado general del detallePedido. El estado se determina usando reglas de prioridad.
+	 * 
+	 * @param idDetalle identificador único del detalle de pedido.
+	 *           
+	 * @return ResponseEntity donde se muestra la información del del pedido.               
+	 */
+	@GetMapping("/estadoPorDetalle/{idDetalle}")
+	public ResponseEntity<?> mostrarEstadoDetalle(@PathVariable int idDetalle) {
+	    List<Tarea> lista = tareaService.buscarPorDetalle(idDetalle);
+
+	    if (lista == null || lista.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.OK).body("");
+	    }
+
+	    boolean todasTareasFinalizadas = true;
+	    boolean todasTareasSinAsignar = true;
+	    boolean pendiente = false;
+	    boolean procesando = false;
+	    boolean cancelada = false;
+
+	    for (Tarea tarea : lista) {
+	    
+	            int estado = tarea.getEstado().getIdEstado();
+
+	            if (estado == 1) {
+	                pendiente = true;
+	                todasTareasSinAsignar = false;
+	                todasTareasFinalizadas = false;
+	            } else if (estado == 2) {
+	                procesando = true;
+	                todasTareasSinAsignar = false;
+	                todasTareasFinalizadas = false;
+	            } else if (estado != 3) {
+	                todasTareasFinalizadas = false;
+	            } else if (estado == 4) {
+	                cancelada = true;
+	                todasTareasFinalizadas = false;
+	            } else if (estado != 5) {
+	                todasTareasSinAsignar = false;
+	            }
+	        }
+	    
+	    if (todasTareasSinAsignar) {
+	        return ResponseEntity.ok("Sin asignar");
+	    } else if (cancelada) {
+	        return ResponseEntity.ok("Cancelado");
+	    } else if (procesando) {
+	        return ResponseEntity.ok("Procesando");
+	    } else if (pendiente) {
+	        return ResponseEntity.ok("Pendiente");
+	    } else if (todasTareasFinalizadas) {
+	        return ResponseEntity.ok("Finalizado");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error");
+	    }
+	}
+
 	/**
 	 * Método que toma el ID de un pedido, recupera las tareas asociadas
 	 * y determina el estado general del pedido. El estado se determina usando reglas de prioridad.
