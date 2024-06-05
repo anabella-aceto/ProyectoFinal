@@ -149,98 +149,97 @@ public class DetallePedidoRestController {
 	 * 
 	 * @return ResponseEntity con un mensaje indicando el resultado del proceso de
 	 *         creación del detalle de pedido.
-	 */
-	@PostMapping("/alta")
-	public ResponseEntity<?> alta(@RequestBody DetallePedidoDto detalleDto) {
-	    try {
-	        // Buscar el sofá
-	        Sofa sofa = sofaService.buscarSofa(detalleDto.getIdSofa());
-	        if (sofa == null) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                    .body("Sofá no encontrado con ID: " + detalleDto.getIdSofa());
-	        }
+	 *         **/
+@PostMapping("/alta")
+public ResponseEntity<?> alta(@RequestBody DetallePedidoDto detalleDto) {
+    Map<String, Object> response = new HashMap<>();
+    try {
+        // Buscar el sofá
+        Sofa sofa = sofaService.buscarSofa(detalleDto.getIdSofa());
+        if (sofa == null) {
+            response.put("error", "Sofá no encontrado con ID: " + detalleDto.getIdSofa());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
 
-	        int cantidadSofas = detalleDto.getCantidad();
-	        if (cantidadSofas <= 0) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                    .body("La cantidad de sofás debe ser mayor a cero");
-	        }
+        int cantidadSofas = detalleDto.getCantidad();
+        if (cantidadSofas <= 0) {
+            response.put("error", "La cantidad de sofás debe ser mayor a cero");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
 
-	        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
+        List<SofaMaterial> sofaMateriales = sofaMaterialService.buscarPorSofa(sofa.getIdSofa());
 
-	        List<String> mensajesInsuficientes = new ArrayList<>();
+        List<String> mensajesInsuficientes = new ArrayList<>();
 
-	        for (SofaMaterial sofaMaterial : sofaMateriales) {
-	            Material material = sofaMaterial.getMaterial();
-	            double cantidadDisponible = material.getCantidad();
-	            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada() * cantidadSofas;
+        for (SofaMaterial sofaMaterial : sofaMateriales) {
+            Material material = sofaMaterial.getMaterial();
+            double cantidadDisponible = material.getCantidad();
+            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada() * cantidadSofas;
 
-	            if (cantidadDisponible < cantidadUtilizada) {
-	                double cantidadFaltante = cantidadUtilizada - cantidadDisponible;
-	                mensajesInsuficientes.add("Stock insuficiente de " + material.getDescripcion() +
-	                        "- Cantidad faltante: " + cantidadFaltante + " " + material.getUnidadMedida());
-	            }
-	        }
+            if (cantidadDisponible < cantidadUtilizada) {
+                double cantidadFaltante = cantidadUtilizada - cantidadDisponible;
+                mensajesInsuficientes.add("Stock insuficiente de " + material.getDescripcion() +
+                        "- Cantidad faltante: " + cantidadFaltante + " " + material.getUnidadMedida());
+            }
+        }
 
-	        if (!mensajesInsuficientes.isEmpty()) {
-	            Map<String, Object> response = new HashMap<>();
-	            response.put("errors", mensajesInsuficientes);
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                    .body(response);
-	        }
+        if (!mensajesInsuficientes.isEmpty()) {
+            response.put("errors", mensajesInsuficientes);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
 
-	        // Descontar materiales utilizados
-	        for (SofaMaterial sofaMaterial : sofaMateriales) {
-	            Material material = sofaMaterial.getMaterial();
-	            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada() * cantidadSofas;
-	            double cantidadDisponible = material.getCantidad();
-	            material.setCantidad(cantidadDisponible - cantidadUtilizada);
-	            materialService.updateOne(material);
-	        }
+        // Descontar materiales utilizados
+        for (SofaMaterial sofaMaterial : sofaMateriales) {
+            Material material = sofaMaterial.getMaterial();
+            double cantidadUtilizada = sofaMaterial.getCantidadUtilizada() * cantidadSofas;
+            double cantidadDisponible = material.getCantidad();
+            material.setCantidad(cantidadDisponible - cantidadUtilizada);
+            materialService.updateOne(material);
+        }
 
-	        // Crear el detalle de pedido y las tareas correspondientes
-	        Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
-	        if (pedido == null) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                    .body("Pedido no encontrado con ID: " + detalleDto.getIdPedido());
-	        }
+        // Crear el detalle de pedido y las tareas correspondientes
+        Pedido pedido = pedidoService.buscarPedido(detalleDto.getIdPedido());
+        if (pedido == null) {
+            response.put("error", "Pedido no encontrado con ID: " + detalleDto.getIdPedido());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
 
-	        for (int i = 0; i < cantidadSofas; i++) {
-	            DetallePedido detallePedido = new DetallePedido();
-	            detallePedido.setPedido(pedido);
-	            detallePedido.setSofa(sofa);
-	            detallePedido.setFecha(detalleDto.getFecha());
-	            detallePedido.setCantidad(1); // Fijar la cantidad en 1
-	            detallePedido.setPlazas(detalleDto.getPlazas());
-	            detallePedido.setPrecio(detalleDto.getPrecio());
-	            detallePedido.setDensCojin(detalleDto.getDensCojin());
+        for (int i = 0; i < cantidadSofas; i++) {
+            DetallePedido detallePedido = new DetallePedido();
+            detallePedido.setPedido(pedido);
+            detallePedido.setSofa(sofa);
+            detallePedido.setFecha(detalleDto.getFecha());
+            detallePedido.setCantidad(1); // Fijar la cantidad en 1
+            detallePedido.setPlazas(detalleDto.getPlazas());
+            detallePedido.setPrecio(detalleDto.getPrecio());
+            detallePedido.setDensCojin(detalleDto.getDensCojin());
 
-	            DetallePedido detalleGuardado = detPedService.altaDetPed(detallePedido);
+            DetallePedido detalleGuardado = detPedService.altaDetPed(detallePedido);
 
-	            if (detalleGuardado != null) {
-	                List<Departamento> departamentos = departamentoService.listarTodos();
+            if (detalleGuardado != null) {
+                List<Departamento> departamentos = departamentoService.listarTodos();
 
-	                for (Departamento departamento : departamentos) {
-	                    if (departamento != null) {
-	                        Tarea tarea = new Tarea();
-	                        tarea.setDetalle(detPedService.buscarDetPed(detalleGuardado.getIdDePed()));
-	                        tarea.setDepartamento(departamento);
-	                        tarea.setEstado(estadoService.buscarEstado(5));
-	                        tarea.setEmpleado(null);
-	                        tarea.setFecha(detalleDto.getFecha());
-	                        tareaService.altaTarea(tarea);
-	                    }
-	                }
-	            }
-	        }
+                for (Departamento departamento : departamentos) {
+                    if (departamento != null) {
+                        Tarea tarea = new Tarea();
+                        tarea.setDetalle(detPedService.buscarDetPed(detalleGuardado.getIdDePed()));
+                        tarea.setDepartamento(departamento);
+                        tarea.setEstado(estadoService.buscarEstado(5));
+                        tarea.setEmpleado(null);
+                        tarea.setFecha(detalleDto.getFecha());
+                        tareaService.altaTarea(tarea);
+                    }
+                }
+            }
+        }
 
-	        return ResponseEntity.ok("Detalle de pedido creado exitosamente.");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud.");
-	    }
-
+        response.put("message", "Detalle de pedido creado exitosamente.");
+        return ResponseEntity.ok(response);
+    } catch (Exception e) {
+        response.put("error", "Error al procesar la solicitud.");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
 }
-
 	/**
 	 * Elimina un detalle de pedido con el identificador proporcionado.
 	 *

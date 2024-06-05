@@ -20,12 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import restsofa.modelo.DTO.PedidoDto;
 import restsofa.modelo.entities.Cliente;
+import restsofa.modelo.entities.DetallePedido;
 import restsofa.modelo.entities.Empleado;
+import restsofa.modelo.entities.Material;
 import restsofa.modelo.entities.Pedido;
+import restsofa.modelo.entities.SofaMaterial;
+import restsofa.modelo.entities.Tarea;
 import restsofa.service.ClienteService;
+import restsofa.service.DetallePedidoService;
 import restsofa.service.EmpleadoService;
 import restsofa.service.EstadoService;
+import restsofa.service.MaterialService;
 import restsofa.service.PedidoService;
+import restsofa.service.SofaMaterialService;
+import restsofa.service.TareaService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -54,7 +63,18 @@ public class PedidoRestController {
 	@Autowired
 	private ClienteService clienteService;
 
+	@Autowired
+	private DetallePedidoService detPedService;
 
+	@Autowired
+	private TareaService tareaService;
+	
+	@Autowired
+	private SofaMaterialService sofaMaterialService;
+
+	@Autowired
+	private MaterialService materialService;
+	
 	/**
 	 * Método que devuelve todos los pedidos.
 	 *
@@ -267,6 +287,47 @@ public class PedidoRestController {
 		}
 	}
 
+	@DeleteMapping("/eliminarcompleto/{idPedido}")
+	public ResponseEntity<?> borrarcompleto(@PathVariable int idPedido) {
+	    try {
+	        Pedido pedido = pedidoService.buscarPedido(idPedido);
+	        if (pedido == null) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pedido no encontrado");
+	        }
+
+	        List<DetallePedido> lista = detPedService.buscarPorIdPedido(idPedido);
+	        for (DetallePedido detalle : lista) {
+	            if (detalle != null) {
+	                List<Tarea> listarea = tareaService.buscarPorDetalle(detalle.getIdDePed());
+	                for (Tarea tarea : listarea) {
+	                    tareaService.borrarTarea(tarea.getIdTarea());
+	                }
+
+	                List<SofaMaterial> sofaMaterialList = sofaMaterialService.buscarPorSofa(detalle.getSofa().getIdSofa());
+	                for (SofaMaterial sm : sofaMaterialList) {
+	                    Material material = sm.getMaterial();
+	                    double stock = material.getCantidad();
+	                    double cantidadUtilizada = sm.getCantidadUtilizada();
+	                    double restaurar = stock + cantidadUtilizada;
+	                    material.setCantidad(restaurar);
+	                    materialService.updateOne(material);
+	                }
+
+	                detPedService.borrarDetPed(detalle.getIdDePed());
+	            } else {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Detalle de pedido no encontrado");
+	            }
+	        }
+
+	        pedidoService.borrarPedido(idPedido);
+	        return ResponseEntity.status(HttpStatus.OK).body("Pedido y sus detalles eliminados correctamente");
+
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Error al eliminar el pedido: " + e.getMessage());
+	    }
+	}
+	
 	/**
 	 * Método que filtra pedidos por fecha.
 	 *
